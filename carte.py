@@ -219,3 +219,4 @@ class Carte:
         (les rends fixe sur les coords) (possible sur le joueur)
         """
         return self.map_layer.translate_points([coord])[0]
+

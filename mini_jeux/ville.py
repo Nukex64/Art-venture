@@ -13,6 +13,9 @@ class Ville(Carte):
         self.text_1 = self.font.render("Je suis un text fixe", True, (0, 0, 0))
         self.text_2 = self.font.render("Je suis un text d'UI", True, (0, 0, 0))
 
+        image = pygame.Surface([16, 16])
+        image.blit(self.image_sheet, (0, 0), (x, y, 16, 16))
+        return image
 
 
     def add_draw(self, screen):
@@ -25,7 +28,6 @@ class Ville(Carte):
             print(pygame.mouse.get_pos())
 
             self.tp(195, 200)
-
 
 
     def quitter(self):
