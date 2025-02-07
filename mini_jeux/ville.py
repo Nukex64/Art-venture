@@ -10,19 +10,21 @@ class Ville(Carte):
         super().__init__("map/map.tmx")
         self.tp_2 = self.objet_par_nom("tp_2")
         self.tp_3 = self.objet_par_nom("tp_3")
-        self.text_surface = self.font.render("Je suis un text", True, (0, 0, 0))
+        self.text_1 = self.font.render("Je suis un text fixe", True, (0, 0, 0))
+        self.text_2 = self.font.render("Je suis un text d'UI", True, (0, 0, 0))
+
 
 
     def add_draw(self, screen):
-        screen.blit(self.text_surface, (10, 10))
+        screen.blit(self.text_1, self.fixe_coord((25, 25)))
+        screen.blit(self.text_2, (625, 570))
 
 
     def add_verif(self):
         if self.touche("t"):
-            print(self.player.coord)
             print(pygame.mouse.get_pos())
 
-            self.tp(200, 200)
+            self.tp(195, 200)
 
 
 

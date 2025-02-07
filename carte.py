@@ -212,3 +212,10 @@ class Carte:
         Renvoi les coordonnés sur l'ecran en prenant en compte la camera
         """
         return self.map_layer.translate_points([coord])[0]
+
+    def fixe_coord(self, coord):
+        """
+        Renvoi les coordonnés sur l'ecran en prenant en compte la camera
+        (les rends fixe sur les coords) (possible sur le joueur)
+        """
+        return self.map_layer.translate_points([coord])[0]
