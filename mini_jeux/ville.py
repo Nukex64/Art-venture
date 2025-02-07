@@ -24,8 +24,6 @@ class Ville(Carte):
         if self.touche("t"):
             print(pygame.mouse.get_pos())
 
-            self.tp(195, 200)
-
 
     def quitter(self):
         """
