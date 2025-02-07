@@ -15,8 +15,9 @@ class Jeu:
 
         ville = Ville()
         parcour_1 = Game_Jump()
-        laby = Laby()
-        self.dico_game = {"ville": ville,"jeu_1": parcour_1, "jeu_2": laby}
+
+
+        self.dico_game = {"ville": ville,"jeu_1": parcour_1}
 
         self.carte = self.dico_game["ville"]  # lancer en premier la ville
 
@@ -51,8 +52,10 @@ class Jeu:
         """
         objetif = self.carte.quitter()
         if objetif:
-            self.carte = self.dico_game[objetif]
-            print(f"Changement de carte : {str(self.carte)}")
+            if objetif in self.dico_game:
+                self.carte = self.dico_game[objetif]
+                print(f"Changement de carte : {str(self.carte)}")
+            else: print(f"ERREUR : aucun {objetif}")
 
     def _gerer_event(self):
         """
