@@ -1,4 +1,5 @@
 from carte import Carte
+import pygame
 
 class Ville(Carte):
     """
@@ -11,12 +12,19 @@ class Ville(Carte):
         self.tp_3 = self.objet_par_nom("tp_3")
         self.text_surface = self.font.render("Je suis un text", True, (0, 0, 0))
 
+
     def add_draw(self, screen):
         screen.blit(self.text_surface, (10, 10))
 
+
     def add_verif(self):
         if self.touche("t"):
+            print(self.player.coord)
+            print(pygame.mouse.get_pos())
+
             self.tp(200, 200)
+
+
 
     def quitter(self):
         """

@@ -25,12 +25,12 @@ class Carte:
         """
         self.tmx_data = pytmx.util_pygame.load_pygame(map_file)  # recupere les info de map.tmx
         map_data = pyscroll.TiledMapData(self.tmx_data)  # recupere les info des couches
-        map_layer = pyscroll.orthographic.BufferedRenderer(map_data, RES)  # genere les couches d'images
-        map_layer.zoom = ZOOM  # ZOOM de la carte
+        self.map_layer = pyscroll.orthographic.BufferedRenderer(map_data, RES)  # genere les couches d'images
+        self.map_layer.zoom = ZOOM  # ZOOM de la carte
         player_pos = self.tmx_data.get_object_by_name('spawn') # coord du joueur sur l'objet spawn
         self.player = Player(player_pos.x, player_pos.y - 10)  # creer le joueur
 
-        self.groupe = pyscroll.PyscrollGroup(map_layer=map_layer,
+        self.groupe = pyscroll.PyscrollGroup(map_layer=self.map_layer,
                                              default_layer=2)  # groupe de toutes les images pour pygame (default_layer = couche du joueur)
         self.groupe.add(self.player)  # rajoute le joueur au groupe d'images
 
@@ -203,6 +203,12 @@ class Carte:
             bool: True si une collision est détectée, False sinon.
         """
         return self.player.feet.colliderect(rect)
+
     def tp(self, x, y):
         self.player.coord = [x, y]
 
+    def coord_camera(self, coord):
+        """
+        Renvoi les coordonnés sur l'ecran en prenant en compte la camera
+        """
+        return self.map_layer.translate_points([coord])[0]
