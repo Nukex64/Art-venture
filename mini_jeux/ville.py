@@ -1,3 +1,5 @@
+import math
+
 from carte import Carte
 import pygame
 
@@ -18,7 +20,7 @@ class Ville(Carte):
     def add_draw(self, screen):
         screen.blit(self.text_1, self.fixe_coord((25, 25)))
         screen.blit(self.text_2, (625, 570))
-
+        self.ray(screen)
 
     def add_verif(self):
         if self.touche("t"):
@@ -36,6 +38,15 @@ class Ville(Carte):
             return "jeu_2"
 
         return None
+
+    def ray(self, screen):
+        x2, y2 = pygame.mouse.get_pos()
+        x1, y1 = self.fixe_coord(self.player.rect.center)
+        vx, vy = x2-x1, y2-y1
+        norm = math.sqrt(vx**2 + vy**2)
+        vx, vy = vx/norm, vy/norm
+        x, y = x1+vx*75, y1+vy*75
+        pygame.draw.line(screen, 'red', (x1, y1), (x,y), 1)
 
     def __str__(self):
         return "Ville"

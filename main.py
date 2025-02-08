@@ -85,7 +85,6 @@ class Jeu:
             self._gerer_event() # quitter / changer carte / crash
             self._update() #met a jour tous le jeu
         print("-"*13 + " END " + "-"*13)
-        print("ok")
 
 
 if __name__ == '__main__':
