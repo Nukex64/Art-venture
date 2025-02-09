@@ -15,9 +15,18 @@ class Ville(Carte):
         self.tp_3 = self.objet_par_nom("tp_3")
         self.text_1 = self.font.render("Je suis un text fixe", True, (0, 0, 0))
         self.text_2 = self.font.render("Je suis un text d'UI", True, (0, 0, 0))
-        self.enemy = Enemy("img/fire.png", 10, 10)
-        self.enemy.speed = 1
-        self.groupe.add(self.enemy)
+
+        self.fire = Enemy("img/fire.png", 10, 10)
+        self.fire.speed = 1
+        self.fire.direction = 0
+        self.groupe.add(self.fire)
+
+
+        self.car = Enemy("img/car.png", 100, 184)
+        self.car.speed = 1
+        self.car_img = pygame.image.load("img/car.png")
+        self.car.direction = 0
+        self.groupe.add(self.car)
 
     def add_draw(self, screen):
         screen.blit(self.text_1, self.fixe_coord((25, 25)))
@@ -29,18 +38,24 @@ class Ville(Carte):
             print(pygame.mouse.get_pos())
 
         if self.touche("KP_6"):
-            self.enemy.regarder(90)
+            self.fire.regarder(90)
 
 
-        if self.collision(self.enemy.rect):
-            self.enemy.coord = [5, 5]
-            self.enemy.regarder(90)
+        if self.collision(self.fire.rect):
+            self.fire.coord = [5, 5]
+            self.fire.regarder(90)
 
-        if self.enemy.rect.collidepoint((150, 5)):
-            self.enemy.coord = [5, 5]
-            self.enemy.regarder(90)
+        if self.car.rect.collidelist(self.mur) > -1:
+            self.car.invers_direction()
 
-        self.enemy.droite()
+        if self.collision(self.car.rect):
+            self.tp(250, 250)
+
+        self.car.avancer()
+        self.fire.viser(self.player.rect.center)
+
+
+
 
     def quitter(self):
         """
