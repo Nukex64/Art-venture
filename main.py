@@ -66,8 +66,12 @@ class Jeu:
             if event.type == pygame.QUIT:  # quitter
                 self.run = False
 
-            if event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN:
-                self._changer_carte()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_RETURN:
+                    self._changer_carte()
+                if event.key == pygame.K_KP0:
+                    self.carte = self.dico_game["ville"]
+                    print(f"Changement de carte : ville (dev)")
 
     def running(self):
         print("-" * 10 + " EVENEMENT " + "-" * 10)
@@ -84,7 +88,7 @@ class Jeu:
         while self.run: #boucle du jeu
             self._gerer_event() # quitter / changer carte / crash
             self._update() #met a jour tous le jeu
-        print("-"*13 + " END " + "-"*13)
+        c
 
 
 if __name__ == '__main__':

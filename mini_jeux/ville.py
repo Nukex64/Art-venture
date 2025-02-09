@@ -16,7 +16,6 @@ class Ville(Carte):
         self.text_2 = self.font.render("Je suis un text d'UI", True, (0, 0, 0))
 
 
-
     def add_draw(self, screen):
         screen.blit(self.text_1, self.fixe_coord((25, 25)))
         screen.blit(self.text_2, (625, 570))
