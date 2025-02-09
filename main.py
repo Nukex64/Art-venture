@@ -88,7 +88,7 @@ class Jeu:
         while self.run: #boucle du jeu
             self._gerer_event() # quitter / changer carte / crash
             self._update() #met a jour tous le jeu
-        c
+        print("-" * 13 + " END " + "-" * 13)
 
 
 if __name__ == '__main__':

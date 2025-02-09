@@ -1,6 +1,7 @@
 import math
 
 from carte import Carte
+from enemy import Enemy
 import pygame
 
 class Ville(Carte):
@@ -14,7 +15,9 @@ class Ville(Carte):
         self.tp_3 = self.objet_par_nom("tp_3")
         self.text_1 = self.font.render("Je suis un text fixe", True, (0, 0, 0))
         self.text_2 = self.font.render("Je suis un text d'UI", True, (0, 0, 0))
-
+        self.enemy = Enemy("img/fire.png", 10, 10)
+        self.enemy.speed = 1
+        self.groupe.add(self.enemy)
 
     def add_draw(self, screen):
         screen.blit(self.text_1, self.fixe_coord((25, 25)))
@@ -25,6 +28,19 @@ class Ville(Carte):
         if self.touche("t"):
             print(pygame.mouse.get_pos())
 
+        if self.touche("KP_6"):
+            self.enemy.regarder(90)
+
+
+        if self.collision(self.enemy.rect):
+            self.enemy.coord = [5, 5]
+            self.enemy.regarder(90)
+
+        if self.enemy.rect.collidepoint((150, 5)):
+            self.enemy.coord = [5, 5]
+            self.enemy.regarder(90)
+
+        self.enemy.droite()
 
     def quitter(self):
         """
