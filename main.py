@@ -3,6 +3,7 @@ from mini_jeux.ville import Ville
 from mini_jeux.parcours import *
 from mini_jeux.laby import Laby
 from settings import *
+from menu import Menu
 
 class Jeu:
     def __init__(self):
@@ -20,6 +21,7 @@ class Jeu:
         self.dico_game = {"ville": ville,"jeu_1": parcour_1, "jeu_2":laby}
 
         self.carte = self.dico_game["ville"]  # lancer en premier la ville
+        self.menu = Menu()
 
     def _get_suface(self):
         """
@@ -72,6 +74,8 @@ class Jeu:
                 if event.key == pygame.K_KP0:
                     self.carte = self.dico_game["ville"]
                     print(f"Changement de carte : ville (dev)")
+                if event.key == pygame.K_ESCAPE:
+                    self.menu.open()
 
     def running(self):
         print("-" * 10 + " EVENEMENT " + "-" * 10)
