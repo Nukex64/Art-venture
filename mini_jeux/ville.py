@@ -51,7 +51,7 @@ class Ville(Carte):
         if self.collision(self.car.rect):
             self.tp(250, 250)
 
-        self.car.avancer()
+        self.car.move("z")
         self.fire.viser(self.player.rect.center)
 
 

@@ -11,7 +11,8 @@ class Enemy(pygame.sprite.Sprite):
         self.rect = self.image.get_rect() # definit l'hitbox / le rectangle du joueur
         self.coord = [x, y]
         self.speed = 3
-        self.direction = 0
+        self.alpha = 0
+        self.speed = 20
 
     def update(self):
         """
@@ -21,28 +22,13 @@ class Enemy(pygame.sprite.Sprite):
         self.rect.topleft = self.coord
 
     def regarder(self, angle):
-        self.image = pygame.transform.rotate(self.image, angle)
-        self.rect = self.image.get_rect()
-
-    # x est un multiplieur si on ne met rien c'est *1
-    def haut(self, x=1):
-        self.coord[1] -= self.speed * x
-    def bas(self, x=1):
-        self.coord[1] += self.speed * x
-    def gauche(self, x=1):
-        self.coord[0] -= self.speed * x
-    def droite(self, x=1):
-        self.coord[0] += self.speed * x
-
-    def avancer(self):
-        if self.direction == 270: self.bas()
-        if self.direction == 90: self.haut()
-        if self.direction == 180: self.gauche()
-        if self.direction == 0: self.droite()
+        radian = math.radians(angle)
+        self.alpha += radian
+        self.alpha %= math.tau #modulo 2 pi
 
     def invers_direction(self):
-        self.direction += 180
-        self.direction %= 360 #modulo 360
+        self.alpha += math.pi
+        self.alpha %= math.tau #modulo 360
 
     def viser(self, obj):
         x1, y1 = self.coord
@@ -53,3 +39,35 @@ class Enemy(pygame.sprite.Sprite):
             vx, vy = vx/norm, vy/norm
             self.coord[0]+=vx
             self.coord[1]+=vy
+
+    def avancer(self): self.move("z")
+    def reculer(self): self.move("s")
+    def gauche(self): self.move("q")
+    def droite(self): self.move("d")
+
+    def move(self, sens):
+
+        vx, vy = 0,0
+
+        if sens == "z":
+            vx += self.speed * math.cos(self.alpha)
+            vy += self.speed * math.sin(self.alpha)
+
+        if sens == "s":
+            vx -= self.speed * math.cos(self.alpha)
+            vy -= self.speed * math.sin(self.alpha)
+
+        if sens == "d":
+            vx -= self.speed * math.sin(self.alpha)
+            vy += self.speed * math.cos(self.alpha)
+
+        if sens == "q":
+            vx += self.speed * math.sin(self.alpha)
+            vy -= self.speed * math.cos(self.alpha)
+
+        #norm = math.sqrt(vx ** 2 + vy ** 2)
+        #if norm != 0:
+        #    vx *= speed / norm
+        #    vy *= speed / norm
+        self.coord[0] += vx
+        self.coord[1] += vy
