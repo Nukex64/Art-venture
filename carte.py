@@ -39,8 +39,6 @@ class Carte:
         for obj in calque_mur:
             self.mur.append(pygame.Rect(obj.x, obj.y, obj.width, obj.height)) # ajoute toute les hitbox des murs
 
-        self.run = True
-        self.dialogue = None
         self.font = pygame.font.Font(None, 24)
         self.docenter = True
 
@@ -107,8 +105,6 @@ class Carte:
         """
         self.groupe.draw(screen) # la carte et le joueur
         self.add_draw(screen) # les truc en plus
-        if self.dialogue:
-            self.dialogue.draw(screen) # le dialogue
 
     def quitter(self):
         """
