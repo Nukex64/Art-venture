@@ -11,10 +11,12 @@ class Enemy(pygame.sprite.Sprite):
         self.image.set_colorkey([0, 0, 0])  # retire le fond noire au spawn du joueur
 
         self.rect = self.image.get_rect() # definit l'hitbox / le rectangle du joueur
-        self.coord = [x, y]
+        self.x = x
+        self.y = y
         self.speed = 3
         self.alpha = 0
         self.speed = 20
+
 
     def update(self):
         """
@@ -39,8 +41,8 @@ class Enemy(pygame.sprite.Sprite):
         norm = math.sqrt(vx**2 + vy**2)
         if norm < 200:
             vx, vy = vx/norm, vy/norm
-            self.coord[0]+=vx
-            self.coord[1]+=vy
+            self.x +=vx
+            self.y +=vy
 
     def avancer(self): self.move("z")
     def reculer(self): self.move("s")
@@ -71,5 +73,9 @@ class Enemy(pygame.sprite.Sprite):
         #if norm != 0:
         #    vx *= speed / norm
         #    vy *= speed / norm
-        self.coord[0] += vx
-        self.coord[1] += vy
+        self.x += vx
+        self.y += vy
+
+    @property
+    def coord(self):
+        return self.x, self.y
