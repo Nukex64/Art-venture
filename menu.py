@@ -8,7 +8,7 @@ class Menu:
         """
         self.afficher = True
         self.screen = pygame.display.set_mode(RES)
-        self.font = pygame.font.Font(None, 65)
+        self.font = pygame.font.Font(Font, 65)
         self.text_2 = self.font.render("PAUSE", True, (0, 0, 0))
 
     def draw(self):
