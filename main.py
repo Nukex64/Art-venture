@@ -3,7 +3,12 @@ from mini_jeux.ville import Ville
 from mini_jeux.parcours import *
 from mini_jeux.laby import Laby
 from settings import *
+import json
 from menu import Menu
+with open("save.json", "r+") as f:
+    save = json.load(f)
+print(save)
+
 
 class Jeu:
     def __init__(self):
@@ -20,7 +25,7 @@ class Jeu:
 
         self.dico_game = {"ville": ville,"jeu_1": parcour_1, "jeu_2":laby}
 
-        self.carte = self.dico_game["ville"]  # lancer en premier la ville
+        self.carte = self.dico_game[save["world"]]  # lancer en premier la ville
         self.menu = Menu()
 
     def _get_suface(self):
@@ -57,6 +62,9 @@ class Jeu:
             if objetif in self.dico_game:
                 self.carte = self.dico_game[objetif]
                 print(f"Changement de carte : {str(self.carte)}")
+                save["world"] = str(self.carte)
+
+                json.dump(save, f, indent=4)
             else: print(f"ERREUR : aucun {objetif}")
 
     def _gerer_event(self):
