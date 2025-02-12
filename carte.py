@@ -85,7 +85,6 @@ class Carte:
         - Centre la caméra sur le joueur.
         Ne pas appeller !
         """
-        self.add_verif() #rajoute les verifs propres a chaque minijeux
 
         self.clavier()  # verifie les touches
         self.player.test_deplacement(self.mur) #bouge le joueur si aucune collision (teste x et y separement)
@@ -93,6 +92,8 @@ class Carte:
 
         if self.docenter:
             self.groupe.center(self.player.rect)  # centre cam sur le carré du joueur
+
+        self.add_verif()  # rajoute les verifs propres a chaque minijeux
 
     def draw(self, screen):
         """
