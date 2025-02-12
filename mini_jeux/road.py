@@ -1,9 +1,18 @@
-import math
 from carte import Carte
 from enemy import Enemy
 import pygame
-from settings import *
 from random import randint
+
+class Car(Enemy):
+    def __init__(self, src, x, y):
+        super().__init__(src, x, y)
+        self.speed = 2
+        self.hitbox = pygame.Rect(0, 0, 35, 17)
+
+    def update(self):
+        self.rect.topleft = self.coord
+        self.hitbox.topleft = (self.x, self.y+10)
+
 
 class Road(Carte):
     def __init__(self):
@@ -33,22 +42,25 @@ class Road(Carte):
         for car in self.cars_g:
             car.avancer()
             if car.coord[0] > 600:
+                self.cars_g.remove(car)
                 car.kill()
+            if car.hitbox.colliderect(self.player.feet):
+                self.game_over()
 
         for car in self.cars_d:
             car.avancer()
             if car.coord[0] < -100:
+                self.cars_d.remove(car)
                 car.kill()
+            if car.hitbox.colliderect(self.player.feet):
+                self.game_over()
 
         if self.counter <= 0:
-            print("ok")
             self.counter = self.difficulty
             self.spawn_car()
 
         self.counter -= 1
 
-        if self.multi_collision(self.cars_g) or self.multi_collision(self.cars_d):
-            self.tp(275, 360)
 
     def add_draw(self, screen):
         pass
@@ -56,16 +68,19 @@ class Road(Carte):
     def spawn_car(self):
             route = randint(0, 2)
             x = randint(4, 6)
-            car = Enemy(self.images[x], -100, 45 + route*128)
-            car.speed = 2
+            car = Car(self.images[x], -100, 45 + route*128)
+
             self.groupe.add(car)
             self.cars_g.append(car)
 
             route = randint(0, 1)
             x = randint(1, 3)
-            car = Enemy(self.images[x], 600, 109 + route*128)
-            car.speed = 2
+            car = Car(self.images[x], 600, 109 + route*128)
             car.regarder(180)
+
             self.groupe.add(car)
             self.cars_d.append(car)
+
+    def game_over(self):
+        self.tp(275, 360)
 
