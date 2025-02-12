@@ -45,7 +45,7 @@ class Game_Jump(Carte):
 
     def quitter(self):
         if self.multi_collision(self.sortie):
-            return "ville"
+            return "Ville"
         return None
 
     def __str__(self):

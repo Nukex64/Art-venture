@@ -1,6 +1,6 @@
 import math
-
 import pygame
+from settings import WIDTH, HEIGHT
 
 class Enemy(pygame.sprite.Sprite):
     def __init__(self, src, x, y):
@@ -71,3 +71,6 @@ class Enemy(pygame.sprite.Sprite):
         #    vy *= speed / norm
         self.coord[0] += vx
         self.coord[1] += vy
+
+    def is_off_screen(self):
+        return self.rect.center[0] < 0-100 or self.rect.center[0] > WIDTH+100 or self.rect.center[1] < 0-100 or self.rect.center[1] > HEIGHT+100

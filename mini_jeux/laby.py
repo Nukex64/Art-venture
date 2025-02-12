@@ -11,9 +11,10 @@ class Laby(Carte):
     """
     def __init__(self):
         super().__init__("map/map.tmx")
-        self.radius = 100
+        self.radius = 110
         self.timer = 0
         self.orageframe = self.timer
+        self.shadingstorm = 120
         self.backcolor = (0, 0, 0)
         self.roundcolor = (0, 0, 0, 0)
         self.enemytexture = Enemy("img/fire.png",30,30)
@@ -27,10 +28,14 @@ class Laby(Carte):
         mask = pygame.Surface((800, 600), pygame.SRCALPHA)
         coord = self.fixe_coord(self.player.rect.center)
         mask.fill(self.backcolor)
-        pygame.draw.circle(mask, self.roundcolor, (coord[0], coord[1]), self.radius)
+        if self.roundcolor[3] != 120:
+            for i in range(self.radius):
+                pygame.draw.circle(mask, (self.roundcolor[0],self.roundcolor[1],self.roundcolor[2],max((255-(255*(i/(self.radius-25)))),0)), (coord[0], coord[1]), self.radius-i)
+        else :
+            pygame.draw.circle(mask, self.roundcolor, (coord[0], coord[1]),self.radius)
         screen.blit(mask, (0, 0))
     def add_verif(self):
-        if self.radius !=100:
+        if self.radius !=110:
             self.radius -= 1
         if self.orageframe <= self.timer:
             self.backcolor = (0,0,0,255)
@@ -40,7 +45,7 @@ class Laby(Carte):
         self.timer += 1
         self.orage()
     def orage(self):
-        if randint(0,600) == 1 and self.orageframe == 0:
-            self.backcolor = (255,255,0,120)
-            self.roundcolor = (255, 255, 0, 120)
+        if randint(0,3600) == 1:
+            self.backcolor = (255,255,0,self.shadingstorm)
+            self.roundcolor = (255, 255, 0, self.shadingstorm)
             self.orageframe = self.timer + 15
