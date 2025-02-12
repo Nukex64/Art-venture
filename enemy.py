@@ -5,7 +5,9 @@ import pygame
 class Enemy(pygame.sprite.Sprite):
     def __init__(self, src, x, y):
         super().__init__()
-        self.image = pygame.image.load(src)
+        if type(src) == str:
+            self.image = pygame.image.load(src)
+        else: self.image = src
         self.image.set_colorkey([0, 0, 0])  # retire le fond noire au spawn du joueur
 
         self.rect = self.image.get_rect() # definit l'hitbox / le rectangle du joueur
