@@ -14,9 +14,9 @@ class Mask(Carte):
         super().__init__("map/road.tmx")
         self.image = pygame.image.load("img/test.png")
 
-        self.player.speed = 1.0
+        self.player.speed = 3
 
-        self.car = Car(self.image, 200, 45 + 1*128)
+        self.car = Car(self.image, 0, 0)
         self.groupe.add(self.car)
 
 
