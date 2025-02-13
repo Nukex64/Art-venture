@@ -1,6 +1,5 @@
 import math
-
-from PIL.ImageChops import screen
+from math import atan2
 
 from carte import Carte
 from enemy import Enemy
@@ -40,7 +39,7 @@ class Ville(Carte):
     def add_draw(self, screen):
         screen.blit(self.text_1, self.fixe_coord((25, 25)))
         screen.blit(self.text_2, (625, 570))
-        self.ray(screen)
+        self.ray()
 
     def add_verif(self):
         if self.touche("t"):
@@ -84,7 +83,7 @@ class Ville(Carte):
 
         return None
 
-    def ray(self, screen):
+    def ray(self):
         x2, y2 = pygame.mouse.get_pos()
         x1, y1 = self.fixe_coord(self.player.rect.center)
         vx, vy = x2-x1, y2-y1
@@ -94,21 +93,27 @@ class Ville(Carte):
         #pygame.draw.line(screen, 'red', (x1, y1), (x,y), 1)
         return x1, x2, y1, y2, x, y
 
+    def angletir(self):#,obj):
+        x2, y2 = pygame.mouse.get_pos()#obj
+        x1, y1 = self.fixe_coord(self.player.rect.center)
+        print(atan2((y2-y1),(x2-x1)))
+        return atan2((y2-y1),(x2-x1))
     def creer_projectiles(self):
-        x1, x2, y1, y2,x,y = self.ray(screen)
-        self.projectiles["enemie"+str(self.nombre)] = [Enemy("img/fire.png",self.player.rect.center[0],self.player.rect.center[1]),(x-x1, y-y1)]
-        self.groupe.add(self.projectiles["enemie" + str(self.nombre)][0])
+        self.projectiles["enemie"+str(self.nombre)] = Enemy("img/fire.png",self.player.rect.center[0],self.player.rect.center[1])
+        self.projectiles["enemie"+str(self.nombre)].alpha = self.angletir()
+        self.projectiles["enemie" + str(self.nombre)].speed = 1
+        self.groupe.add(self.projectiles["enemie" + str(self.nombre)])
         self.nombre += 1
         self.bullettimer = self.timer + 60*5 #tps * sec
 
     def projectilesdeplacements(self):
         for key in list(self.projectiles.keys()):  # Copie des clés
-            enemie, vect = self.projectiles[key]
+            enemie = self.projectiles[key]
 
             if enemie.is_off_screen():
                 self.supp.append(key)  # On marque pour suppression
             else:
-                enemie.viser((enemie.rect.center[0] + vect[0], enemie.rect.center[1] + vect[1]))
+                enemie.avancer()
 
         # Deuxième boucle : suppression après l'itération
         for sup in self.supp:
