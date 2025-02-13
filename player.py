@@ -25,7 +25,7 @@ class Player(pygame.sprite.Sprite):
 
         self.rect = self.image.get_rect() # definit l'hitbox / le rectangle du joueur
         self.feet = pygame.Rect(0, 0, self.rect.width*0.4, 10) # definit l'hitbox des jambes du joueurs pour les collisions (on peut changer la taille si il faut)
-
+        self.mask = pygame.mask.from_surface(self.image.subsurface(self.feet))
         self.coord = [x, y]
 
         self.vx = 0 # changer de coord x a la prochaine frame

@@ -5,6 +5,8 @@ from mini_jeux.laby import Laby
 from settings import *
 from menu import Menu
 from mini_jeux.road import Road
+from mini_jeux.mask import Mask
+
 
 class Jeu:
     def __init__(self):
@@ -19,10 +21,11 @@ class Jeu:
         parcour_1 = Game_Jump()
         laby = Laby()
         road = Road()
+        mask = Mask()
 
-        self.dico_game = {"ville": ville,"jeu_1": parcour_1, "jeu_2":laby, "road": road}
+        self.dico_game = {"ville": ville,"jeu_1": parcour_1, "jeu_2":laby, "road": road, "mask":mask}
 
-        self.carte = self.dico_game["road"]  # lancer en premier la ville
+        self.carte = self.dico_game["mask"]  # lancer en premier la ville
         self.menu = Menu()
 
     def _get_suface(self):
