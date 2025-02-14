@@ -3,9 +3,14 @@ from mini_jeux.ville import Ville
 from mini_jeux.parcours import *
 from mini_jeux.laby import Laby
 from settings import *
+import json
 from menu import Menu
 from mini_jeux.road import Road
 from mini_jeux.mask import Mask
+
+with open("save.json", "r+") as f:
+    save = json.load(f)
+print(save)
 
 
 class Jeu:
@@ -13,6 +18,9 @@ class Jeu:
         """
         Initialise le jeu, configure la fenêtre de jeu, et définit les cartes et mini-jeux disponibles.
         """
+        pygame.mixer.music.load("sounds\projectnsi.mp3")
+        pygame.mixer.music.play(loops=-1)
+        pygame.mixer.music.set_volume(0.05)
         self.run = True
         self.screen = pygame.display.set_mode(RES)
         self.clock = pygame.time.Clock()
@@ -23,9 +31,9 @@ class Jeu:
         road = Road()
         mask = Mask()
 
-        self.dico_game = {"ville": ville,"jeu_1": parcour_1, "jeu_2":laby, "road": road, "mask":mask}
+        self.dico_game = {"Ville": ville,"Parcours": parcour_1, "Laby":laby,"road": road, "mask":mask}
 
-        self.carte = self.dico_game["mask"]  # lancer en premier la ville
+        self.carte = self.dico_game[save["world"]]  # lancer en premier la ville
         self.menu = Menu()
 
     def _get_suface(self):
@@ -62,6 +70,9 @@ class Jeu:
             if objetif in self.dico_game:
                 self.carte = self.dico_game[objetif]
                 print(f"Changement de carte : {str(self.carte)}")
+                save["world"] = str(self.carte)
+                with open("save.json", "w") as f:
+                    json.dump(save, f, indent=2)
             else: print(f"ERREUR : aucun {objetif}")
 
     def _gerer_event(self):
@@ -77,7 +88,7 @@ class Jeu:
                 if event.key == pygame.K_RETURN:
                     self._changer_carte()
                 if event.key == pygame.K_KP0:
-                    self.carte = self.dico_game["ville"]
+                    self.carte = self.dico_game["Ville"]
                     print(f"Changement de carte : ville (dev)")
                 if event.key == pygame.K_ESCAPE:
                     self.menu.open()
