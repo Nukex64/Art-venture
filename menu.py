@@ -19,13 +19,20 @@ class Menu:
         self.rect_parametre = pygame.Rect(225, 145+130, 340, 87)
         self.rect_quitter = pygame.Rect(225, 145+260, 340, 87)
 
+        self.click_parametre = pygame.image.load("img/ui/BsettingsC.png")
+        self.click_parametre.set_colorkey((255, 255, 255))
+        self.click_exit = pygame.image.load("img/ui/BexitC.png")
+        self.click_exit.set_colorkey((255, 255, 255))
+        self.click_back = pygame.image.load("img/ui/BbackC.png")
+        self.click_back.set_colorkey((255, 255, 255))
+
         self.end = False #ordonne de fermer le jeu
 
     def draw(self):
         self.screen.blit(self.menu_image, (0, 0))
         #pygame.draw.rect(self.screen, (0, 0, 0), self.reprendre)
         #pygame.draw.rect(self.screen, (0, 0, 0), self.settings)
-        #pygame.draw.rect(self.screen, (0, 0, 0), self.exit)
+        #pygame.draw.rect(self.screen, (0, 0, 0), self.rect_quitter)
         pygame.display.flip()
 
     def _gerer_event(self):
@@ -50,8 +57,21 @@ class Menu:
             if event.type == pygame.MOUSEBUTTONDOWN:
                 x, y, = pygame.mouse.get_pos()
                 if self.rect_reprendre.collidepoint(x, y): self.reprendre()
-                elif self.rect_parametre.collidepoint(x, y):self.parametre()
+                elif self.rect_parametre.collidepoint(x, y): self.parametre()
                 elif self.rect_quitter.collidepoint(x, y): self.quitter()
+
+        x, y, = pygame.mouse.get_pos()
+        if self.rect_reprendre.collidepoint(x, y):
+            self.screen.blit(self.click_back, (214, 140))
+            pygame.display.flip()
+        elif self.rect_parametre.collidepoint(x, y):
+            self.screen.blit(self.click_parametre, (216, 142 + 130))
+            pygame.display.flip()
+        elif self.rect_quitter.collidepoint(x, y):
+            self.screen.blit(self.click_exit, (214, 140 + 260))
+            pygame.display.flip()
+        else:
+            self.draw()
 
     def reprendre(self):
         print("    Reprendre")
