@@ -28,7 +28,7 @@ class Road(Carte):
         self.spawn_car()
         self.difficulty = 25
         self.counter = self.difficulty
-
+        self.spawn = self.objet_par_nom("spawn").midbottom
         self.player.speed = 1.5
 
     def _cut_img_bas(self, x, y):
@@ -57,10 +57,11 @@ class Road(Carte):
     def add_draw(self, screen):
         for car in self.cars:
             car.avancer()
+            screen.blit(car.toit, self.fixe_coord((car.rect.x, car.rect.y - 5)))
             if car.coord[0] > 600 or car.coord[0] < -100:
                 self.cars.remove(car)
                 car.kill()
-            screen.blit(car.toit, self.fixe_coord((car.rect.x, car.rect.y-5)))
+
 
     def spawn_car(self):
             route = randint(0, 1)
@@ -97,7 +98,7 @@ class Road(Carte):
             return "Ville"
 
     def game_over(self):
-        self.tp(275, 360)
+        self.tp(self.spawn[0], self.spawn[1])
     def __str__(self):
         return "Road"
 

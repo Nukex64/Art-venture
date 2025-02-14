@@ -9,12 +9,23 @@ class Menu:
         Initialise le jeu, configure la fenêtre de jeu, et définit les cartes et mini-jeux disponibles.
         """
         self.afficher = True
-        self.screen = pygame.display.set_mode(RES,pygame.NOFRAME|pygame.SCALED)
+        self.screen = pygame.display.set_mode(RES,pygame.SCALED)
         self.font = pygame.font.Font(Font, 65)
-        self.text_2 = self.font.render("PAUSE", True, (0, 0, 0))
+
+        self.menu_image = pygame.image.load("img/ui/menu.png")
+        self.menu_image.set_colorkey((255, 255, 255))
+
+        self.rect_reprendre = pygame.Rect(225, 145, 340, 87)
+        self.rect_parametre = pygame.Rect(225, 145+130, 340, 87)
+        self.rect_quitter = pygame.Rect(225, 145+260, 340, 87)
+
+        self.end = False #ordonne de fermer le jeu
 
     def draw(self):
-        self.screen.blit(self.text_2, (340, 100))
+        self.screen.blit(self.menu_image, (0, 0))
+        #pygame.draw.rect(self.screen, (0, 0, 0), self.reprendre)
+        #pygame.draw.rect(self.screen, (0, 0, 0), self.settings)
+        #pygame.draw.rect(self.screen, (0, 0, 0), self.exit)
         pygame.display.flip()
 
     def _gerer_event(self):
@@ -29,6 +40,7 @@ class Menu:
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     self.afficher = False
+
                 if event.key == pygame.K_SPACE:
                     print("ok")
                     self.fullscreen()
@@ -36,9 +48,22 @@ class Menu:
                     print("musique")
                     self.musique()
             if event.type == pygame.MOUSEBUTTONDOWN:
-                print("click")
+                x, y, = pygame.mouse.get_pos()
+                if self.rect_reprendre.collidepoint(x, y): self.reprendre()
+                elif self.rect_parametre.collidepoint(x, y):self.parametre()
+                elif self.rect_quitter.collidepoint(x, y): self.quitter()
 
+    def reprendre(self):
+        print("    Reprendre")
+        self.afficher = False # ferme le menu
 
+    def parametre(self):
+        print("    Parametre")
+
+    def quitter(self):
+        print("    Quitter")
+        self.afficher = False # ferme le menu
+        self.end = True # ferme le jeu
 
     def open(self):
         print("-- MENU OPEN")
@@ -50,9 +75,11 @@ class Menu:
             self._gerer_event()
 
         print("-- MENU END")
+
     def fullscreen(self):
         pygame.display.toggle_fullscreen()
         pygame.display.flip()
+
     def musique(self):
         if settings.Musiques == 1:
             pygame.mixer_music.pause()

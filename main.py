@@ -32,7 +32,7 @@ class Jeu:
         road = Road()
         mask = Mask()
 
-        self.dico_game = {"Ville": ville,"Parcours": parcour_1, "Laby":laby,"Road": road, "mask":mask}
+        self.dico_game = {"Ville": ville,"Parcours": parcour_1, "Laby":laby,"Road": road, "Mask":mask}
 
         self.carte = self.dico_game[save["world"]]  # lancer en premier la ville
         self.menu = Menu()
@@ -93,6 +93,8 @@ class Jeu:
                     print(f"Changement de carte : ville (dev)")
                 if event.key == pygame.K_ESCAPE:
                     self.menu.open()
+                    if self.menu.end:
+                        self.run = False
 
     def running(self):
         print("-" * 10 + " EVENEMENT " + "-" * 10)
