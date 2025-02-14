@@ -7,7 +7,6 @@ class Car(Enemy):
     def __init__(self, src, x, y):
         super().__init__(src, x, y) #src = image bas voiture
         self.speed = 2
-        self.mask = pygame.mask.from_surface(self.image)
 
 class Mask(Carte):
     def __init__(self):
@@ -21,8 +20,7 @@ class Mask(Carte):
 
 
     def add_verif(self):
-        offset = self.car.rect.x - self.player.feet.x, self.car.rect.y - self.player.feet.y
-        if self.player.mask.overlap(self.car.mask, offset):
+        if self.sprite_collision(self.car):
             self.game_over()
 
     def add_draw(self, screen):

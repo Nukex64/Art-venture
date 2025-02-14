@@ -10,7 +10,9 @@ class Enemy(pygame.sprite.Sprite):
         else: self.image = src
         self.image.set_colorkey([0, 0, 0])  # retire le fond noire au spawn du joueur
 
-        self.rect = self.image.get_rect() # definit l'hitbox / le rectangle du joueur
+        self.rect = self.image.get_rect() # definit l'hitbox rectangulaire / le rectangle de l'image du joueur
+        self.mask = pygame.mask.from_surface(self.image)#  definit l'hitbox par pixel (le mieux)
+
         self.x = x
         self.y = y
         self.speed = 3

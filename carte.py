@@ -217,4 +217,14 @@ class Carte:
         """
         return self.map_layer.translate_points([coord])[0]
 
+    def sprite_collision(self, sprite):
+        """
+        Vérifie si le joueur touche une hitbox d'un sprite (mask
+        Args:
+            rect (pygame.Rect): Hitbox à vérifier
+        Returns:
+            bool: True si une collision est détectée, False sinon.
+        """
+        offset = sprite.rect.x - self.player.feet.x, sprite.rect.y - self.player.feet.y
+        return self.player.mask.overlap(sprite.mask, offset)
 
