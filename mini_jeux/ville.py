@@ -50,7 +50,7 @@ class Ville(Carte):
 
 
         if self.collision(self.fire.rect):
-            self.fire.coord = [5, 5]
+            self.fire.x, self.fire.y = 5, 5
             self.fire.regarder(90)
 
         if self.car.rect.collidelist(self.mur) > -1:
