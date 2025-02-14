@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="30" height="30" tilewidth="16" tileheight="16" infinite="0" nextlayerid="10" nextobjectid="33">
+<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="30" height="30" tilewidth="16" tileheight="16" infinite="0" nextlayerid="10" nextobjectid="34">
  <tileset firstgid="1" name="tilemap" tilewidth="16" tileheight="16" spacing="1" tilecount="1036" columns="37">
   <image source="tileset_img/tileset_1.png" width="628" height="475"/>
  </tileset>
@@ -165,7 +165,8 @@
   <object id="1" name="spawn" x="239.818" y="193.24">
    <point/>
   </object>
-  <object id="30" name="tp_2" x="271.681" y="61.8864" width="15.5" height="15.0909"/>
+  <object id="30" name="tp_2" x="271.681" y="64.8864" width="15.5" height="15.0909"/>
   <object id="32" name="tp_3" x="312.147" y="84.8278" width="15.5" height="15.0909"/>
+  <object id="33" name="tp_1" x="407.616" y="76.6507" width="17.8182" height="22.3636"/>
  </objectgroup>
 </map>

@@ -13,6 +13,8 @@ class Car(Enemy):
 class Road(Carte):
     def __init__(self):
         super().__init__("map/road.tmx")
+        self.tp_1 = self.objet_par_nom('tp_1')
+
         self.image_sheet = pygame.image.load("img/car_sheet.png")
         self.images = {1:self._cut_img_bas(0, 6), 4:self._cut_img_bas(37, 6),
                        2:self._cut_img_bas(0, 31), 5:self._cut_img_bas(37, 31),
@@ -76,6 +78,15 @@ class Road(Carte):
             self.groupe.add(car)
             self.cars.append(car)
 
+    def quitter(self):
+        """
+        Si le joueur touche la statue et appuis sur entrer il rentre dans le parcour
+        """
+        if self.collision(self.tp_1):
+            return "Ville"
+
     def game_over(self):
         self.tp(275, 360)
+    def __str__(self):
+        return "Road"
 

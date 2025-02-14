@@ -11,6 +11,9 @@ class Laby(Carte):
     """
     def __init__(self):
         super().__init__("map/map.tmx")
+        self.tp_1 = self.objet_par_nom('tp_1')
+        self.tp_2 = self.objet_par_nom("tp_2")
+        self.tp_3 = self.objet_par_nom("tp_3")
         self.radius = 110
         self.timer = 0
         self.orageframe = self.timer
@@ -29,8 +32,8 @@ class Laby(Carte):
         coord = self.fixe_coord(self.player.rect.center)
         mask.fill(self.backcolor)
         if self.roundcolor[3] != 120:
-            for i in range(self.radius):
-                pygame.draw.circle(mask, (self.roundcolor[0],self.roundcolor[1],self.roundcolor[2],max((255-(255*(i/(self.radius-25)))),0)), (coord[0], coord[1]), self.radius-i)
+            for i in range(0,self.radius,2):
+                pygame.draw.circle(mask, (self.roundcolor[0],self.roundcolor[1],self.roundcolor[2],max((255-(255*(i/(self.radius)))),0)), (coord[0], coord[1]), self.radius-i)
         else :
             pygame.draw.circle(mask, self.roundcolor, (coord[0], coord[1]),self.radius)
         screen.blit(mask, (0, 0))
@@ -49,3 +52,17 @@ class Laby(Carte):
             self.backcolor = (255,255,0,self.shadingstorm)
             self.roundcolor = (255, 255, 0, self.shadingstorm)
             self.orageframe = self.timer + 15
+
+    def quitter(self):
+        """
+        Si le joueur touche la statue et appuis sur entrer il rentre dans le parcour
+        """
+        if self.collision(self.tp_1):
+            return "Road"
+        if self.collision(self.tp_2):
+            return "Parcours"
+
+        if self.collision(self.tp_3):
+            return "Ville"
+
+        return None

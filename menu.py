@@ -1,4 +1,6 @@
 import pygame
+
+import settings
 from settings import *
 
 class Menu:
@@ -7,7 +9,7 @@ class Menu:
         Initialise le jeu, configure la fenêtre de jeu, et définit les cartes et mini-jeux disponibles.
         """
         self.afficher = True
-        self.screen = pygame.display.set_mode(RES)
+        self.screen = pygame.display.set_mode(RES,pygame.NOFRAME|pygame.SCALED)
         self.font = pygame.font.Font(Font, 65)
         self.text_2 = self.font.render("PAUSE", True, (0, 0, 0))
 
@@ -27,8 +29,15 @@ class Menu:
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     self.afficher = False
+                if event.key == pygame.K_SPACE:
+                    print("ok")
+                    self.fullscreen()
+                if event.key == pygame.K_m:
+                    print("musique")
+                    self.musique()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 print("click")
+
 
 
     def open(self):
@@ -41,3 +50,13 @@ class Menu:
             self._gerer_event()
 
         print("-- MENU END")
+    def fullscreen(self):
+        pygame.display.toggle_fullscreen()
+        pygame.display.flip()
+    def musique(self):
+        if settings.Musiques == 1:
+            pygame.mixer_music.pause()
+            settings.Musiques = 0
+        elif settings.Musiques == 0:
+            pygame.mixer_music.play()
+            settings.Musiques = 1

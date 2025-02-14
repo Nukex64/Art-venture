@@ -12,6 +12,7 @@ class Ville(Carte):
     """
     def __init__(self):
         super().__init__("map/map.tmx")
+        self.tp_1 = self.objet_par_nom('tp_1')
         self.tp_2 = self.objet_par_nom("tp_2")
         self.tp_3 = self.objet_par_nom("tp_3")
         self.text_1 = self.font.render("Je suis un text fixe", True, (0, 0, 0))
@@ -75,6 +76,8 @@ class Ville(Carte):
         """
         Si le joueur touche la statue et appuis sur entrer il rentre dans le parcour
         """
+        if self.collision(self.tp_1):
+            return "Road"
         if self.collision(self.tp_2):
             return "Parcours"
 

@@ -4,6 +4,7 @@ from mini_jeux.parcours import *
 from mini_jeux.laby import Laby
 from settings import *
 import json
+import os
 from menu import Menu
 from mini_jeux.road import Road
 from mini_jeux.mask import Mask
@@ -22,7 +23,7 @@ class Jeu:
         pygame.mixer.music.play(loops=-1)
         pygame.mixer.music.set_volume(0.05)
         self.run = True
-        self.screen = pygame.display.set_mode(RES)
+        self.screen = pygame.display.set_mode(RES,pygame.NOFRAME|pygame.SCALED)
         self.clock = pygame.time.Clock()
 
         ville = Ville()
@@ -31,7 +32,7 @@ class Jeu:
         road = Road()
         mask = Mask()
 
-        self.dico_game = {"Ville": ville,"Parcours": parcour_1, "Laby":laby,"road": road, "mask":mask}
+        self.dico_game = {"Ville": ville,"Parcours": parcour_1, "Laby":laby,"Road": road, "mask":mask}
 
         self.carte = self.dico_game[save["world"]]  # lancer en premier la ville
         self.menu = Menu()
@@ -54,7 +55,7 @@ class Jeu:
         """
         self.clock.tick(60)  # fps 60/s
         self.carte.update()  # met a jour le jeu/carte actuelle
-        self.screen.blit(self._get_suface(), (0, 0))  # affiche sur l'ecran
+        self.screen.blit(self._get_suface(),(0, 0))  # affiche sur l'ecran
         pygame.display.set_caption(f"{self.clock.get_fps():.1f}")
         pygame.display.flip()  # met a jour tous les pixels de l'ecran
 
