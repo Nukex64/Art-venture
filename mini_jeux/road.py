@@ -4,9 +4,9 @@ import pygame
 from random import randint
 
 class Car(Enemy):
-    def __init__(self, src, x, y, image_toit):
+    def __init__(self, src, x, y, image_toit, speed=2):
         super().__init__(src, x, y) #src = image bas voiture
-        self.speed = 2
+        self.speed = speed
         self.toit = image_toit #src = image du tois (hors hit box)
 
 
@@ -28,8 +28,6 @@ class Road(Carte):
         self.spawn_car()
         self.difficulty = 25
         self.counter = self.difficulty
-        self.mur_g = self.objet_par_nom('mur_g')
-        self.mur_d = self.objet_par_nom('mur_d')
 
         self.player.speed = 1.5
 
@@ -65,15 +63,28 @@ class Road(Carte):
             screen.blit(car.toit, self.fixe_coord((car.rect.x, car.rect.y-5)))
 
     def spawn_car(self):
-            route = randint(0, 2)
+            route = randint(0, 1)
             x = randint(4, 6)
-            car = Car(self.images[x], -100, 54 + route*128, self.images_toits[x])
+            car = Car(self.images[x], -100, 101 + route*128, self.images_toits[x], 5-route)
+            self.groupe.add(car)
+            self.cars.append(car)
+
+            route = randint(2, 3)
+            x = randint(4, 6)
+            car = Car(self.images[x], -100, 101 + route * 128, self.images_toits[x], 5-route)
             self.groupe.add(car)
             self.cars.append(car)
 
             route = randint(0, 1)
             x = randint(1, 3)
-            car = Car(self.images[x], 600, 117 + route*128, self.images_toits[x])
+            car = Car(self.images[x], 600, 165 + route*128, self.images_toits[x], 5-route)
+            car.regarder(180)
+            self.groupe.add(car)
+            self.cars.append(car)
+
+            route = randint(2, 3)
+            x = randint(1, 3)
+            car = Car(self.images[x], 600, 165 + route * 128, self.images_toits[x], 5-route)
             car.regarder(180)
             self.groupe.add(car)
             self.cars.append(car)
