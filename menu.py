@@ -9,7 +9,7 @@ class Menu:
         self.screen = pygame.display.set_mode(RES,pygame.SCALED)
         self.font = pygame.font.Font(Font, 65)
 
-        self.menu_background = pygame.image.load("img/ui/menu_back.png")
+        self.menu_background = pygame.image.load("img/ui/menu_back.png").convert_alpha()
 
         self.menu_image = pygame.image.load("img/ui/menu.png")
 
@@ -28,8 +28,8 @@ class Menu:
 
         self.button_survoller = False
 
+    def fist_draw(self):
         self.screen.blit(self.menu_background, (0, 0))
-        pygame.display.flip()
 
     def draw(self):
         self.screen.blit(self.menu_image, (0, 0))
@@ -107,6 +107,7 @@ class Menu:
         print("-- MENU OPEN")
 
         self.afficher = True
+        self.fist_draw()
         self.draw()
 
         while self.afficher:
