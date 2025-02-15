@@ -3,6 +3,7 @@ import pytmx
 import pyscroll
 from player import Player
 from settings import *
+from dialogue import Dialogue
 
 class Carte:
     """
@@ -42,6 +43,25 @@ class Carte:
         self.font = pygame.font.Font(None, 24)
         self.docenter = True
 
+        self.liste_dialogue = self.get_dialogues()
+
+    def get_dialogues(self):
+        temp = {}
+        for obj in self.tmx_data.objects:
+            if 'Texte' in obj.properties:
+                temp[(obj.x, obj.y, obj.width, obj.height)] = obj.properties['Texte']
+        if temp : return temp
+        else : return False
+
+    def verif_dialogue(self):
+        if self.liste_dialogue:
+            txt = self.player.rect.collidedict(self.liste_dialogue)
+            if txt:
+                #self.liste_dialogue.pop(txt[0])
+                dialogue = Dialogue(txt[1])
+                dialogue.open()
+                del dialogue
+
     def clavier(self):
         """
         Gère touches pressées.
@@ -61,6 +81,9 @@ class Carte:
         if keys[pygame.K_d] or keys[pygame.K_RIGHT]:
             self.player.droite()
             self.player.regarder('droite')
+
+        if keys[pygame.K_RETURN] or keys[pygame.K_e]:
+            self.verif_dialogue()
 
     def add_verif(self):
         """

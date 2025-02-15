@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="30" height="30" tilewidth="16" tileheight="16" infinite="0" nextlayerid="10" nextobjectid="34">
+<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="30" height="30" tilewidth="16" tileheight="16" infinite="0" nextlayerid="13" nextobjectid="38">
  <tileset firstgid="1" name="tilemap" tilewidth="16" tileheight="16" spacing="1" tilecount="1036" columns="37">
   <image source="tileset_img/tileset_1.png" width="628" height="475"/>
  </tileset>
@@ -157,7 +157,12 @@
   <object id="24" type="mur" x="339.409" y="242.727" width="10.1818" height="12.5455"/>
   <object id="25" type="mur" x="401.909" y="242.727" width="10.1818" height="12.5455"/>
   <object id="26" type="mur" x="372.909" y="241.727" width="10.1818" height="12.5455"/>
-  <object id="27" type="mur" x="257.159" y="162.977" width="13.9318" height="11.5455"/>
+  <object id="27" type="mur" x="257.159" y="162.977" width="13.9318" height="11.5455">
+   <properties>
+    <property name="Texte">Un stande de glace
+(plus de fraise)</property>
+   </properties>
+  </object>
   <object id="28" type="mur" x="305.159" y="159.477" width="5.1818" height="15.2955"/>
   <object id="29" type="mur" x="388.909" y="162.394" width="6.1818" height="12.5455"/>
  </objectgroup>
@@ -168,5 +173,17 @@
   <object id="30" name="tp_2" x="271.681" y="64.8864" width="15.5" height="15.0909"/>
   <object id="32" name="tp_3" x="312.147" y="84.8278" width="15.5" height="15.0909"/>
   <object id="33" name="tp_1" x="407.616" y="76.6507" width="17.8182" height="22.3636"/>
+  <object id="36" name="voiture" x="293.682" y="190.966" width="34.7614" height="15.6591">
+   <properties>
+    <property name="Texte" value="Une voiture qui ne roule pas"/>
+   </properties>
+  </object>
+  <object id="37" name="magasin" x="370.932" y="33.0455" width="26.6364" height="31.9091">
+   <properties>
+    <property name="Texte">Fermer
+Ouvert
+24/24</property>
+   </properties>
+  </object>
  </objectgroup>
 </map>
