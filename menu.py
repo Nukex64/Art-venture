@@ -78,6 +78,7 @@ class Menu:
         self.afficher = False # ferme le menu
 
     def parametre(self):
+        self.musique()
         print("    Parametre")
 
     def quitter(self):
