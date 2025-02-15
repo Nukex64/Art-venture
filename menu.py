@@ -1,13 +1,13 @@
 import pygame
-
 import settings
-from settings import *
 
 class Menu:
     def __init__(self):
         self.afficher = True
-        self.screen = pygame.display.set_mode(RES,pygame.SCALED)
-        self.font = pygame.font.Font(Font, 65)
+        self.screen = pygame.display.set_mode(settings.RES,pygame.SCALED)
+        self.font = pygame.font.Font(settings.Font, 65)
+
+        self.game_background = None
 
         self.menu_background = pygame.image.load("img/ui/menu_back.png").convert_alpha()
 
@@ -27,15 +27,13 @@ class Menu:
         self.end = False #ordonne de fermer le jeu
 
         self.button_survoller = False
+        self.in_setting = False
 
     def fist_draw(self):
         self.screen.blit(self.menu_background, (0, 0))
 
     def draw(self):
         self.screen.blit(self.menu_image, (0, 0))
-        #pygame.draw.rect(self.screen, (0, 0, 0), self.reprendre)
-        #pygame.draw.rect(self.screen, (0, 0, 0), self.settings)
-        #pygame.draw.rect(self.screen, (0, 0, 0), self.rect_quitter)
         pygame.display.update((225, 145, 340, 87))
 
     def _gerer_event(self):
@@ -50,56 +48,62 @@ class Menu:
 
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
-                    self.afficher = False
+                    if self.in_setting:
+                        self.in_setting = False
+                    else:
+                        self.afficher = False
 
                 if event.key == pygame.K_SPACE:
-                    print("ok")
                     self.fullscreen()
+
                 if event.key == pygame.K_m:
-                    print("musique")
-                    self.musique()
+                    self.screen.blit(self.game_background, (161, 22))
+                    pygame.display.flip()
+
             if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                 click = True
 
         x, y, = pygame.mouse.get_pos()
 
+        if not self.in_setting:
+            if self.rect_reprendre.collidepoint(x, y):
+                if not self.button_survoller:
+                    self.screen.blit(self.click_reprendre, (216, 141))
+                    pygame.display.update(self.rect_reprendre)
+                    self.button_survoller = True
+                if click : self.reprendre()
 
-        if self.rect_reprendre.collidepoint(x, y):
-            if not self.button_survoller:
-                self.screen.blit(self.click_reprendre, (216, 141))
-                pygame.display.update(self.rect_reprendre)
-                self.button_survoller = True
-            if click : self.reprendre()
+            elif self.rect_parametre.collidepoint(x, y):
+                if not self.button_survoller:
+                    self.screen.blit(self.click_parametre, (216, 142 + 130))
+                    pygame.display.update(self.rect_parametre)
+                    self.button_survoller = True
 
-        elif self.rect_parametre.collidepoint(x, y):
-            if not self.button_survoller:
-                self.screen.blit(self.click_parametre, (216, 142 + 130))
-                pygame.display.update(self.rect_parametre)
-                self.button_survoller = True
-            if click: self.parametre()
+                if click: self.open_parametre()
 
-        elif self.rect_quitter.collidepoint(x, y):
-            if not self.button_survoller:
-                self.screen.blit(self.click_exit, (214, 140 + 260))
-                pygame.display.update(self.rect_quitter)
-                self.button_survoller = True
-            if click: self.quitter()
+            elif self.rect_quitter.collidepoint(x, y):
+                if not self.button_survoller:
+                    self.screen.blit(self.click_exit, (214, 140 + 260))
+                    pygame.display.update(self.rect_quitter)
+                    self.button_survoller = True
+                if click: self.quitter()
 
+            else:
+                if self.button_survoller:
+                    self.button_survoller = False
+                    self.draw()
+
+        # PARAMETRE ----------------------------------
         else:
-            if self.button_survoller:
-                self.button_survoller = False
-                self.draw()
+            self.parametre(click)
+
 
     def reprendre(self):
-        print("    Reprendre")
+        print("Reprendre")
         self.afficher = False # ferme le menu
 
-    def parametre(self):
-        self.musique()
-        print("    Parametre")
-
     def quitter(self):
-        print("    Quitter")
+        print("Quitter")
         self.afficher = False # ferme le menu
         self.end = True # ferme le jeu
 
@@ -108,6 +112,7 @@ class Menu:
 
         self.afficher = True
         self.fist_draw()
+        self.game_background = pygame.display.get_surface().subsurface(pygame.Rect(161, 22, 474, 527)).copy() #copy du menu vide
         self.draw()
 
         while self.afficher:
@@ -116,13 +121,26 @@ class Menu:
         print("-- MENU END")
 
     def fullscreen(self):
+        print("    fullscreen")
         pygame.display.toggle_fullscreen()
         pygame.display.flip()
 
     def musique(self):
         if settings.Musiques == 1:
+            print("    musique off")
             pygame.mixer_music.pause()
             settings.Musiques = 0
         elif settings.Musiques == 0:
+            print("    musique on")
             pygame.mixer_music.play()
             settings.Musiques = 1
+
+
+    def parametre(self, click):
+        if click:
+            self.musique()
+
+    def open_parametre(self):
+        self.in_setting = True
+        self.screen.blit(self.game_background, (161, 22))
+        pygame.display.update((225, 145, 340, 87))
