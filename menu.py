@@ -21,8 +21,8 @@ class Menu:
         self.click_parametre.set_colorkey((255, 255, 255))
         self.click_exit = pygame.image.load("img/ui/BexitC.png")
         self.click_exit.set_colorkey((255, 255, 255))
-        self.click_back = pygame.image.load("img/ui/BbackC.png")
-        self.click_back.set_colorkey((255, 255, 255))
+        self.click_reprendre = pygame.image.load("img/ui/BbackC.png")
+        self.click_reprendre.set_colorkey((255, 255, 255))
 
         self.end = False #ordonne de fermer le jeu
 
@@ -65,21 +65,24 @@ class Menu:
 
 
         if self.rect_reprendre.collidepoint(x, y):
-            self.screen.blit(self.click_back, (214, 140))
-            pygame.display.update(self.rect_reprendre)
-            self.button_survoller = True
+            if not self.button_survoller:
+                self.screen.blit(self.click_reprendre, (216, 141))
+                pygame.display.update(self.rect_reprendre)
+                self.button_survoller = True
             if click : self.reprendre()
 
         elif self.rect_parametre.collidepoint(x, y):
-            self.screen.blit(self.click_parametre, (216, 142 + 130))
-            pygame.display.update(self.rect_parametre)
-            self.button_survoller = True
+            if not self.button_survoller:
+                self.screen.blit(self.click_parametre, (216, 142 + 130))
+                pygame.display.update(self.rect_parametre)
+                self.button_survoller = True
             if click: self.parametre()
 
         elif self.rect_quitter.collidepoint(x, y):
-            self.screen.blit(self.click_exit, (214, 140 + 260))
-            pygame.display.update(self.rect_quitter)
-            self.button_survoller = True
+            if not self.button_survoller:
+                self.screen.blit(self.click_exit, (214, 140 + 260))
+                pygame.display.update(self.rect_quitter)
+                self.button_survoller = True
             if click: self.quitter()
 
         else:
