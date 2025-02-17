@@ -4,7 +4,8 @@ import pyscroll
 from player import Player
 from settings import *
 from dialogue import Dialogue
-
+from math import atan2
+from enemy import Enemy
 class Carte:
     """
      Classe générique pour gérer les cartes du jeu, y compris le musée et les mini-jeux.
@@ -34,6 +35,13 @@ class Carte:
         self.groupe = pyscroll.PyscrollGroup(map_layer=self.map_layer,
                                              default_layer=2)  # groupe de toutes les images pour pygame (default_layer = couche du joueur)
         self.groupe.add(self.player)  # rajoute le joueur au groupe d'images
+
+        self.supp = []
+        self.projectiles = {}
+        self.nombre = 0
+        self.bullettimer = 0
+        self.timer = 0
+        self.canbullet = True
 
         self.mur = []  # liste de mur (leur hitbox)
         calque_mur = self.tmx_data.get_layer_by_name('mur') #calque des murs
@@ -115,7 +123,13 @@ class Carte:
 
         if self.docenter:
             self.groupe.center(self.player.rect)  # centre cam sur le carré du joueur
+        if self.canbullet:
+            if self.touche("SPACE") and self.timer >= self.bullettimer:
+                self.creer_projectiles()
 
+        self.projectilesdeplacements()
+
+        self.timer += 1
         self.add_verif()  # rajoute les verifs propres a chaque minijeux
 
     def draw(self, screen):
@@ -241,13 +255,34 @@ class Carte:
         return self.map_layer.translate_points([coord])[0]
 
     def sprite_collision(self, sprite):
-        """
-        Vérifie si le joueur touche une hitbox d'un sprite (mask
-        Args:
-            rect (pygame.Rect): Hitbox à vérifier
-        Returns:
-            bool: True si une collision est détectée, False sinon.
-        """
+
         offset = sprite.rect.x - self.player.feet.x, sprite.rect.y - self.player.feet.y
         return self.player.mask.overlap(sprite.mask, offset)
+
+    def angletir(self):#,obj):
+        x2, y2 = pygame.mouse.get_pos()#obj
+        x1, y1 = self.fixe_coord(self.player.rect.center)
+        print(atan2((y2-y1),(x2-x1)))
+        return atan2((y2-y1),(x2-x1))
+    def creer_projectiles(self):
+        self.projectiles["enemie"+str(self.nombre)] = Enemy("img/fire.png",self.player.rect.center[0],self.player.rect.center[1])
+        self.projectiles["enemie"+str(self.nombre)].alpha = self.angletir()
+        self.projectiles["enemie" + str(self.nombre)].speed = 1
+        self.groupe.add(self.projectiles["enemie" + str(self.nombre)])
+        self.nombre += 1
+        self.bullettimer = self.timer + 60*5 #tps * sec
+
+    def projectilesdeplacements(self):
+        for key in list(self.projectiles.keys()):  # Copie des clés
+            enemie = self.projectiles[key]
+
+            if enemie.is_off_screen():
+                self.supp.append(key)  # On marque pour suppression
+            else:
+                enemie.avancer()
+
+        # Deuxième boucle : suppression après l'itération
+        for sup in self.supp:
+            self.projectiles.pop(sup, None)  # pop() évite l'erreur si la clé a déjà été supprimée
+
 

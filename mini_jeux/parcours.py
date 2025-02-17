@@ -10,7 +10,7 @@ class Game_Jump(Carte):
         self.sortie = self.objets_par_classe('sortie')
         self.liste_sol = self.objet_par_calque('sol') # on recupere les sols
         self.time_jump = 0 # timer de jump
-
+        self.canbullet = False
     def add_verif(self):
         if self.time_jump: # jump
             self.player.haut(1.75) # effet 1.75 - gravité = 0.75 (voir player)

@@ -2,6 +2,7 @@ import pygame
 from mini_jeux.ville import Ville
 from mini_jeux.parcours import *
 from mini_jeux.laby import Laby
+from mini_jeux.undertale_2 import Undertale
 from settings import *
 from menu import Menu
 from mini_jeux.road import Road
@@ -30,8 +31,10 @@ class Jeu:
         laby = Laby()
         road = Road()
         mask = Mask()
+        undertale = Undertale()
 
-        self.dico_game = {"Ville": ville,"Parcours": parcour_1, "Laby":laby,"Road": road, "Mask":mask}
+
+        self.dico_game = {"Ville": ville,"Parcours": parcour_1, "Laby":laby,"Road": road, "Mask":mask, "Undertale":undertale}
 
         self.carte = self.dico_game[self.saveload.save["world"]]  # lancer en premier la ville
         self.menu = Menu()

@@ -1,4 +1,4 @@
-from settings import*
+
 import pygame
 
 class Dialogue:
@@ -6,7 +6,7 @@ class Dialogue:
         self.screen = pygame.display.get_surface()
         self.afficher = False
         self.dialogue_box = pygame.image.load("img/txt.png")
-        self.font = pygame.font.Font(None, 24)
+        self.font = pygame.font.Font("img/police.otf", 24)
 
         self.liste_texte = texte.split("\n")
         self.texte_render = self.font.render(self.liste_texte[0], True, (0, 0, 0))

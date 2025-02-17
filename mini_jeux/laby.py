@@ -23,6 +23,7 @@ class Laby(Carte):
         self.enemytexture = Enemy("img/fire.png",30,30)
         self.groupe.add(self.enemytexture)
         self.zoom = settings.ZOOM
+        self.canbullet = False
     def __str__(self):
         return "Laby"
     def eventenemy(self):
@@ -33,7 +34,7 @@ class Laby(Carte):
         mask.fill(self.backcolor)
         if self.roundcolor[3] != 120:
             for i in range(0,self.radius,2):
-                pygame.draw.circle(mask, (self.roundcolor[0],self.roundcolor[1],self.roundcolor[2],max((255-(255*(i/(self.radius)))),0)), (coord[0], coord[1]), self.radius-i)
+                pygame.draw.circle(mask, (self.roundcolor[0],self.roundcolor[1],self.roundcolor[2],max((255-(255*(i/self.radius))),0)), (coord[0], coord[1]), self.radius-i)
         else :
             pygame.draw.circle(mask, self.roundcolor, (coord[0], coord[1]),self.radius)
         screen.blit(mask, (0, 0))

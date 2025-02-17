@@ -61,10 +61,6 @@ class Menu:
                 if event.key == pygame.K_SPACE:
                     self.fullscreen()
 
-                if event.key == pygame.K_m:
-                    self.screen.blit(self.game_background, (161, 22))
-                    pygame.display.flip()
-
             if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                 click = True
 
@@ -138,8 +134,7 @@ class Menu:
         elif self.saveload.changer_json('Musiques',None) == 0:
             pygame.mixer.music.play(loops=-1)
             print("    musique on")
-            self.saveload.changer_json('Musiques',1)
-
+            self.saveload.changer_json('Musiques', 1)
 
     def parametre(self, click):
         if click:
