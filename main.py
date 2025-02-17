@@ -3,25 +3,24 @@ from mini_jeux.ville import Ville
 from mini_jeux.parcours import *
 from mini_jeux.laby import Laby
 from settings import *
-import json
-import os
 from menu import Menu
 from mini_jeux.road import Road
 from mini_jeux.mask import Mask
-
-with open("save.json", "r+") as f:
-    save = json.load(f)
-print(save)
-
+from savefonction import sauvegarde
 
 class Jeu:
     def __init__(self):
         """
         Initialise le jeu, configure la fenêtre de jeu, et définit les cartes et mini-jeux disponibles.
         """
+
         pygame.mixer.music.load("sounds\projectnsi.mp3")
-        pygame.mixer.music.play(loops=-1)
         pygame.mixer.music.set_volume(0.05)
+
+
+        self.saveload = sauvegarde()
+        if self.saveload.changer_json("Musiques",None):
+            pygame.mixer.music.play(loops=-1)
         self.run = True
         self.screen = pygame.display.set_mode(RES,pygame.NOFRAME|pygame.SCALED)
         self.clock = pygame.time.Clock()
@@ -34,7 +33,7 @@ class Jeu:
 
         self.dico_game = {"Ville": ville,"Parcours": parcour_1, "Laby":laby,"Road": road, "Mask":mask}
 
-        self.carte = self.dico_game[save["world"]]  # lancer en premier la ville
+        self.carte = self.dico_game[self.saveload.save["world"]]  # lancer en premier la ville
         self.menu = Menu()
 
     def _get_suface(self):
@@ -71,9 +70,7 @@ class Jeu:
             if objetif in self.dico_game:
                 self.carte = self.dico_game[objetif]
                 print(f"Changement de carte : {str(self.carte)}")
-                save["world"] = str(self.carte)
-                with open("save.json", "w") as f:
-                    json.dump(save, f, indent=2)
+                self.saveload.changer_json("world", str(self.carte))
             else: print(f"ERREUR : aucun {objetif}")
 
     def _gerer_event(self):
@@ -112,7 +109,6 @@ class Jeu:
             self._gerer_event() # quitter / changer carte / crash
             self._update() #met a jour tous le jeu
         print("-" * 13 + " END " + "-" * 13)
-
 
 if __name__ == '__main__':
     pygame.init()   # lance pygame
