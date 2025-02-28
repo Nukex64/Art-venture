@@ -25,6 +25,7 @@ class Player(pygame.sprite.Sprite):
 
         self.rect = self.image.get_rect() # definit l'hitbox / le rectangle du joueur
         self.feet = pygame.Rect(0, 0, self.rect.width*0.4, 10) # definit l'hitbox des jambes du joueurs pour les collisions (on peut changer la taille si il faut)
+        self.under_feet = pygame.Rect(0, 0, self.rect.width*0.4, 10)
         self.mask = pygame.mask.from_surface(self.image.subsurface(self.feet))
         self.coord = [x, y]
 
@@ -39,6 +40,8 @@ class Player(pygame.sprite.Sprite):
         """
         self.rect.topleft = self.coord
         self.feet.midbottom = self.rect.midbottom # milieu pied = milieu bas joueur
+        self.under_feet.midtop = self.feet.midbottom # milieu sous-pied = milieu bas pied
+
 
     def _cut_img(self, x, y):
         """
@@ -81,3 +84,8 @@ class Player(pygame.sprite.Sprite):
         if not self.feet.move(0, self.vy).collidelist(mur) > -1:
             self.coord[1] += self.vy
         self.vx, self.vy = 0, 0
+
+    @property
+    def coord_int(self):
+        return int(self.coord[0]), int(self.coord[1])
+
