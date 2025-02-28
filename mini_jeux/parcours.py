@@ -39,8 +39,8 @@ class Game_Jump(Carte):
 
     def add_draw(self, screen):
         y = self.fixe_coord(self.player.feet.midbottom)[1]
-
-        pygame.draw.line(screen, (0, 0, 0),(0, y) ,(800, y))
+        color = (0, 0, 0) if self.can_dash else (255, 0, 0)
+        pygame.draw.line(screen, color,(0, y) ,(800, y))
         self.draw_grid(screen, tile_size=18)
 
 
@@ -96,7 +96,7 @@ class Game_Jump(Carte):
         self.player.vy -= 2
 
     def jump(self):
-        new_y = self.f(self.frame_jump)*16 + self.start_y #nouvelle coordonné
+        new_y = self.f(self.frame_jump)*18 + self.start_y #nouvelle coordonné
         vy = new_y - self.last_y # de combien il doit monter
         self.player.vy -= vy
         self.last_y = new_y
