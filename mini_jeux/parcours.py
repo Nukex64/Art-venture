@@ -11,6 +11,8 @@ class Game_Jump(Carte):
         self.liste_echelle = self.objets_par_classe('echelle') # on recupere les echelles
         self.sortie = self.objets_par_classe('sortie')
         self.liste_sol = self.objet_par_calque('sol') # on recupere les sols
+        self.time_jump = 0 # timer de jump
+        self.canbullet = False
 
         self.frame_jump = 35 # timer de jump
         self.last_y = 0

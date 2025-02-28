@@ -159,7 +159,7 @@
   <object id="26" type="mur" x="372.909" y="241.727" width="10.1818" height="12.5455"/>
   <object id="27" type="mur" x="257.159" y="162.977" width="13.9318" height="11.5455">
    <properties>
-    <property name="Texte">Un stande de glace
+    <property name="Texte">Un stand de glace
 (plus de fraise)</property>
    </properties>
   </object>
@@ -180,7 +180,7 @@
   </object>
   <object id="37" name="magasin" x="370.932" y="33.0455" width="26.6364" height="31.9091">
    <properties>
-    <property name="Texte">Fermer
+    <property name="Texte">Fermé
 Ouvert
 24/24</property>
    </properties>

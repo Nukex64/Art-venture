@@ -1,5 +1,4 @@
 import math
-from math import atan2
 
 from carte import Carte
 from enemy import Enemy
@@ -30,12 +29,8 @@ class Ville(Carte):
         self.car.direction = 0
         self.groupe.add(self.car)
 
-        self.supp = []
-        self.projectiles = {}
-        self.nombre = 0
 
-        self.bullettimer = 0
-        self.timer = 0
+
 
     def add_draw(self, screen):
         screen.blit(self.text_1, self.fixe_coord((25, 25)))
@@ -60,13 +55,11 @@ class Ville(Carte):
         if self.collision(self.car.rect):
             self.tp(250, 250)
 
-        if self.touche("SPACE") and self.timer >= self.bullettimer:
-            self.creer_projectiles()
+
 
         self.car.move("z")
         self.fire.viser(self.player.rect.center)
 
-        self.projectilesdeplacements()
 
         self.timer += 1
 
@@ -96,31 +89,6 @@ class Ville(Carte):
         #pygame.draw.line(screen, 'red', (x1, y1), (x,y), 1)
         return x1, x2, y1, y2, x, y
 
-    def angletir(self):#,obj):
-        x2, y2 = pygame.mouse.get_pos()#obj
-        x1, y1 = self.fixe_coord(self.player.rect.center)
-        print(atan2((y2-y1),(x2-x1)))
-        return atan2((y2-y1),(x2-x1))
-    def creer_projectiles(self):
-        self.projectiles["enemie"+str(self.nombre)] = Enemy("img/fire.png",self.player.rect.center[0],self.player.rect.center[1])
-        self.projectiles["enemie"+str(self.nombre)].alpha = self.angletir()
-        self.projectiles["enemie" + str(self.nombre)].speed = 1
-        self.groupe.add(self.projectiles["enemie" + str(self.nombre)])
-        self.nombre += 1
-        self.bullettimer = self.timer + 60*5 #tps * sec
-
-    def projectilesdeplacements(self):
-        for key in list(self.projectiles.keys()):  # Copie des clés
-            enemie = self.projectiles[key]
-
-            if enemie.is_off_screen():
-                self.supp.append(key)  # On marque pour suppression
-            else:
-                enemie.avancer()
-
-        # Deuxième boucle : suppression après l'itération
-        for sup in self.supp:
-            self.projectiles.pop(sup, None)  # pop() évite l'erreur si la clé a déjà été supprimée
 
     def __str__(self):
         return "Ville"

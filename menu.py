@@ -1,8 +1,13 @@
 import pygame
+from savefonction import sauvegarde
 import settings
 
 class Menu:
     def __init__(self):
+        """
+        Initialise le jeu, configure la fenêtre de jeu, et définit les cartes et mini-jeux disponibles.
+        """
+        self.saveload = sauvegarde()
         self.afficher = True
         self.screen = pygame.display.set_mode(settings.RES,pygame.SCALED)
         self.font = pygame.font.Font(settings.Font, 65)
@@ -55,10 +60,6 @@ class Menu:
 
                 if event.key == pygame.K_SPACE:
                     self.fullscreen()
-
-                if event.key == pygame.K_m:
-                    self.screen.blit(self.game_background, (161, 22))
-                    pygame.display.flip()
 
             if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                 click = True
@@ -126,15 +127,14 @@ class Menu:
         pygame.display.flip()
 
     def musique(self):
-        if settings.Musiques == 1:
-            print("    musique off")
+        if self.saveload.changer_json('Musiques',None) == 1:
             pygame.mixer_music.pause()
-            settings.Musiques = 0
-        elif settings.Musiques == 0:
+            print("    musique off")
+            self.saveload.changer_json('Musiques',0)
+        elif self.saveload.changer_json('Musiques',None) == 0:
+            pygame.mixer.music.play(loops=-1)
             print("    musique on")
-            pygame.mixer_music.play()
-            settings.Musiques = 1
-
+            self.saveload.changer_json('Musiques', 1)
 
     def parametre(self, click):
         if click:
