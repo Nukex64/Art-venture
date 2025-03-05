@@ -2,6 +2,7 @@
 import pygame.draw
 from carte import Carte
 from math import sqrt, atan2, cos, sin, degrees, radians
+from enemy import Enemy
 
 class Game_Jump(Carte):
     """
@@ -24,6 +25,15 @@ class Game_Jump(Carte):
         self.docenter = True
 
         self.spike_mask = pygame.mask.from_surface(self.tmx_data.get_tile_image_by_gid(53))
+        self.liste_spike_sprite = []
+        self.spike_1 = Enemy('img/spike.png', 110, 120)
+        self.liste_spike_sprite.append(self.spike_1)
+        self.spike_2 = Enemy('img/spike.png', 485, 120)
+        self.liste_spike_sprite.append(self.spike_2)
+
+        for sprite in self.liste_spike_sprite:
+            sprite.speed = 2
+            self.groupe.add(sprite)
 
     def add_verif(self):
         if self.frame_jump > 0:
@@ -42,6 +52,10 @@ class Game_Jump(Carte):
 
         self.gravity()
 
+        self.spike_1.alpha -= 0.05
+        self.spike_1.avancer()
+
+        self.spike_2.alternate((485, 120), (485, 40))
 
     def add_draw(self, screen):
         y = self.fixe_coord(self.player.feet.midbottom)[1]
@@ -157,6 +171,8 @@ class Game_Jump(Carte):
             offset = x1 - x2, y1 - y2
             if self.player.mask.overlap(self.spike_mask, offset):
                 self.game_over()
+        if self.multi_sprite_collision(self.liste_spike_sprite):
+            self.game_over()
 
     def game_over(self):
-        self.tp(0, 0)
+        self.tp(130, 240)

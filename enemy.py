@@ -18,7 +18,7 @@ class Enemy(pygame.sprite.Sprite):
         self.speed = 3
         self.alpha = 0
         self.speed = 20
-
+        self.cible = False
 
     def update(self):
         """
@@ -41,10 +41,9 @@ class Enemy(pygame.sprite.Sprite):
         x2, y2 = obj
         vx, vy = x2-x1, y2-y1
         norm = math.sqrt(vx**2 + vy**2)
-        if norm < 200:
-            vx, vy = vx/norm, vy/norm
-            self.x +=vx
-            self.y +=vy
+        vx, vy = vx/norm, vy/norm
+        self.x +=vx
+        self.y +=vy
 
     def avancer(self): self.move("z")
     def reculer(self): self.move("s")
@@ -85,3 +84,10 @@ class Enemy(pygame.sprite.Sprite):
     @property
     def coord(self):
         return self.x, self.y
+
+    def alternate(self, pos1, pos2):
+        if self.coord == pos1:
+            self.cible = pos2
+        elif self.coord == pos2:
+            self.cible = pos1
+        self.viser(self.cible)

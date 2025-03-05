@@ -259,6 +259,13 @@ class Carte:
         offset = sprite.rect.x - self.player.feet.x, sprite.rect.y - self.player.feet.y
         return self.player.mask.overlap(sprite.mask, offset)
 
+    def multi_sprite_collision(self, liste):
+        for sprite in liste:
+            offset = sprite.rect.x - self.player.rect.x, sprite.rect.y - self.player.rect.y
+            if self.player.mask.overlap(sprite.mask, offset):
+                return True
+        return False
+
     def angletir(self):#,obj):
         x2, y2 = pygame.mouse.get_pos()#obj
         x1, y1 = self.fixe_coord(self.player.rect.center)
