@@ -18,7 +18,9 @@ class Enemy(pygame.sprite.Sprite):
         self.speed = 3
         self.alpha = 0
         self.speed = 20
-        self.cible = False
+
+        self.cible = (x, y)
+        self.cible_i = 0
 
     def update(self):
         """
@@ -37,13 +39,18 @@ class Enemy(pygame.sprite.Sprite):
         self.alpha %= math.tau #modulo 360
 
     def viser(self, obj):
-        x1, y1 = self.coord
-        x2, y2 = obj
-        vx, vy = x2-x1, y2-y1
-        norm = math.sqrt(vx**2 + vy**2)
-        vx, vy = vx/norm, vy/norm
-        self.x +=vx
-        self.y +=vy
+        if obj != self.coord: # sinon infinie
+            x1, y1 = self.coord
+            x2, y2 = obj
+            vx, vy = x2-x1, y2-y1
+            norm = math.sqrt(vx**2 + vy**2)
+            print(norm)
+            if norm > 1: # proche de plus de 1 pixel
+                vx, vy = vx/norm, vy/norm
+                self.x +=vx
+                self.y +=vy
+            else:
+                self.x, self.y = obj #si trop proche corection (bug infinie sinon)
 
     def avancer(self): self.move("z")
     def reculer(self): self.move("s")
@@ -85,9 +92,24 @@ class Enemy(pygame.sprite.Sprite):
     def coord(self):
         return self.x, self.y
 
-    def alternate(self, pos1, pos2):
-        if self.coord == pos1:
-            self.cible = pos2
-        elif self.coord == pos2:
-            self.cible = pos1
+    def alternate(self, liste):
+        if self.coord in liste:
+            x = self.cible_i
+            if self.alpha == 1:
+                if x < len(liste)-1:
+                    self.cible_i += 1
+                    self.cible = liste[self.cible_i]
+                else:
+                    self.alpha = -1
+                    self.cible_i -= 1
+                    self.cible = liste[self.cible_i]
+            else:
+                if x > 0:
+                    self.cible_i -= 1
+                    self.cible = liste[self.cible_i]
+                else:
+                    self.alpha = 1
+                    self.cible_i += 1
+                    self.cible = liste[self.cible_i]
+            print(x)
         self.viser(self.cible)

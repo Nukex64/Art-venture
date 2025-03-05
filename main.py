@@ -88,6 +88,8 @@ class Jeu:
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_RETURN:
                     self._changer_carte()
+                if event.key == pygame.K_F1:
+                    print(pygame.mouse.get_pos())
                 if event.key == pygame.K_KP0:
                     self.carte = self.dico_game["Ville"]
                     print(f"Changement de carte : ville (dev)")

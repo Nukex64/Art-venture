@@ -30,6 +30,8 @@ class Game_Jump(Carte):
         self.liste_spike_sprite.append(self.spike_1)
         self.spike_2 = Enemy('img/spike.png', 485, 120)
         self.liste_spike_sprite.append(self.spike_2)
+        self.spike_3 = Enemy('img/spike.png', 350, 100)
+        self.liste_spike_sprite.append(self.spike_3)
 
         for sprite in self.liste_spike_sprite:
             sprite.speed = 2
@@ -55,7 +57,9 @@ class Game_Jump(Carte):
         self.spike_1.alpha -= 0.05
         self.spike_1.avancer()
 
-        self.spike_2.alternate((485, 120), (485, 40))
+        self.spike_2.alternate(((485, 120), (485, 40)))
+        self.spike_3.alternate(((350, 100), (405, 100) , (405, 116), (450, 116)))
+
 
     def add_draw(self, screen):
         y = self.fixe_coord(self.player.feet.midbottom)[1]
@@ -65,27 +69,31 @@ class Game_Jump(Carte):
 
 
     def clavier(self):
+        keys = pygame.key.get_pressed()
 
         if self.can_dash and pygame.mouse.get_pressed()[0]:
-            self.start_dash()
+            direction = (keys[pygame.K_z] * 1, keys[pygame.K_q] * -1, keys[pygame.K_s] * -1, keys[pygame.K_d] * 1)
+            alpha = self.calcule_direction(direction)
+            print(alpha)
+            self.start_dash(alpha)
 
-        if self.touche("d"):
+        if keys[pygame.K_d]:
             self.player.droite()
             self.player.regarder('droite')
 
-        if self.touche("q"):
+        if keys[pygame.K_q]:
             self.player.gauche()
             self.player.regarder('gauche')
 
         if self.multi_collision(self.liste_echelle): # si il est sur l'echelle
             self.player.regarder('haut')
-            if self.touche("z") :
+            if keys[pygame.K_z]:
                 self.player.haut()
-            if self.touche("s"):
+            if keys[pygame.K_s]:
                 self.player.bas()
         else:
             if self.frame_jump == 0:
-                if self.touche("SPACE") : # jump
+                if keys[pygame.K_SPACE] : # jump
                     if self.player.under_feet.collidelist(self.mur) > -1 : #touche un mur
                         self.frame_jump = 36
                         self.start_y = self.player.coord[1]
@@ -136,15 +144,12 @@ class Game_Jump(Carte):
             f = self.fixe_coord((0, y))[1]
             pygame.draw.line(surface, color, (0, f), (width, f))
 
-    def start_dash(self):
+    def start_dash(self, alpha):
         pygame.time.wait(50)
+
         self.can_dash = False
         self.frame_dash = 15
         dist = 7 #puissance de dash
-        x1, y1 = self.fixe_coord(self.player.rect.center)
-        x2, y2 = pygame.mouse.get_pos()
-        vx, vy = x2 - x1, y2 - y1
-        alpha = radians(self.round_alpha(degrees(atan2(vy, vx)))) #angle arrondie 45°
         vx, vy = cos(alpha)*dist , sin(alpha)*dist
         self.dash_vector = (vx, vy)
 
@@ -176,3 +181,10 @@ class Game_Jump(Carte):
 
     def game_over(self):
         self.tp(130, 240)
+        print("oof")
+
+    @staticmethod
+    def calcule_direction(direction):
+        x, y  = direction[0] + direction[2], direction[1] + direction[3]
+        return -atan2(x, y) # *-1 car pygame inverse cercle trigo
+
