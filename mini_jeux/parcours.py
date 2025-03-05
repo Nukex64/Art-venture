@@ -1,7 +1,7 @@
 #Exemple
 import pygame.draw
 from carte import Carte
-from math import sqrt
+from math import sqrt, atan2, cos, sin, degrees, radians
 
 class Game_Jump(Carte):
     """
@@ -13,7 +13,7 @@ class Game_Jump(Carte):
         self.liste_saut = self.objets_par_classe('saut')  # on recupere les echelles
         self.sortie = self.objets_par_classe('sortie')
         self.liste_sol = self.objet_par_calque('sol') # on recupere les sols
-
+        self.liste_spike = self.get_spike_liste()
         self.frame_jump = 35 # timer de jump
         self.last_y = 0
         self.start_y = 0
@@ -22,6 +22,8 @@ class Game_Jump(Carte):
         self.frame_dash = 0
         self.dash_vector = (0, 0)
         self.docenter = True
+
+        self.spike_mask = pygame.mask.from_surface(self.tmx_data.get_tile_image_by_gid(53))
 
     def add_verif(self):
         if self.frame_jump > 0:
@@ -35,7 +37,11 @@ class Game_Jump(Carte):
         if self.multi_collision(self.liste_echelle):
             self.anti_gravity()
 
+
+        self.test_spkie_collision()
+
         self.gravity()
+
 
     def add_draw(self, screen):
         y = self.fixe_coord(self.player.feet.midbottom)[1]
@@ -64,16 +70,17 @@ class Game_Jump(Carte):
             if self.touche("s"):
                 self.player.bas()
         else:
-            if self.frame_jump < 2:
-               if self.touche("SPACE") : # jump
-                   if self.player.under_feet.collidelist(self.mur) > -1: #touche un mur
-                       if self.player.feet.midbottom[1] % 18 < 4 or self.player.under_feet.collidelist(self.liste_saut): # touche la grille ( le haut du mur ) or
-                           self.frame_jump = 36 - self.frame_jump
-                           self.start_y = self.player.coord[1]
-                           self.last_y  = self.player.coord[1]
+            if self.frame_jump == 0:
+                if self.touche("SPACE") : # jump
+                    if self.player.under_feet.collidelist(self.mur) > -1 : #touche un mur
+                        self.frame_jump = 36
+                        self.start_y = self.player.coord[1]
+                        self.last_y  = self.player.coord[1]
+                        #if self.frame_dash < 1 and not self.can_dash:
+                        #    self.can_dash = True
 
-        if self.frame_dash < 1 and not self.can_dash:
-            if self.player.under_feet.collidelist(self.mur) > -1 and self.player.feet.midbottom[1] % 18 < 3:
+        if self.frame_dash < 2 and not self.can_dash:
+            if self.player.under_feet.collidelist(self.mur) > -1:
                 self.can_dash = True
 
 
@@ -88,6 +95,11 @@ class Game_Jump(Carte):
     @staticmethod
     def f(x):
         return (x * (36 - x)) / 162
+
+    @staticmethod
+    def round_alpha(x):
+        if x < 0 : x = 360+x
+        return round((x%360)/45)*45
 
     def gravity(self):
         self.player.vy += 2
@@ -114,12 +126,12 @@ class Game_Jump(Carte):
         pygame.time.wait(50)
         self.can_dash = False
         self.frame_dash = 15
-        dist = 6 #puissance de dash
+        dist = 7 #puissance de dash
         x1, y1 = self.fixe_coord(self.player.rect.center)
         x2, y2 = pygame.mouse.get_pos()
         vx, vy = x2 - x1, y2 - y1
-        norm = sqrt(vx ** 2 + vy ** 2)
-        vx, vy = vx / norm * dist, vy / norm * dist
+        alpha = radians(self.round_alpha(degrees(atan2(vy, vx)))) #angle arrondie 45°
+        vx, vy = cos(alpha)*dist , sin(alpha)*dist
         self.dash_vector = (vx, vy)
 
     def dash(self):
@@ -127,3 +139,24 @@ class Game_Jump(Carte):
         self.player.vx = vx
         self.player.vy = vy
         self.frame_dash -= 1
+
+    def get_spike_liste(self):
+        spike_layer = self.tmx_data.get_layer_by_name("spike")
+        spike_liste = []
+        for x, y, gid in spike_layer:
+            if gid: # Si une tuile est présente
+                rect = pygame.Rect(x * 18 ,y * 18, 18, 18)
+                spike_liste.append(rect)
+        return spike_liste
+
+    def test_spkie_collision(self):
+        spkie_col = self.player.rect.collidelist(self.liste_spike)
+        if spkie_col != -1:
+            x1, y1 = self.liste_spike[spkie_col].topleft
+            x2, y2 = self.player.feet.topleft
+            offset = x1 - x2, y1 - y2
+            if self.player.mask.overlap(self.spike_mask, offset):
+                self.game_over()
+
+    def game_over(self):
+        self.tp(0, 0)

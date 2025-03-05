@@ -262,8 +262,8 @@ class Carte:
     def angletir(self):#,obj):
         x2, y2 = pygame.mouse.get_pos()#obj
         x1, y1 = self.fixe_coord(self.player.rect.center)
-        print(atan2((y2-y1),(x2-x1)))
         return atan2((y2-y1),(x2-x1))
+
     def creer_projectiles(self):
         self.projectiles["enemie"+str(self.nombre)] = Enemy("img/fire.png",self.player.rect.center[0],self.player.rect.center[1])
         self.projectiles["enemie"+str(self.nombre)].alpha = self.angletir()
