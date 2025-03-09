@@ -18,9 +18,9 @@ class Game_Jump(Carte):
         self.frame_jump = 35 # timer de jump
         self.last_y = 0
         self.start_y = 0
-
         self.can_dash = True
         self.frame_dash = 0
+        self.dash_animation = []
         self.dash_vector = (0, 0)
         self.docenter = True
 
@@ -68,13 +68,20 @@ class Game_Jump(Carte):
         self.draw_grid(screen, tile_size=18)
 
 
+        for info in self.dash_animation:
+            coord, flou = info
+            if flou == 0 : self.dash_animation.remove(info)
+            coord = self.fixe_coord(coord)
+            img = self.player.get_image_transparent(flou)
+            info[1] -= 6
+            screen.blit(img, coord)
+
     def clavier(self):
         keys = pygame.key.get_pressed()
 
         if self.can_dash and pygame.mouse.get_pressed()[0]:
             direction = (keys[pygame.K_z] * 1, keys[pygame.K_q] * -1, keys[pygame.K_s] * -1, keys[pygame.K_d] * 1)
             alpha = self.calcule_direction(direction)
-            print(alpha)
             self.start_dash(alpha)
 
         if keys[pygame.K_d]:
@@ -146,7 +153,6 @@ class Game_Jump(Carte):
 
     def start_dash(self, alpha):
         pygame.time.wait(50)
-
         self.can_dash = False
         self.frame_dash = 15
         dist = 7 #puissance de dash
@@ -157,6 +163,7 @@ class Game_Jump(Carte):
         vx, vy = self.dash_vector
         self.player.vx = vx
         self.player.vy = vy
+        self.dash_animation.append([self.player.coord.copy(), 90])
         self.frame_dash -= 1
 
     def get_spike_liste(self):

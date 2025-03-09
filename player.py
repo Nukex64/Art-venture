@@ -13,7 +13,7 @@ class Player(pygame.sprite.Sprite):
     """
     def __init__(self, x, y):
         super().__init__()
-        self.image_sheet = pygame.image.load('img/player_sheet.png') # recupere les images
+        self.image_sheet = pygame.image.load('img/player_sheet.png').convert_alpha() # recupere les images
         self.images = {"haut":self._cut_img(4, 16),  # recupere les quatres images
                        "droite":self._cut_img(4, 48),
                        "bas":self._cut_img(4, 80),
@@ -42,13 +42,12 @@ class Player(pygame.sprite.Sprite):
         self.feet.midbottom = self.rect.midbottom # milieu pied = milieu bas joueur
         self.under_feet.midtop = self.feet.midbottom # milieu sous-pied = milieu bas pied
 
-
     def _cut_img(self, x, y):
         """
         :x/y: int (coord)
         Decoupe l'image du joueur de taille 16x16 a l'emplacement (x,y)
         """
-        image = pygame.Surface([16, 16])
+        image = pygame.Surface([16, 16], pygame.SRCALPHA)
         image.blit(self.image_sheet, (0, 0), (x, y, 16, 16))
         return image
 
@@ -89,3 +88,8 @@ class Player(pygame.sprite.Sprite):
     def coord_int(self):
         return int(self.coord[0]), int(self.coord[1])
 
+    def get_image_transparent(self, x):
+        image = self.image.copy()
+        image.fill((0, 255, 0), special_flags=pygame.BLEND_RGB_ADD)
+        image.set_alpha(x)
+        return pygame.transform.scale(image, (32, 32))
