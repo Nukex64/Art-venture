@@ -44,7 +44,6 @@ class Enemy(pygame.sprite.Sprite):
             x2, y2 = obj
             vx, vy = x2-x1, y2-y1
             norm = math.sqrt(vx**2 + vy**2)
-            print(norm)
             if norm > 1: # proche de plus de 1 pixel
                 vx, vy = vx/norm, vy/norm
                 self.x +=vx
@@ -111,5 +110,4 @@ class Enemy(pygame.sprite.Sprite):
                     self.alpha = 1
                     self.cible_i += 1
                     self.cible = liste[self.cible_i]
-            print(x)
         self.viser(self.cible)

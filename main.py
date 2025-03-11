@@ -3,11 +3,13 @@ from mini_jeux.ville import Ville
 from mini_jeux.parcours import *
 from mini_jeux.laby import Laby
 from mini_jeux.undertale_2 import Undertale
+from mini_jeux.piano import Piano
 from settings import *
 from menu import Menu
 from mini_jeux.road import Road
 from mini_jeux.mask import Mask
 from savefonction import sauvegarde
+
 
 class Jeu:
     def __init__(self):
@@ -31,10 +33,11 @@ class Jeu:
         laby = Laby()
         road = Road()
         mask = Mask()
+        piano = Piano()
         undertale = Undertale()
 
 
-        self.dico_game = {"Ville": ville,"Parcours": parcour_1, "Laby":laby,"Road": road, "Mask":mask, "Undertale":undertale}
+        self.dico_game = {"Ville": ville,"Parcours": parcour_1, "Laby":laby,"Road": road, "Mask":mask, "Undertale":undertale,"piano":piano}
 
         self.carte = self.dico_game[self.saveload.save["world"]]  # lancer en premier la ville
         self.menu = Menu()

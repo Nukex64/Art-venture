@@ -15,7 +15,7 @@ class Game_Jump(Carte):
         self.sortie = self.objets_par_classe('sortie')
         self.liste_sol = self.objet_par_calque('sol') # on recupere les sols
         self.liste_spike = self.get_spike_liste()
-        self.frame_jump = 35 # timer de jump
+        self.frame_jump = 0 # timer de jump
         self.last_y = 0
         self.start_y = 0
         self.can_dash = True
@@ -92,7 +92,7 @@ class Game_Jump(Carte):
             self.player.gauche()
             self.player.regarder('gauche')
 
-        if self.multi_collision(self.liste_echelle): # si il est sur l'echelle
+        if self.multi_collision(self.liste_echelle) and not self.frame_dash: # si il est sur l'echelle
             self.player.regarder('haut')
             if keys[pygame.K_z]:
                 self.player.haut()
