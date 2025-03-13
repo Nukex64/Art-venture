@@ -6,6 +6,7 @@ from settings import *
 from dialogue import Dialogue
 from math import atan2
 from enemy import Enemy
+from savefonction import sauvegarde
 class Carte:
     """
      Classe générique pour gérer les cartes du jeu, y compris le musée et les mini-jeux.
@@ -60,6 +61,9 @@ class Carte:
                 temp[(obj.x, obj.y, obj.width, obj.height)] = obj.properties['Texte']
         if temp : return temp
         else : return False
+
+    def keypressed(self,event):
+        pass
 
     def verif_dialogue(self):
         if self.liste_dialogue:

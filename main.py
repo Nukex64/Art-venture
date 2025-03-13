@@ -100,6 +100,8 @@ class Jeu:
                     self.menu.open()
                     if self.menu.end:
                         self.run = False
+                self.carte.keypressed(event)
+
 
     def running(self):
         print("-" * 10 + " EVENEMENT " + "-" * 10)
