@@ -192,6 +192,21 @@ class Carte:
             if obj.type == classe:
                 temp.append(pygame.Rect(obj.x, obj.y, obj.width, obj.height))
         return temp
+    def points_par_classe(self, classe):
+        """
+        Récupère tous les objets d'une classe spécifique définis dans Tiled.
+
+        Args:
+            classe (str): Type d'objet défini dans les propriétés Tiled.
+
+        Returns:
+            list[pygame.Rect]: Liste des hitboxes des objets correspondants.
+        """
+        temp = []
+        for obj in self.tmx_data.objects:
+            if obj.type == classe:
+                temp.append((obj.x, obj.y))
+        return temp
     def objet_par_nom(self, name):
         """
         Récupère l'hitbox d'un objet nommé dans Tiled (name).

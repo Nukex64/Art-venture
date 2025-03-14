@@ -2,6 +2,7 @@ import pygame
 from mini_jeux.ville import Ville
 from mini_jeux.parcours import *
 from mini_jeux.laby import Laby
+from mini_jeux.tresor import Tresor
 from mini_jeux.undertale_2 import Undertale
 from mini_jeux.piano import Piano
 from settings import *
@@ -35,9 +36,10 @@ class Jeu:
         mask = Mask()
         piano = Piano()
         undertale = Undertale()
+        tresor = Tresor()
 
 
-        self.dico_game = {"Ville": ville,"Parcours": parcour_1, "Laby":laby,"Road": road, "Mask":mask, "Undertale":undertale,"piano":piano}
+        self.dico_game = {"Ville": ville,"Parcours": parcour_1, "Laby":laby,"Road": road, "Mask":mask, "Undertale":undertale,"piano":piano,"tresor":tresor}
 
         self.carte = self.dico_game[self.saveload.save["world"]]  # lancer en premier la ville
         self.menu = Menu()
