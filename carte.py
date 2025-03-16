@@ -271,7 +271,7 @@ class Carte:
         Renvoi les coordonnés sur l'ecran en prenant en compte la camera
         (les rends fixe sur les coords) (possible sur le joueur)
         """
-        return self.map_layer.translate_points([coord])[0]
+        return self.map_layer.translate_point(coord)
 
     def sprite_collision(self, sprite):
 

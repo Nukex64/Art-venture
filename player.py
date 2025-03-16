@@ -88,6 +88,11 @@ class Player(pygame.sprite.Sprite):
     def coord_int(self):
         return int(self.coord[0]), int(self.coord[1])
 
+    @property
+    def middle(self):
+        return self.coord[0]+8, self.coord[1]+8
+
+
     def get_image_transparent(self, x):
         image = self.image.copy()
         image.fill((0, 255, 0), special_flags=pygame.BLEND_RGB_ADD)
