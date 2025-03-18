@@ -1,5 +1,4 @@
-![Alt text](img/logoepee.jpg)
-![Logo](https://github.com/Nukex64/Art-venture/blob/main/img/logoepee.jpg)
+![Logo](img/logoepee.jpg)
 
 
 # Art'Venture
