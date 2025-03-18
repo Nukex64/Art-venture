@@ -1,12 +1,19 @@
+import pygame
 from carte import Carte
 from enemy import Enemy
 from random import*
 class Undertale(Carte):
     def __init__(self):
         super().__init__("map/map.tmx")
-        self.enemies = {}
-        self.nombre = 0
-        self.timer = 0
+        self.enemies = []
+        self.tableau = Enemy("img/tableau.png", 0, 0)
+        self.groupe.add(self.tableau)
+        self.difficulty = 4
+        self.enemies_timer = self.difficulty
+        self.player.speed = 1.5
+        self.decompte = 3600
+
+        self.font = pygame.font.Font("img/police.otf", 30)
 
 
 
@@ -26,20 +33,33 @@ class Undertale(Carte):
             return randint(0, 800), 600
 
     def add_verif(self):
-        if self.timer == 0:
+        if self.enemies_timer <= 0:
             self.create()
-        if self.timer != 0:
-            self.timer -= 1
-        for keys in self.enemies:
-            self.enemies[keys].viser(self.coord_random())
-
+            self.enemies_timer = self.difficulty
+        if self.enemies_timer > 0:
+            self.enemies_timer -= 1
+        for enemy in self.enemies:
+            enemy.avancer()
+            if enemy.is_off_screen():
+                self.enemies.remove(enemy)
+            if self.sprite_collision(enemy):
+                exit()
+        x, y = self.player.coord
+        self.tableau.x, self.tableau.y = x-4, y - 10
+        self.decompte -= 1
+        if self.decompte <= 0: exit()
 
     def create(self):
-        self.timer = 1/10*60 #sec * tps
-        self.enemies["enemie"+str(self.nombre)] = Enemy("img/meteor.png", self.spawn()[0], self.spawn()[1])
-        self.enemies["enemie" + str(self.nombre)].vitesse = 4
-        self.groupe.add(self.enemies["enemie"+str(self.nombre)])
-        self.nombre += 1
+        x, y = self.spawn()
+        enemy = Enemy("img/fire.png", x, y)
+        enemy.speed = 3
+        enemy.regarder(randint(0, 90))
+        self.enemies.append(enemy)
+        self.groupe.add(enemy)
+
+    def add_draw(self, screen):
+        texte_render = self.font.render(str(round(self.decompte/60, 2)), True, (0, 0, 0))
+        screen.blit(texte_render, (0, 0))
 
 
 
