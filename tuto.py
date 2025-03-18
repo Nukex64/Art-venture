@@ -4,7 +4,7 @@ class Tuto:
     def __init__(self):
         self.screen = pygame.display.get_surface()
         self.afficher = False
-        self.dialogue_box = pygame.image.load("img/spike.png")
+        self.dialogue_box = pygame.image.load("img/txt.png")
         self.dialogue_box = pygame.transform.scale(self.dialogue_box, (760,560))
         self.font = pygame.font.Font("img/police.otf", 24)
         self.index = 0

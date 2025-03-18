@@ -22,13 +22,16 @@ class Tresor(Carte):
         self.groupe.add(self.radar)
 
     def add_draw(self,screen):
-        self.getraytresor(screen)
+        if self.tresors:
+            self.getraytresor(screen)
+            self.trouver_tresor()
 
     def add_verif(self):
         self.frame += 1
         self.radar.set_middle(self.player.middle)
         if self.touche("RETURN"):
             self.tuto.open("je mange mon caca tout les matins","img/fire.png")
+
 
     def ray(self,screen,coord, ray=True):
         x2, y2 = self.fixe_coord(coord)
@@ -46,14 +49,15 @@ class Tresor(Carte):
 
     def getraytresor(self,screen):
         liste = []
-        coord = (0,0)
+        self.coord = (0,0)
         pluspetit = 8000
         for tresor in self.tresors:
             liste.append(self.ray(screen,tresor,False))
             if self.ray(screen,tresor,False) < pluspetit:
                 pluspetit=self.ray(screen,tresor,False)
-                coord=tresor
-        min_dist = round(min(liste) * 0.75)
+                self.coord=tresor
+        min_dist = round(min(liste))+5
+        self.min_dist = min_dist-5
         if self.bip == self.frame or min_dist < self.bip - self.lastbip - min_dist + 10 :
             pygame.mixer.Sound.play(self.son01)
             self.bip = self.frame
@@ -62,7 +66,11 @@ class Tresor(Carte):
             self.radar.green = x
             self.radar.create()
 
-        self.ray(screen, coord)
+        self.ray(screen, self.coord)
+    def trouver_tresor(self):
+        if self.min_dist < 5:
+            self.tresors.remove(self.coord)
+
 
 class Radar(pygame.sprite.Sprite):
     def __init__(self):
@@ -93,3 +101,4 @@ class Radar(pygame.sprite.Sprite):
 
     def create(self):
         self.liste_radar.append(0)
+
