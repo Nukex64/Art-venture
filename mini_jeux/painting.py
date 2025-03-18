@@ -3,7 +3,7 @@ from settings import *
 
 class Painting:
     def __init__(self):
-        self.img = pygame.image.load("img/peinture/1_vide.png")
+        self.img = pygame.image.load("img/car.png")
 
     def draw(self, screen):
         screen.fill((255, 255, 255))

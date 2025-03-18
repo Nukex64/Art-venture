@@ -6,10 +6,12 @@ import pyscroll
 from carte import Carte
 from enemy import Enemy
 import pygame
+from tuto import Tuto
 
 class Tresor(Carte):
     def __init__(self):
         super().__init__("map/maptresortest.tmx") # on donne la map
+        self.tuto = Tuto()
         self.tresors = self.points_par_classe("tresor")
         self.son01 = pygame.mixer.Sound("sounds/bip.mp3")
         self.frame = 0
@@ -25,6 +27,8 @@ class Tresor(Carte):
     def add_verif(self):
         self.frame += 1
         self.radar.set_middle(self.player.middle)
+        if self.touche("RETURN"):
+            self.tuto.open("je mange mon caca tout les matins","img/fire.png")
 
     def ray(self,screen,coord, ray=True):
         x2, y2 = self.fixe_coord(coord)
@@ -49,10 +53,9 @@ class Tresor(Carte):
             if self.ray(screen,tresor,False) < pluspetit:
                 pluspetit=self.ray(screen,tresor,False)
                 coord=tresor
-        print(liste)
         min_dist = round(min(liste) * 0.75)
         if self.bip == self.frame or min_dist < self.bip - self.lastbip - min_dist + 10 :
-            #pygame.mixer.Sound.play(self.son01)
+            pygame.mixer.Sound.play(self.son01)
             self.bip = self.frame
             self.bip, self.lastbip = self.bip + min_dist, self.bip
             x = min(255, max(0, pluspetit))
