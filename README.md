@@ -16,10 +16,10 @@ Dans ce jeu, vous explorez un musée interactif avec des mini-jeux sur le thème
 
 ## Installation
 
-Install project with pip
+Installez le projet avec pip :
 
 ```bash
-    pip install -r requirements. txt 
+    pip install -r requirements.txt 
 ```
 
     
@@ -27,6 +27,8 @@ Install project with pip
 
 - Pygame (Animation, son, menu, collisions, interfaces ...)
 - Gestion des objets, classes et héritages
+- Utilisation de Tiled, gestion de la caméra, optimisation...
+- Travailler en groupe (github ...)
 
 ## License
 
