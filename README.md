@@ -1,4 +1,4 @@
-![Logo](img/logoepee.jpg)
+![Logo](img/logo/logoepee.jpg)
 
 
 # Art'Venture
