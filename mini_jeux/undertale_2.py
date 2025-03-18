@@ -1,7 +1,11 @@
+from random import *
+
 import pygame
+
 from carte import Carte
 from enemy import Enemy
-from random import*
+
+
 class Undertale(Carte):
     def __init__(self):
         super().__init__("map/map.tmx")

@@ -10,7 +10,6 @@ from menu import Menu
 from mini_jeux.road import Road
 from mini_jeux.mask import Mask
 from savefonction import sauvegarde
-from mini_jeux.collect import Collect
 
 
 class Jeu:
@@ -38,11 +37,10 @@ class Jeu:
         piano = Piano()
         undertale = Undertale()
         tresor = Tresor()
-        collect = Collect()
 
 
         self.dico_game = {"Ville": ville,"Parcours": parcour_1, "Laby":laby,"Road": road, "Mask":mask, "Undertale":undertale,
-                           "tresor":tresor, "piano":piano, "collect": collect}
+                           "tresor":tresor, "piano":piano}
 
         self.carte = self.dico_game[self.saveload.save["world"]]  # lancer en premier la ville
         self.menu = Menu()

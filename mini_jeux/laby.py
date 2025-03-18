@@ -1,8 +1,11 @@
 from random import randint
-from carte import Carte
+
 import pygame
+
 import settings
+from carte import Carte
 from enemy import Enemy
+
 
 class Laby(Carte):
     """

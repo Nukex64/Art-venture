@@ -1,8 +1,10 @@
 import math
 
+import pygame
+
 from carte import Carte
 from enemy import Enemy
-import pygame
+
 
 class Ville(Carte):
     """

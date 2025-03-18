@@ -1,6 +1,8 @@
 import pygame
-from savefonction import sauvegarde
+
 import settings
+from savefonction import sauvegarde
+
 
 class Menu:
     def __init__(self):

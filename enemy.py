@@ -1,6 +1,9 @@
 import math
+
 import pygame
+
 from settings import WIDTH, HEIGHT
+
 
 class Enemy(pygame.sprite.Sprite):
     def __init__(self, src, x, y):
