@@ -6,7 +6,9 @@ class Dialogue:
         self.screen = pygame.display.get_surface()
         self.afficher = False
         self.dialogue_box = pygame.image.load("img/txt.png")
+        self.dialogue_box = pygame.transform.scale(self.dialogue_box, (650, 265))
         self.font = pygame.font.Font("img/police.otf", 24)
+
 
         self.liste_texte = texte.split("\n")
         self.texte_render = self.font.render(self.liste_texte[0], True, (0, 0, 0))
@@ -30,8 +32,8 @@ class Dialogue:
 
     def draw(self):
         self.screen.blit(self.game_background, (10, 485))
-        self.screen.blit(self.dialogue_box, (10, 485))
-        self.screen.blit(self.texte_render, (20, 495))
+        self.screen.blit(self.dialogue_box, ((800-650)/2, 600-265))
+        self.screen.blit(self.texte_render, (170, 430))
         pygame.display.flip()
 
     def next(self):
