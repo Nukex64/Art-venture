@@ -10,7 +10,7 @@ Dans ce jeu, vous explorez un musée interactif avec des mini-jeux sur le thème
 - Raphaël Prost
 - Aelys Coleen Surma Valtaer
 - Louis Gagne
-- Matheo Faure
+- Mathéo Faure
 
 
 
@@ -25,10 +25,10 @@ Installez le projet avec pip :
     
 ## Leçons apprises
 
-- Pygame (Animation, son, menu, collisions, interfaces ...)
+- Pygame : animations, son, menus, collisions, interfaces ...
 - Gestion des objets, classes et héritages
-- Utilisation de Tiled, gestion de la caméra, optimisation...
-- Travailler en groupe (github ...)
+- Utilisation de Tiled, gestion de la caméra, optimisation ...
+- Travail en groupe : projet avec GitHub, collaboration ...
 
 ## License
 
