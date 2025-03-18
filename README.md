@@ -4,7 +4,7 @@
 # Art'Venture
 Dans ce jeu, vous explorez un musée interactif avec des mini-jeux sur le thème de l'art. Chaque défi vous permet de découvrir des techniques, des artistes célèbres et l'histoire de l'art, tout en vous amusant. C'est une expérience à la fois éducative et divertissante.
 
-## Auteures
+## Auteurs
 
 - Anthony ibanez
 - Raphaël Prost
