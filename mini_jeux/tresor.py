@@ -1,12 +1,10 @@
 import math
-from logging.config import listen
 
-import pyscroll
+import pygame
 
 from carte import Carte
-from enemy import Enemy
-import pygame
 from tuto import Tuto
+
 
 class Tresor(Carte):
     def __init__(self):

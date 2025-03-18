@@ -1,6 +1,8 @@
+import pygame
+
 from carte import Carte
 from enemy import Enemy
-import pygame
+
 
 class Car(Enemy):
     def __init__(self, src, x, y):

@@ -1,8 +1,11 @@
 #Exemple
+from math import atan2, cos, sin
+
 import pygame.draw
+
 from carte import Carte
-from math import sqrt, atan2, cos, sin, degrees, radians
 from enemy import Enemy
+
 
 class Game_Jump(Carte):
     """

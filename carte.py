@@ -1,12 +1,15 @@
+from math import atan2
+
 import pygame
-import pytmx
 import pyscroll
+import pytmx
+
+from dialogue import Dialogue
+from enemy import Enemy
 from player import Player
 from settings import *
-from dialogue import Dialogue
-from math import atan2
-from enemy import Enemy
-from savefonction import sauvegarde
+
+
 class Carte:
     """
      Classe générique pour gérer les cartes du jeu, y compris le musée et les mini-jeux.

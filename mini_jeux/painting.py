@@ -1,5 +1,5 @@
 import pygame
-from settings import *
+
 
 class Painting:
     def __init__(self):

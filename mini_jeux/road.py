@@ -1,7 +1,10 @@
+from random import randint
+
+import pygame
+
 from carte import Carte
 from enemy import Enemy
-import pygame
-from random import randint
+
 
 class Car(Enemy):
     def __init__(self, src, x, y, image_toit, speed=2):

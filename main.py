@@ -1,15 +1,16 @@
 import pygame
-from mini_jeux.ville import Ville
-from mini_jeux.parcours import *
+
+from menu import Menu
 from mini_jeux.laby import Laby
+from mini_jeux.mask import Mask
+from mini_jeux.parcours import *
+from mini_jeux.piano import Piano
+from mini_jeux.road import Road
 from mini_jeux.tresor import Tresor
 from mini_jeux.undertale_2 import Undertale
-from mini_jeux.piano import Piano
-from settings import *
-from menu import Menu
-from mini_jeux.road import Road
-from mini_jeux.mask import Mask
+from mini_jeux.ville import Ville
 from savefonction import sauvegarde
+from settings import *
 
 
 class Jeu:
