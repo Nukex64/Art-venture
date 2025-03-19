@@ -34,13 +34,13 @@ class Menu:
         self.click_reprendre = pygame.image.load("img/ui/BbackC.png")
         self.click_reprendre.set_colorkey((255, 255, 255))
 
-        img = pygame.image.load("img/txt.png")
+        img = pygame.image.load("img/ui/slider_yellow_.png")
         print(img.get_rect())
         self.slider_d = pygame.Surface([32, 32], pygame.SRCALPHA)
         self.slider_d.blit(img, (0, 0), (0, 0, 32, 32))
         self.slider_g = img.subsurface((38, 0, 32, 32))
         self.slider_m = pygame.transform.scale(self.slider_d.subsurface((30, 0, 2, 32)), (30, 32))
-
+        self.slider_back = pygame.image.load("img/ui/slider_grey_.png")
 
         self.end = False #ordonne de fermer le jeu
 
@@ -157,25 +157,29 @@ class Menu:
         a = pygame.mouse.get_pressed()[0]
         if a:
             pygame.mouse.set_visible(True)
-            x = pygame.mouse.get_pos()[0]
-            m = max(1, x - 357)
-            print(m/218)
-            if 326 <= x < 575:
-                self.screen.blit(self.game_background, (161, 22))
-                self.screen.blit(self.slider_d, (325, 175))
-                self.slider_m = pygame.transform.scale(self.slider_m, (m, 32))
-                self.screen.blit(self.slider_m, (357, 175))
-                self.screen.blit(self.slider_g, (x, 175))
-                pygame.display.update((225, 145, 340, 87))
-                pygame.mixer.music.set_volume(m/218)
-                self.volume = m/218
+            x, y = pygame.mouse.get_pos()
+            if abs(175 - y) < 32:
+                m = max(1, x - 357)
+                if 325 <= x < 575:
+                    self.screen.blit(self.game_background, (161, 22))
+                    self.screen.blit(self.slider_back, (325, 174))
+                    self.screen.blit(self.slider_d, (325, 175))
+                    if m > 1:
+                        self.slider_m = pygame.transform.scale(self.slider_m, (m, 32))
+                        self.screen.blit(self.slider_m, (357, 175))
+                        self.screen.blit(self.slider_g, (x, 175))
+                    pygame.display.update((225, 145, 340, 87))
+                    pygame.mixer.music.set_volume(m/218)
+                    self.volume = m/218
         else:
             pygame.mouse.set_visible(True)
 
     def open_parametre(self):
         self.in_setting = True
         self.screen.blit(self.game_background, (161, 22))
-        self.screen.blit(self.slider_m, (350+40, 175))
-        self.screen.blit(self.slider_d, (315, 175))
-        self.screen.blit(self.slider_g, (450, 175))
+        self.screen.blit(self.slider_back, (325, 174))
+        self.screen.blit(self.slider_d, (325, 175))
+        self.slider_m = pygame.transform.scale(self.slider_m, (218, 32))
+        self.screen.blit(self.slider_m, (357, 175))
+        self.screen.blit(self.slider_g, (575, 175))
         pygame.display.update((225, 145, 340, 87))
