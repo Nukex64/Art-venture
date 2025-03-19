@@ -10,7 +10,7 @@ from menu import Menu
 from mini_jeux.road import Road
 from mini_jeux.mask import Mask
 from savefonction import sauvegarde
-
+from mini_jeux.swim import Swim
 
 class Jeu:
     def __init__(self):
@@ -37,10 +37,11 @@ class Jeu:
         piano = Piano()
         undertale = Undertale()
         tresor = Tresor()
+        swim = Swim()
 
 
         self.dico_game = {"Ville": ville,"Parcours": parcour_1, "Laby":laby,"Road": road, "Mask":mask, "Undertale":undertale,
-                           "tresor":tresor, "piano":piano}
+                           "tresor":tresor, "piano":piano, "swim":swim}
 
         self.carte = self.dico_game[self.saveload.save["world"]]  # lancer en premier la ville
         self.menu = Menu()

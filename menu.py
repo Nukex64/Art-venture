@@ -31,7 +31,7 @@ class Menu:
         self.click_reprendre = pygame.image.load("img/ui/BbackC.png")
         self.click_reprendre.set_colorkey((255, 255, 255))
 
-        img = pygame.image.load("img/ui/slider_yellow_.png")
+        img = pygame.image.load("img/txt.png")
         print(img.get_rect())
         self.slider_d = pygame.Surface([32, 32], pygame.SRCALPHA)
         self.slider_d.blit(img, (0, 0), (0, 0, 32, 32))
