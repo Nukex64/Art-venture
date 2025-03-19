@@ -21,8 +21,8 @@ class Jeu:
         pygame.mixer.music.load("sounds\projectnsi.mp3")
         pygame.mixer.music.set_volume(0.05)
 
-
         self.saveload = sauvegarde()
+        pygame.mixer.music.set_volume(self.saveload.changer_json("Volume",None))
         if self.saveload.changer_json("Musiques",None):
             pygame.mixer.music.play(loops=-1)
         self.run = True

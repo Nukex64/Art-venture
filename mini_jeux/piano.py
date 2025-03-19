@@ -10,7 +10,6 @@ class Piano:
         self.hg = 200
         self.saveload = sauvegarde()
         self.dico = tiles
-        print(self.dico)
         self.multiplicateur = 1
         self.point = 0
         self.font = pygame.font.Font("img/police.otf", 30)
@@ -21,7 +20,6 @@ class Piano:
         self.hauteurimage = self.img[0].get_rect()[2]
         self.hauteurtrait = 10
         self.xcolone = [self.hg+125-largeurimage,self.hg+225-largeurimage,self.hg+325-largeurimage,self.hg+425-largeurimage]
-        print(self.xcolone)
 
     def draw(self, screen):
         pygame.draw.rect(screen,(255,255,255),(self.hg-100,0,175,600))
