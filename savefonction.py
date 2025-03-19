@@ -6,7 +6,7 @@ class sauvegarde:
             self.save = json.load(f)
         print(self.save)
 
-    def changer_json(self, key, item):
+    def changer_json(self, key, item = None):
         if item != None:
             self.save[key] = item
             with open("save.json", "w") as f:

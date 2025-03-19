@@ -29,6 +29,8 @@ class Jeu:
         self.run = True
         self.screen = pygame.display.set_mode(RES,pygame.NOFRAME|pygame.SCALED)
         self.clock = pygame.time.Clock()
+        ico = pygame.image.load("img/logoepee2.png").convert_alpha()
+        pygame.display.set_icon(ico)
 
         ville = Ville()
         parcour_1 = Game_Jump()
