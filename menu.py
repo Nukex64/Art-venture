@@ -1,3 +1,6 @@
+#Projet : Art'Venture
+#Auteurs : Anthony Ibanez-Esteban, Raphaël Prost, Aëlys-Coleen Surma Valtaer, Louis Gagne, Mathéo Faure
+
 import pygame
 
 import settings
@@ -13,7 +16,7 @@ class Menu:
         self.afficher = True
         self.screen = pygame.display.set_mode(settings.RES,pygame.SCALED)
         self.font = pygame.font.Font(settings.Font, 65)
-
+        self.volume = self.saveload.changer_json("Volume")
         self.game_background = None
 
         self.menu_background = pygame.image.load("img/ui/menu_back.png").convert_alpha()
@@ -31,7 +34,7 @@ class Menu:
         self.click_reprendre = pygame.image.load("img/ui/BbackC.png")
         self.click_reprendre.set_colorkey((255, 255, 255))
 
-        img = pygame.image.load("img/ui/slider_yellow_.png")
+        img = pygame.image.load("img/txt.png")
         print(img.get_rect())
         self.slider_d = pygame.Surface([32, 32], pygame.SRCALPHA)
         self.slider_d.blit(img, (0, 0), (0, 0, 32, 32))
@@ -129,7 +132,8 @@ class Menu:
 
         while self.afficher:
             self._gerer_event()
-
+        self.saveload.changer_json("Volume", round(self.volume,4))
+        print("fait")
         print("-- MENU END")
 
     def fullscreen(self):
@@ -164,6 +168,7 @@ class Menu:
                 self.screen.blit(self.slider_g, (x, 175))
                 pygame.display.update((225, 145, 340, 87))
                 pygame.mixer.music.set_volume(m/218)
+                self.volume = m/218
         else:
             pygame.mouse.set_visible(True)
 

@@ -1,4 +1,6 @@
-#Exemple
+#Projet : Art'Venture
+#Auteurs : Anthony Ibanez-Esteban, Raphaël Prost, Aëlys-Coleen Surma Valtaer, Louis Gagne, Mathéo Faure
+
 from math import atan2, cos, sin
 
 import pygame.draw
