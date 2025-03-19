@@ -16,6 +16,10 @@ class Menu:
         self.afficher = True
         self.screen = pygame.display.set_mode(settings.RES,pygame.SCALED)
         self.font = pygame.font.Font(settings.Font, 65)
+        self.font_setting = pygame.font.Font(settings.Font, 40)
+        self.txt_music = self.font_setting.render("Musique", True, (0, 0, 0))
+        self.txt_fs = self.font_setting.render("Mode large", True, (0, 0, 0))
+        self.txt_volume = self.font_setting.render("Volume", True, (0, 0, 0))
         self.volume = self.saveload.changer_json("Volume")
         self.game_background = None
 
@@ -41,13 +45,14 @@ class Menu:
         self.slider_g = img.subsurface((38, 0, 32, 32))
         self.slider_m = pygame.transform.scale(self.slider_d.subsurface((30, 0, 2, 32)), (30, 32))
         self.slider_back = pygame.image.load("img/ui/slider_grey_.png")
+        self.slider_size = self.saveload.changer_json("Volume")*218
 
         self.button_fs_f = pygame.image.load("img/ui/check_button_off.png")
         self.button_fs_o = pygame.image.load("img/ui/check_button_on.png")
         self.rect_music = pygame.Rect((325, 215, 48, 48))
         self.rect_fs = pygame.Rect((325, 275, 48, 48))
         self.fs = False
-        self.mute = False
+        self.music = True
 
         self.end = False  # ordonne de fermer le jeu
 
@@ -151,12 +156,12 @@ class Menu:
 
     def musique_OnOff(self):
         if self.saveload.changer_json('Musiques',None) == 1:
-            self.mute = True
+            self.music = False
             pygame.mixer_music.pause()
             print("    musique off")
             self.saveload.changer_json('Musiques',0)
         elif self.saveload.changer_json('Musiques',None) == 0:
-            self.mute = False
+            self.music = True
             pygame.mixer.music.play(loops=-1)
             print("    musique on")
             self.saveload.changer_json('Musiques', 1)
@@ -166,38 +171,45 @@ class Menu:
     def parametre(self, first_press):
         a = pygame.mouse.get_pressed()[0]
         if a:
+            self.screen.blit(self.game_background, (161, 22))
             x, y = pygame.mouse.get_pos()
             if abs(175 - y) < 32:
                 m = max(1, x - 357)
                 if 325 <= x < 575:
-                    self.screen.blit(self.game_background, (161, 22))
-                    self.draw_slider(m)
+                    self.slider_size = m
                     pygame.mixer.music.set_volume(m/218)
                     self.volume = m/218
             if first_press:
                 if self.rect_music.collidepoint(x, y) : self.musique_OnOff()
                 elif self.rect_fs.collidepoint(x, y) : self.fullscreen()
-
+            self.draw_slider()
+            self.draw_txt()
             self.check_button()
             pygame.display.update((225, 145, 340, 87))
 
     def open_parametre(self):
         self.in_setting = True
+        self.draw_txt()
         self.screen.blit(self.game_background, (161, 22))
-        self.draw_slider(self.saveload.changer_json("Volume")*218)
+        self.draw_slider()
         self.check_button()
         pygame.display.update((225, 145, 340, 87))
 
-    def draw_slider(self, size):
+    def draw_slider(self):
         self.screen.blit(self.slider_back, (325, 174))
         self.screen.blit(self.slider_d, (325, 175))
-        if size > 1.1:
-            self.slider_m = pygame.transform.scale(self.slider_m, (size, 32))
+        if self.slider_size > 1.1:
+            self.slider_m = pygame.transform.scale(self.slider_m, (self.slider_size , 32))
             self.screen.blit(self.slider_m, (357, 175))
-            self.screen.blit(self.slider_g, (357 + size, 175))
+            self.screen.blit(self.slider_g, (357 + self.slider_size , 175))
 
     def check_button(self):
-        if self.fs :self.screen.blit(self.button_fs_o, (325, 275))
-        else:self.screen.blit(self.button_fs_f, (325, 275))
-        if self.mute:self.screen.blit(self.button_fs_o, (325, 215))
-        else:self.screen.blit(self.button_fs_f, (325, 215))
+        if self.fs :self.screen.blit(self.button_fs_o, (340, 290))
+        else:self.screen.blit(self.button_fs_f, (340, 290))
+        if self.music:self.screen.blit(self.button_fs_o, (340, 225))
+        else:self.screen.blit(self.button_fs_f, (340, 225))
+
+    def draw_txt(self):
+        self.screen.blit(self.txt_volume, (181, 180))
+        self.screen.blit(self.txt_music, (181, 236))
+        self.screen.blit(self.txt_fs, (181, 298))
