@@ -5,7 +5,7 @@ from random import randint
 
 class Swim(Carte):
     def __init__(self):
-        super().__init__("map/map.tmx")
+        super().__init__("map/eau.tmx")
         self.temps = 5 * 60
         self.decompte = self.temps
         self.bubbles = []
@@ -34,6 +34,7 @@ class Swim(Carte):
     def add_draw(self, screen):
         texte_render = self.font.render(str(round(self.decompte/60, 2)), True, (0, 0, 0))
         screen.blit(texte_render, (0, 0))
+
 
 
 
