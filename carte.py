@@ -11,6 +11,7 @@ from dialogue import Dialogue
 from enemy import Enemy
 from player import Player
 from settings import *
+from animation import Animation
 
 
 class Carte:
@@ -38,6 +39,8 @@ class Carte:
         self.map_layer.zoom = ZOOM  # ZOOM de la carte
         player_pos = self.tmx_data.get_object_by_name('spawn') # coord du joueur sur l'objet spawn
         self.player = Player(player_pos.x, player_pos.y - 10)  # creer le joueur
+
+        self.animation = Animation()
 
         self.groupe = pyscroll.PyscrollGroup(map_layer=self.map_layer,
                                              default_layer=2)  # groupe de toutes les images pour pygame (default_layer = couche du joueur)
@@ -99,6 +102,8 @@ class Carte:
         if keys[pygame.K_d] or keys[pygame.K_RIGHT]:
             self.player.droite()
             self.player.regarder('droite')
+        if keys[pygame.K_p]:
+            self.appelanimation()
 
         if keys[pygame.K_RETURN] or keys[pygame.K_e]:
             self.verif_dialogue()
@@ -317,4 +322,6 @@ class Carte:
         for sup in self.supp:
             self.projectiles.pop(sup, None)  # pop() évite l'erreur si la clé a déjà été supprimée
 
+    def appelanimation(self):
+        self.animation.animer(self.player,self.groupe)
 
