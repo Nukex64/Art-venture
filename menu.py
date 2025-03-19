@@ -81,6 +81,7 @@ class Menu:
                 if event.key == pygame.K_ESCAPE:
                     if self.in_setting:
                         self.in_setting = False
+                        self.screen.blit(self.game_background, (161, 22))
                     else:
                         self.afficher = False
 
