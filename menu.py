@@ -42,7 +42,14 @@ class Menu:
         self.slider_m = pygame.transform.scale(self.slider_d.subsurface((30, 0, 2, 32)), (30, 32))
         self.slider_back = pygame.image.load("img/ui/slider_grey_.png")
 
-        self.end = False #ordonne de fermer le jeu
+        self.button_fs_f = pygame.image.load("img/ui/check_button_off.png")
+        self.button_fs_o = pygame.image.load("img/ui/check_button_on.png")
+        self.rect_music = pygame.Rect((325, 215, 48, 48))
+        self.rect_fs = pygame.Rect((325, 275, 48, 48))
+        self.fs = False
+        self.mute = False
+
+        self.end = False  # ordonne de fermer le jeu
 
         self.button_survoller = False
         self.in_setting = False
@@ -138,48 +145,59 @@ class Menu:
 
     def fullscreen(self):
         print("    fullscreen")
+        self.fs = (False if self.fs else True)
         pygame.display.toggle_fullscreen()
         pygame.display.flip()
 
     def musique_OnOff(self):
         if self.saveload.changer_json('Musiques',None) == 1:
+            self.mute = True
             pygame.mixer_music.pause()
             print("    musique off")
             self.saveload.changer_json('Musiques',0)
         elif self.saveload.changer_json('Musiques',None) == 0:
+            self.mute = False
             pygame.mixer.music.play(loops=-1)
             print("    musique on")
             self.saveload.changer_json('Musiques', 1)
 
 
 
-    def parametre(self, click):
+    def parametre(self, first_press):
         a = pygame.mouse.get_pressed()[0]
         if a:
-            pygame.mouse.set_visible(True)
             x, y = pygame.mouse.get_pos()
             if abs(175 - y) < 32:
                 m = max(1, x - 357)
                 if 325 <= x < 575:
                     self.screen.blit(self.game_background, (161, 22))
-                    self.screen.blit(self.slider_back, (325, 174))
-                    self.screen.blit(self.slider_d, (325, 175))
-                    if m > 1:
-                        self.slider_m = pygame.transform.scale(self.slider_m, (m, 32))
-                        self.screen.blit(self.slider_m, (357, 175))
-                        self.screen.blit(self.slider_g, (x, 175))
-                    pygame.display.update((225, 145, 340, 87))
+                    self.draw_slider(m)
                     pygame.mixer.music.set_volume(m/218)
                     self.volume = m/218
-        else:
-            pygame.mouse.set_visible(True)
+            if first_press:
+                if self.rect_music.collidepoint(x, y) : self.musique_OnOff()
+                elif self.rect_fs.collidepoint(x, y) : self.fullscreen()
+
+            self.check_button()
+            pygame.display.update((225, 145, 340, 87))
 
     def open_parametre(self):
         self.in_setting = True
         self.screen.blit(self.game_background, (161, 22))
+        self.draw_slider(self.saveload.changer_json("Volume")*218)
+        self.check_button()
+        pygame.display.update((225, 145, 340, 87))
+
+    def draw_slider(self, size):
         self.screen.blit(self.slider_back, (325, 174))
         self.screen.blit(self.slider_d, (325, 175))
-        self.slider_m = pygame.transform.scale(self.slider_m, (218, 32))
-        self.screen.blit(self.slider_m, (357, 175))
-        self.screen.blit(self.slider_g, (575, 175))
-        pygame.display.update((225, 145, 340, 87))
+        if size > 1.1:
+            self.slider_m = pygame.transform.scale(self.slider_m, (size, 32))
+            self.screen.blit(self.slider_m, (357, 175))
+            self.screen.blit(self.slider_g, (357 + size, 175))
+
+    def check_button(self):
+        if self.fs :self.screen.blit(self.button_fs_o, (325, 275))
+        else:self.screen.blit(self.button_fs_f, (325, 275))
+        if self.mute:self.screen.blit(self.button_fs_o, (325, 215))
+        else:self.screen.blit(self.button_fs_f, (325, 215))
