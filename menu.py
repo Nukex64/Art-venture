@@ -31,10 +31,19 @@ class Menu:
         self.click_reprendre = pygame.image.load("img/ui/BbackC.png")
         self.click_reprendre.set_colorkey((255, 255, 255))
 
+        img = pygame.image.load("img/ui/slider_yellow_.png")
+        print(img.get_rect())
+        self.slider_d = pygame.Surface([32, 32], pygame.SRCALPHA)
+        self.slider_d.blit(img, (0, 0), (0, 0, 32, 32))
+        self.slider_g = img.subsurface((38, 0, 32, 32))
+        self.slider_m = pygame.transform.scale(self.slider_d.subsurface((30, 0, 2, 32)), (30, 32))
+
+
         self.end = False #ordonne de fermer le jeu
 
         self.button_survoller = False
         self.in_setting = False
+
 
     def fist_draw(self):
         self.screen.blit(self.menu_background, (0, 0))
@@ -128,7 +137,7 @@ class Menu:
         pygame.display.toggle_fullscreen()
         pygame.display.flip()
 
-    def musique(self):
+    def musique_OnOff(self):
         if self.saveload.changer_json('Musiques',None) == 1:
             pygame.mixer_music.pause()
             print("    musique off")
@@ -138,11 +147,30 @@ class Menu:
             print("    musique on")
             self.saveload.changer_json('Musiques', 1)
 
+
+
     def parametre(self, click):
-        if click:
-            self.musique()
+        a = pygame.mouse.get_pressed()[0]
+        if a:
+            pygame.mouse.set_visible(True)
+            x = pygame.mouse.get_pos()[0]
+            m = max(1, x - 357)
+            print(m/218)
+            if 326 <= x < 575:
+                self.screen.blit(self.game_background, (161, 22))
+                self.screen.blit(self.slider_d, (325, 175))
+                self.slider_m = pygame.transform.scale(self.slider_m, (m, 32))
+                self.screen.blit(self.slider_m, (357, 175))
+                self.screen.blit(self.slider_g, (x, 175))
+                pygame.display.update((225, 145, 340, 87))
+                pygame.mixer.music.set_volume(m/218)
+        else:
+            pygame.mouse.set_visible(True)
 
     def open_parametre(self):
         self.in_setting = True
         self.screen.blit(self.game_background, (161, 22))
+        self.screen.blit(self.slider_m, (350+40, 175))
+        self.screen.blit(self.slider_d, (315, 175))
+        self.screen.blit(self.slider_g, (450, 175))
         pygame.display.update((225, 145, 340, 87))
