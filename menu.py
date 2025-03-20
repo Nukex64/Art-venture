@@ -20,6 +20,7 @@ class Menu:
         self.txt_music = self.font_setting.render("Musique", True, (0, 0, 0))
         self.txt_fs = self.font_setting.render("Mode large", True, (0, 0, 0))
         self.txt_volume = self.font_setting.render("Volume", True, (0, 0, 0))
+        self.txt_fps = self.font_setting.render("Fps", True, (0, 0, 0))
         self.volume = self.saveload.changer_json("Volume")
         self.game_background = None
 
@@ -50,9 +51,11 @@ class Menu:
         self.button_fs_o = pygame.image.load("img/ui/check_button_on.png")
         self.rect_music = pygame.Rect((325, 215, 48, 48))
         self.rect_fs = pygame.Rect((325, 275, 48, 48))
+        self.rect_fps = pygame.Rect((325, 350, 48, 48))
+
         self.fs = False
         self.music = self.saveload.changer_json("Mute")
-
+        self.fps = self.saveload.changer_json("Fps")
         self.end = False  # ordonne de fermer le jeu
 
         self.button_survoller = False
@@ -74,7 +77,7 @@ class Menu:
         click = False
         for event in pygame.event.get():
             if event.type == pygame.QUIT:  # quitter
-                self.afficher = False
+                self.quitter()
 
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
@@ -144,10 +147,15 @@ class Menu:
 
         while self.afficher:
             self._gerer_event()
+
+        self.saveload.changer_json("Fps", self.fps)
         self.saveload.changer_json("Volume", round(self.volume,4))
         self.music = self.saveload.changer_json("Mute", self.music)
         print("fait")
         print("-- MENU END")
+
+    def fps_OnOff(self):
+        self.fps = (0 if self.fps else 1)
 
     def fullscreen(self):
         print("    fullscreen")
@@ -183,6 +191,8 @@ class Menu:
             if first_press:
                 if self.rect_music.collidepoint(x, y) : self.musique_OnOff()
                 elif self.rect_fs.collidepoint(x, y) : self.fullscreen()
+                elif self.rect_fps.collidepoint(x, y) : self.fps_OnOff()
+
             self.draw_slider()
             self.draw_txt()
             self.check_button()
@@ -209,8 +219,11 @@ class Menu:
         else:self.screen.blit(self.button_fs_f, (340, 290))
         if self.music:self.screen.blit(self.button_fs_o, (340, 225))
         else:self.screen.blit(self.button_fs_f, (340, 225))
+        if self.fps:self.screen.blit(self.button_fs_o, (340, 350))
+        else:self.screen.blit(self.button_fs_f, (340, 350))
 
     def draw_txt(self):
         self.screen.blit(self.txt_volume, (181, 180))
         self.screen.blit(self.txt_music, (181, 236))
         self.screen.blit(self.txt_fs, (181, 298))
+        self.screen.blit(self.txt_fps, (181, 355))

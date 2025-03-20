@@ -24,7 +24,6 @@ class Jeu:
 
         pygame.mixer.music.load("sounds\projectnsi.mp3")
         pygame.mixer.music.set_volume(0.05)
-
         self.saveload = sauvegarde()
         pygame.mixer.music.set_volume(self.saveload.changer_json("Volume",None))
         if self.saveload.changer_json("Musiques",None):
@@ -32,6 +31,7 @@ class Jeu:
         self.run = True
         self.screen = pygame.display.set_mode(RES,pygame.NOFRAME|pygame.SCALED)
         self.clock = pygame.time.Clock()
+        self.draw_fps = self.saveload.changer_json("Fps")
         ico = pygame.image.load("img/logoepee2.png").convert_alpha()
         pygame.display.set_icon(ico)
 
@@ -70,7 +70,9 @@ class Jeu:
         self.clock.tick(60)  # fps 60/s
         self.carte.update()  # met a jour le jeu/carte actuelle
         self.screen.blit(self._get_suface(),(0, 0))  # affiche sur l'ecran
-        pygame.display.set_caption(f"{self.clock.get_fps():.1f}")
+        print(self.draw_fps)
+        if self.draw_fps : pygame.display.set_caption(f"Art'venture {self.clock.get_fps():.1f}")
+        else: pygame.display.set_caption("Art'venture")
         pygame.display.flip()  # met a jour tous les pixels de l'ecran
 
 
@@ -107,6 +109,8 @@ class Jeu:
                     print(f"Changement de carte : ville (dev)")
                 if event.key == pygame.K_ESCAPE:
                     self.menu.open()
+                    self.saveload.reload_json()
+                    self.draw_fps = self.saveload.changer_json("Fps")
                     if self.menu.end:
                         self.run = False
                 self.carte.keypressed(event)
