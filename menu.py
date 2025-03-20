@@ -39,7 +39,6 @@ class Menu:
         self.click_reprendre.set_colorkey((255, 255, 255))
 
         img = pygame.image.load("img/ui/slider_yellow_.png")
-        print(img.get_rect())
         self.slider_d = pygame.Surface([32, 32], pygame.SRCALPHA)
         self.slider_d.blit(img, (0, 0), (0, 0, 32, 32))
         self.slider_g = img.subsurface((38, 0, 32, 32))
@@ -52,7 +51,7 @@ class Menu:
         self.rect_music = pygame.Rect((325, 215, 48, 48))
         self.rect_fs = pygame.Rect((325, 275, 48, 48))
         self.fs = False
-        self.music = True
+        self.music = self.saveload.changer_json("Mute")
 
         self.end = False  # ordonne de fermer le jeu
 
@@ -146,6 +145,7 @@ class Menu:
         while self.afficher:
             self._gerer_event()
         self.saveload.changer_json("Volume", round(self.volume,4))
+        self.music = self.saveload.changer_json("Mute", self.music)
         print("fait")
         print("-- MENU END")
 
@@ -157,12 +157,12 @@ class Menu:
 
     def musique_OnOff(self):
         if self.saveload.changer_json('Musiques',None) == 1:
-            self.music = False
+            self.music = 0
             pygame.mixer_music.pause()
             print("    musique off")
             self.saveload.changer_json('Musiques',0)
         elif self.saveload.changer_json('Musiques',None) == 0:
-            self.music = True
+            self.music = 1
             pygame.mixer.music.play(loops=-1)
             print("    musique on")
             self.saveload.changer_json('Musiques', 1)
