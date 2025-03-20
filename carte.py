@@ -323,5 +323,5 @@ class Carte:
             self.projectiles.pop(sup, None)  # pop() évite l'erreur si la clé a déjà été supprimée
 
     def appelanimation(self):
-        self.animation.animer(self.player,self.groupe)
+        self.animation.open()
 
