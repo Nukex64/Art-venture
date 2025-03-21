@@ -1,1 +1,2 @@
-class Collect
+class Collect:
+    pass
