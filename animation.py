@@ -3,6 +3,7 @@
 
 import pygame
 
+import math
 import settings
 from savefonction import sauvegarde
 
@@ -18,32 +19,18 @@ class Animation:
         self.font = pygame.font.Font(settings.Font, 65)
         self.volume = self.saveload.changer_json("Volume")
         self.game_background = None
-        self.frame = 0
         self.images = self._cut_img(4, 80)
 
+        self.x = None
+        self.y = None
+        self.speed = 1
+        self.alpha = math.pi
+        self.frame = 0
+        self.size = (32,32)
+        self.sizefactor = -0.02
 
 
         self.menu_background = pygame.image.load("img/ui/menu_back.png").convert_alpha()
-
-        self.menu_image = pygame.image.load("img/ui/menu.png")
-
-        self.rect_reprendre = pygame.Rect(225, 145, 340, 87)
-        self.rect_parametre = pygame.Rect(225, 145+130, 340, 87)
-        self.rect_quitter = pygame.Rect(225, 145+260, 340, 87)
-
-        self.click_parametre = pygame.image.load("img/ui/BsettingsC.png")
-        self.click_parametre.set_colorkey((255, 255, 255))
-        self.click_exit = pygame.image.load("img/ui/BexitC.png")
-        self.click_exit.set_colorkey((255, 255, 255))
-        self.click_reprendre = pygame.image.load("img/ui/BbackC.png")
-        self.click_reprendre.set_colorkey((255, 255, 255))
-
-        img = pygame.image.load("img/txt.png")
-        print(img.get_rect())
-        self.slider_d = pygame.Surface([32, 32], pygame.SRCALPHA)
-        self.slider_d.blit(img, (0, 0), (0, 0, 32, 32))
-        self.slider_g = img.subsurface((38, 0, 32, 32))
-        self.slider_m = pygame.transform.scale(self.slider_d.subsurface((30, 0, 2, 32)), (30, 32))
 
 
         self.end = False #ordonne de fermer le jeu
@@ -62,13 +49,16 @@ class Animation:
         return image
 
     def fist_draw(self):
-        print("a")
+        self.frame = 0
         pass
 
     def draw(self):
         self.screen.blit(self.game_background,(0,0))
-        self.screen.blit(self.images, (self.frame, self.frame))
-        pygame.display.update((0,0,600,800))
+        self.screen.blit(self.images, (self.x, self.y))
+        pygame.draw.circle(self.screen, (255, 255, 255), (self.x, self.y),self.circle)
+
+
+        pygame.display.flip()
 
     def _gerer_event(self):
         """
@@ -76,26 +66,51 @@ class Animation:
         (60/s)
         """
         self.draw()
+        self.alpha += self.degre
+        self.degre += 0.0002
+        self.size = (max(self.size[0]+self.sizefactor,0.01),max(self.size[1]+self.sizefactor,0.01))
+        self.images = pygame.transform.scale(self.images,self.size)
+        self.move()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:  # quitter
+                pygame.quit()
+
+        if self.frame >= 1720:
+            if self.circle >= 800:
                 self.afficher = False
-
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_ESCAPE:
-                    if self.in_setting:
-                        self.in_setting = False
-                    else:
-                        self.afficher = False
+            self.circle += 1
 
 
+
+
+    def move(self, sens = "z"):
+        vx, vy = 0,0
+
+        if sens == "z":
+            vx += self.speed * math.cos(self.alpha)
+            vy += self.speed * math.sin(self.alpha)
+        self.x += vx
+        self.y += vy
+
+    def regarder(self, angle):
+        radian = math.radians(angle)
+        self.alpha += radian
+        self.alpha %= math.tau #modulo 2 pi
 
 
     def reprendre(self):
         self.afficher = False # ferme le menu
 
-    def open(self):
+    def open(self,xy):
         print("-- Anim Start")
-
+        self.circle = 0
+        self.speed = 1.5
+        self.alpha = math.pi
+        self.degre = 0.03
+        self.frame = 0
+        self.x, self.y = xy[0], xy[1]
+        self.size = (32,32)
+        self.images = self._cut_img(4, 80)
         self.afficher = True
         self.fist_draw()
         self.game_background = pygame.display.get_surface().subsurface(pygame.Rect(0, 0, 800,600)).copy() #copy du menu vide
@@ -103,16 +118,10 @@ class Animation:
 
         while self.afficher:
             self.frame += 1
+            print(self.frame)
             self._gerer_event()
         print("-- Anim END")
 
 
 
 
-    def open_parametre(self):
-        self.in_setting = True
-        self.screen.blit(self.game_background, (0, 0))
-        self.screen.blit(self.slider_m, (350+40, 175))
-        self.screen.blit(self.slider_d, (315, 175))
-        self.screen.blit(self.slider_g, (450, 175))
-        pygame.display.update((225, 145, 340, 87))

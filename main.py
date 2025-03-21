@@ -83,6 +83,7 @@ class Jeu:
         objetif = self.carte.quitter()
         if objetif:
             if objetif in self.dico_game:
+                self.carte.appelanimation()
                 self.carte = self.dico_game[objetif]
                 print(f"Changement de carte : {str(self.carte)}")
                 self.saveload.changer_json("world", str(self.carte))

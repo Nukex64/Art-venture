@@ -42,6 +42,8 @@ class Carte:
 
         self.animation = Animation()
 
+        self.pclick = False
+
         self.groupe = pyscroll.PyscrollGroup(map_layer=self.map_layer,
                                              default_layer=2)  # groupe de toutes les images pour pygame (default_layer = couche du joueur)
         self.groupe.add(self.player)  # rajoute le joueur au groupe d'images
@@ -323,5 +325,13 @@ class Carte:
             self.projectiles.pop(sup, None)  # pop() évite l'erreur si la clé a déjà été supprimée
 
     def appelanimation(self):
-        self.animation.open()
+        coord = self.player.coord
+        self.docenter = False
+        self.player.coord = [-16,16]
+        self.player.update()
+        self.groupe.draw(pygame.display.get_surface())
+        pygame.display.flip()
+        self.animation.open(self.fixe_coord(coord))
+        self.docenter = True
+        self.player.coord = coord
 
