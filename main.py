@@ -70,7 +70,6 @@ class Jeu:
         self.clock.tick(60)  # fps 60/s
         self.carte.update()  # met a jour le jeu/carte actuelle
         self.screen.blit(self._get_suface(),(0, 0))  # affiche sur l'ecran
-        print(self.draw_fps)
         if self.draw_fps : pygame.display.set_caption(f"Art'venture {self.clock.get_fps():.1f}")
         else: pygame.display.set_caption("Art'venture")
         pygame.display.flip()  # met a jour tous les pixels de l'ecran

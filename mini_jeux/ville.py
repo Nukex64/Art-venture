@@ -43,8 +43,6 @@ class Ville(Carte):
         self.ray()
 
     def add_verif(self):
-        if self.touche("t"):
-            print(pygame.mouse.get_pos())
 
         if self.touche("KP_6"):
             self.fire.regarder(90)

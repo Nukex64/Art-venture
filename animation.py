@@ -118,7 +118,6 @@ class Animation:
 
         while self.afficher:
             self.frame += 1
-            print(self.frame)
             self._gerer_event()
         print("-- Anim END")
 

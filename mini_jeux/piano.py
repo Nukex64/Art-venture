@@ -46,11 +46,9 @@ class Piano:
 
 
     def apparaitre(self):
-        print(self.frame)
         if self.frame / 60 in self.dico:
             for elt in self.dico[self.frame/60]:
                 self.liste[elt].append(0)
-            print(self.liste)
         pass
 
 
