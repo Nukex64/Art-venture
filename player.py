@@ -24,7 +24,7 @@ class Player(pygame.sprite.Sprite):
 
         self.image = self.images['bas']  # recupere l'image du joueur regardant vers le bas
 
-        self.image.set_colorkey([0, 0, 0])  # retire le fond noire au spawn du joueur
+        #self.image.set_colorkey([0, 0, 0])  # retire le fond noire au spawn du joueur
 
         self.rect = self.image.get_rect() # definit l'hitbox / le rectangle du joueur
         self.feet = pygame.Rect(0, 0, self.rect.width*0.4, 10) # definit l'hitbox des jambes du joueurs pour les collisions (on peut changer la taille si il faut)
@@ -61,7 +61,7 @@ class Player(pygame.sprite.Sprite):
 
         """
         self.image = self.images[direction] # change l'image pour regarder
-        self.image.set_colorkey([0, 0, 0]) #retire le fond noir du joueur
+        #self.image.set_colorkey([0, 0, 0]) #retire le fond noir du joueur
 
     # x est un multiplieur si on ne met rien c'est *1
     def haut(self, x=1):
@@ -101,3 +101,5 @@ class Player(pygame.sprite.Sprite):
         image.fill((0, 255, 0), special_flags=pygame.BLEND_RGB_ADD)
         image.set_alpha(x)
         return pygame.transform.scale(image, (32, 32))
+    def transparent(self,color = 0):
+        self.image = self.get_image_transparent(255*color)
