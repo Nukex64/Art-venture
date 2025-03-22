@@ -82,14 +82,14 @@ class Jeu:
         La méthode met à jour la carte avec une nouvelle valeur tirée du dictionnaire des jeux
         cf Carte.quitter()
         """
-        objetif = self.carte.quitter()
-        if objetif:
-            if objetif in self.dico_game:
-                self.carte.appelanimation()
-                self.carte = self.dico_game[objetif]
-                print(f"Changement de carte : {str(self.carte)}")
-                self.saveload.changer_json("world", str(self.carte))
-            else: print(f"ERREUR : aucun {objetif}")
+        objetif = self.carte.objetif
+        self.carte.objetif = None
+        if objetif in self.dico_game:
+            self.carte.appelanimation()
+            self.carte = self.dico_game[objetif]
+            print(f"Changement de carte : {str(self.carte)}")
+            self.saveload.changer_json("world", str(self.carte))
+        else: print(f"ERREUR : aucun {objetif}")
 
     def _gerer_event(self):
         """
@@ -101,8 +101,6 @@ class Jeu:
                 self.run = False
 
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_RETURN:
-                    self._changer_carte()
                 if event.key == pygame.K_F1:
                     print(pygame.mouse.get_pos())
                 if event.key == pygame.K_KP0:
@@ -116,6 +114,8 @@ class Jeu:
                         self.run = False
                 self.carte.keypressed(event)
 
+        if self.carte.objetif:
+            self._changer_carte()
 
     def running(self):
         print("-" * 10 + " EVENEMENT " + "-" * 10)

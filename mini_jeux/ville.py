@@ -43,6 +43,14 @@ class Ville(Carte):
         self.ray()
 
     def add_verif(self):
+        if self.touche("RETURN") and not self.objetif:
+            if self.collision(self.tp_1):
+                self.objetif =  "Road"
+            if self.collision(self.tp_2):
+                self.objetif = "Parcours"
+
+            if self.collision(self.tp_3):
+                self.objetif = "Laby"
 
         if self.touche("KP_6"):
             self.fire.regarder(90)
@@ -59,28 +67,12 @@ class Ville(Carte):
             self.tp(250, 250)
 
 
-
         self.car.move("z")
         self.fire.viser(self.player.rect.center)
 
 
         self.timer += 1
 
-
-
-    def quitter(self):
-        """
-        Si le joueur touche la statue et appuis sur entrer il rentre dans le parcour
-        """
-        if self.collision(self.tp_1):
-            return "Road"
-        if self.collision(self.tp_2):
-            return "Parcours"
-
-        if self.collision(self.tp_3):
-            return "Laby"
-
-        return None
 
     def ray(self):
         x2, y2 = pygame.mouse.get_pos()

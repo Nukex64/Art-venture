@@ -60,6 +60,7 @@ class Road(Carte):
         if self.multi_collision(self.cars):
             self.game_over()
 
+
     def add_draw(self, screen):
         for car in self.cars:
             car.avancer()
@@ -68,6 +69,11 @@ class Road(Carte):
                 self.cars.remove(car)
                 car.kill()
 
+            if self.player.coord[1] < 50:
+                self.objetif = "Ville"
+
+            if self.collision(self.tp_1):
+                self.objetif = "Ville"
 
     def spawn_car(self):
             route = randint(0, 1)
@@ -96,15 +102,10 @@ class Road(Carte):
             self.groupe.add(car)
             self.cars.append(car)
 
-    def quitter(self):
-        """
-        Si le joueur touche la statue et appuis sur entrer il rentre dans le parcour
-        """
-        if self.collision(self.tp_1):
-            return "Ville"
 
     def game_over(self):
         self.tp(self.spawn[0], self.spawn[1])
+
     def __str__(self):
         return "Road"
 

@@ -118,10 +118,8 @@ class Game_Jump(Carte):
                 self.can_dash = True
 
 
-    def quitter(self):
-        if self.multi_collision(self.sortie):
-            return "Ville"
-        return None
+        if self.touche("RETURN") and self.multi_collision(self.sortie):
+            self.objetif = "Ville"
 
     def __str__(self):
         return "Parcours"
