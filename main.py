@@ -1,8 +1,8 @@
 #Projet : Art'Venture
 #Auteurs : Anthony Ibanez-Esteban, Raphaël Prost, Aëlys-Coleen Surma Valtaer, Louis Gagne, Mathéo Faure
-
+import json
 import pygame
-
+from MainMenu import MainMenu
 from menu import Menu
 from mini_jeux.laby import Laby
 from mini_jeux.mask import Mask
@@ -15,7 +15,7 @@ from mini_jeux.ville import Ville
 from museum import Museum
 from savefonction import sauvegarde
 from settings import *
-
+from datetime import datetime
 
 class Jeu:
     def __init__(self):
@@ -48,9 +48,10 @@ class Jeu:
 
         self.dico_game = {"Ville": ville,"Parcours": parcour_1, "Laby":laby,"Road": road, "Mask":mask, "Undertale":undertale,
                            "tresor":tresor, "piano":piano, "Museum":museum}
-
+        self.time_entry = 0
         self.carte = self.dico_game[self.saveload.save["world"]]  # lancer en premier la ville
         self.menu = Menu()
+        self.main_menu = MainMenu()
 
     def _get_suface(self):
         """
@@ -98,6 +99,8 @@ class Jeu:
         """
         for event in pygame.event.get():
             if event.type == pygame.QUIT:  # quitter
+                temps_ecoule = datetime.now() - self.time_entry
+                print(temps_ecoule.total_seconds())
                 self.run = False
 
             if event.type == pygame.KEYDOWN:
@@ -128,7 +131,8 @@ class Jeu:
         Button quitter : quitte le jeu stop la boucle
         (60/s)
         """
-
+        self.main_menu.open()
+        self.time_entry = datetime.now()
         while self.run: #boucle du jeu
             self._gerer_event() # quitter / changer carte / crash
             self._update() #met a jour tous le jeu

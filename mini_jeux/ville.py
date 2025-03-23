@@ -64,7 +64,9 @@ class Ville(Carte):
             self.car.invers_direction()
 
         if self.collision(self.car.rect):
+            self.death_animation()
             self.tp(250, 250)
+
 
 
         self.car.move("z")
