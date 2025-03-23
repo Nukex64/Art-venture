@@ -36,7 +36,7 @@ class Carte:
         self.objetif = None
         self.tmx_data = pytmx.util_pygame.load_pygame(map_file)  # recupere les info de map.tmx
         map_data = pyscroll.TiledMapData(self.tmx_data)  # recupere les info des couches
-        self.map_layer = pyscroll.orthographic.BufferedRenderer(map_data, RES)  # genere les couches d'images
+        self.map_layer = pyscroll.orthographic.BufferedRenderer(map_data, RES)  # genere les couches d'image
         self.map_layer.zoom = ZOOM  # ZOOM de la carte
         player_pos = self.tmx_data.get_object_by_name('spawn') # coord du joueur sur l'objet spawn
         self.player = Player(player_pos.x, player_pos.y - 10)  # creer le joueur
@@ -46,8 +46,8 @@ class Carte:
         self.pclick = False
 
         self.groupe = pyscroll.PyscrollGroup(map_layer=self.map_layer,
-                                             default_layer=2)  # groupe de toutes les images pour pygame (default_layer = couche du joueur)
-        self.groupe.add(self.player)  # rajoute le joueur au groupe d'images
+                                             default_layer=2)  # groupe de toutes les image pour pygame (default_layer = couche du joueur)
+        self.groupe.add(self.player)  # rajoute le joueur au groupe d'image
 
         self.supp = []
         self.projectiles = {}
@@ -331,3 +331,5 @@ class Carte:
         self.docenter = True
         self.player.coord = coord
 
+    def death_animation(self):
+        self.animation.game_over(self.fixe_coord(self.player.middle))

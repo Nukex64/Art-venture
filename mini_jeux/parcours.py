@@ -190,6 +190,7 @@ class Game_Jump(Carte):
             self.game_over()
 
     def game_over(self):
+        self.death_animation()
         self.tp(130, 240)
         print("oof")
 
