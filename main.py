@@ -137,7 +137,8 @@ class Jeu:
         Button quitter : quitte le jeu stop la boucle
         (60/s)
         """
-        save = self.main_menu.open()
+        save = 1
+        save = self.main_menu.open() #mettre en commentaire pour coder sans
         self.time_entry = datetime.now()
         self.charger_save(save)
         while self.run: #boucle du jeu
