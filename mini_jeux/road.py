@@ -36,6 +36,7 @@ class Road(Carte):
         self.counter = self.difficulty
         self.spawn = self.objet_par_nom("spawn").midbottom
         self.player.speed = 1.5
+        self.a = pygame.transform.scale(self.image_sheet, (10, 10))
 
     def _cut_img_bas(self, x, y):
         image = pygame.Surface([36, 19])
@@ -60,7 +61,9 @@ class Road(Carte):
         if self.multi_collision(self.cars):
             self.game_over()
 
+
     def add_draw(self, screen):
+        screen.blit(self.a , (0, 0))
         for car in self.cars:
             car.avancer()
             screen.blit(car.toit, self.fixe_coord((car.rect.x, car.rect.y - 5)))
@@ -68,6 +71,11 @@ class Road(Carte):
                 self.cars.remove(car)
                 car.kill()
 
+            if self.player.coord[1] < 50:
+                self.objetif = "Ville"
+
+            if self.collision(self.tp_1):
+                self.objetif = "Ville"
 
     def spawn_car(self):
             route = randint(0, 1)
@@ -96,15 +104,11 @@ class Road(Carte):
             self.groupe.add(car)
             self.cars.append(car)
 
-    def quitter(self):
-        """
-        Si le joueur touche la statue et appuis sur entrer il rentre dans le parcour
-        """
-        if self.collision(self.tp_1):
-            return "Ville"
 
     def game_over(self):
+        self.death_animation()
         self.tp(self.spawn[0], self.spawn[1])
+
     def __str__(self):
         return "Road"
 

@@ -60,16 +60,3 @@ class Laby(Carte):
             self.roundcolor = (255, 255, 0, self.shadingstorm)
             self.orageframe = self.timer + 15
 
-    def quitter(self):
-        """
-        Si le joueur touche la statue et appuis sur entrer il rentre dans le parcour
-        """
-        if self.collision(self.tp_1):
-            return "Road"
-        if self.collision(self.tp_2):
-            return "Parcours"
-
-        if self.collision(self.tp_3):
-            return "Ville"
-
-        return None

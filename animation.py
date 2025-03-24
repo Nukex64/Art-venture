@@ -13,21 +13,22 @@ class Animation:
         """
         Initialise le jeu, configure la fenêtre de jeu, et définit les cartes et mini-jeux disponibles.
         """
+        self.circle = 0
         self.saveload = sauvegarde()
         self.afficher = True
         self.screen = pygame.display.set_mode(settings.RES,pygame.SCALED)
         self.font = pygame.font.Font(settings.Font, 65)
         self.volume = self.saveload.changer_json("Volume")
         self.game_background = None
-        self.images = self._cut_img(4, 80)
-
+        self.image_originelle = self._cut_img(4, 80)
+        self.image = self.image_originelle.copy()
         self.x = None
         self.y = None
         self.speed = 1
         self.alpha = math.pi
         self.frame = 0
         self.size = (32,32)
-        self.sizefactor = -0.02
+        self.sizefactor = -0.01
 
 
         self.menu_background = pygame.image.load("img/ui/menu_back.png").convert_alpha()
@@ -45,7 +46,6 @@ class Animation:
         """
         image = pygame.Surface([16, 16], pygame.SRCALPHA)
         image.blit(pygame.image.load('img/player_sheet.png').convert_alpha(), (0, 0), (x, y, 16, 16))
-        image = pygame.transform.scale(image, (32,32))
         return image
 
     def fist_draw(self):
@@ -54,7 +54,7 @@ class Animation:
 
     def draw(self):
         self.screen.blit(self.game_background,(0,0))
-        self.screen.blit(self.images, (self.x, self.y))
+        self.screen.blit(self.image, (self.x, self.y))
         pygame.draw.circle(self.screen, (255, 255, 255), (self.x, self.y),self.circle)
 
 
@@ -69,7 +69,8 @@ class Animation:
         self.alpha += self.degre
         self.degre += 0.0002
         self.size = (max(self.size[0]+self.sizefactor,0.01),max(self.size[1]+self.sizefactor,0.01))
-        self.images = pygame.transform.scale(self.images,self.size)
+        self.image = pygame.transform.scale(self.image_originelle, self.size)
+        print(self.image.get_rect())
         self.move()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:  # quitter
@@ -109,8 +110,8 @@ class Animation:
         self.degre = 0.03
         self.frame = 0
         self.x, self.y = xy[0], xy[1]
-        self.size = (32,32)
-        self.images = self._cut_img(4, 80)
+        self.size = (32, 32)
+        self.image = self.image_originelle.copy()
         self.afficher = True
         self.fist_draw()
         self.game_background = pygame.display.get_surface().subsurface(pygame.Rect(0, 0, 800,600)).copy() #copy du menu vide
@@ -121,6 +122,16 @@ class Animation:
             self._gerer_event()
         print("-- Anim END")
 
+    def game_over(self, coord):
+        self.game_background = pygame.display.get_surface().subsurface(pygame.Rect(0, 0, 800,600)).copy() #copy du menu vide
+        self.circle = 0
+        while self.circle < 75:
+            self.draw_game_over(coord)
+        self.circle = 0
 
-
+    def draw_game_over(self, coord):
+        self.circle += 0.25
+        self.screen.blit(self.game_background, (0, 0))
+        pygame.draw.circle(self.screen, (255, 0, 0), coord,self.circle)
+        pygame.display.flip()
 

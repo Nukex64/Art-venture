@@ -16,8 +16,8 @@ class Player(pygame.sprite.Sprite):
     """
     def __init__(self, x, y):
         super().__init__()
-        self.image_sheet = pygame.image.load('img/player_sheet.png').convert_alpha() # recupere les images
-        self.images = {"haut":self._cut_img(4, 16),  # recupere les quatres images
+        self.image_sheet = pygame.image.load('img/player_sheet.png').convert_alpha() # recupere les image
+        self.images = {"haut":self._cut_img(4, 16),  # recupere les quatres image
                        "droite":self._cut_img(4, 48),
                        "bas":self._cut_img(4, 80),
                        "gauche": self._cut_img(4, 112)}
