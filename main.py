@@ -22,7 +22,7 @@ class Jeu:
         """
         Initialise le jeu, configure la fenêtre de jeu, et définit les cartes et mini-jeux disponibles.
         """
-
+        self.save_nb = None
         pygame.mixer.music.load("sounds\projectnsi.mp3")
         pygame.mixer.music.set_volume(0)
         self.run = True
@@ -47,16 +47,18 @@ class Jeu:
                            "tresor":tresor, "piano":piano, "Museum":museum}
         self.time_entry = 0
         self.carte = None # charger au lancement
-        self.menu = Menu()
+        self.menu = None
         self.main_menu = MainMenu()
 
     def charger_save(self, nb):
+        self.save_nb = nb
         self.saveload = sauvegarde(nb)
+        self.menu = Menu(nb)
         pygame.mixer.music.set_volume(self.saveload.changer_json("Volume", None))
         if self.saveload.changer_json("Musiques",None):
             pygame.mixer.music.play(loops=-1)
         self.draw_fps = self.saveload.changer_json("Fps")
-        print(self.saveload.changer_json("world"))
+        print(f"Charment sauvegarde {self.saveload.changer_json('world')}")
         self.carte = self.dico_game[self.saveload.changer_json("world")]  # lancer en premier la ville
 
     def _get_suface(self):
@@ -106,7 +108,8 @@ class Jeu:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:  # quitter
                 temps_ecoule = datetime.now() - self.time_entry
-                print(temps_ecoule.total_seconds())
+                last_time = self.saveload.changer_json("temps")
+                self.saveload.changer_json("temps", last_time + temps_ecoule.total_seconds())
                 self.run = False
 
             if event.type == pygame.KEYDOWN:

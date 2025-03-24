@@ -14,11 +14,9 @@ class Animation:
         Initialise le jeu, configure la fenêtre de jeu, et définit les cartes et mini-jeux disponibles.
         """
         self.circle = 0
-        self.saveload = sauvegarde(1)
         self.afficher = True
         self.screen = pygame.display.set_mode(settings.RES,pygame.SCALED)
         self.font = pygame.font.Font(settings.Font, 65)
-        self.volume = self.saveload.changer_json("Volume")
         self.game_background = None
         self.image_originelle = self._cut_img(4, 80)
         self.image = self.image_originelle.copy()
