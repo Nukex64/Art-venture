@@ -38,23 +38,25 @@ class MainMenu:
             self.save_3 = json.load(f)
 
         if self.save_1["temps"] > 0 :
-            txt = "Continuer"
-            self.jouer_1  = self.date_font.render(txt, True, (0, 0, 0))
+            self.jouer_1  = self.date_font.render("Continuer", True, (0, 0, 0))
             self.date_1 = self.date_font.render(self.save_1["date"], True, (0, 0, 0))
             self.progression_1 = self.date_font.render(f"Progression : {self.save_1['progression']} %", True, (0, 0, 0))
             self.temp_1 = self.date_font.render(f"Temps : {self.secondes_en_jhms(self.save_1['temps'])}", True, (0, 0, 0))
+        else: self.jouer_1  = self.date_font.render("Commencer", True, (0, 0, 0))
 
-        txt = "Continuer" if self.save_2["temps"] > 0 else "Commencer"
-        self.jouer_2 = self.date_font.render(txt, True, (0, 0, 0))
-        self.date_2 = self.date_font.render(self.save_2["date"], True, (0, 0, 0))
-        self.progression_2 = self.date_font.render(f"Progression : {self.save_2['progression']} %", True, (0, 0, 0))
-        self.temp_2 = self.date_font.render(f"Temps : {self.secondes_en_jhms(self.save_2['temps'])}", True, (0, 0, 0))
+        if self.save_2["temps"] > 0:
+            self.jouer_2 = self.date_font.render("Continuer", True, (0, 0, 0))
+            self.date_2 = self.date_font.render(self.save_2["date"], True, (0, 0, 0))
+            self.progression_2 = self.date_font.render(f"Progression : {self.save_2['progression']} %", True, (0, 0, 0))
+            self.temp_2 = self.date_font.render(f"Temps : {self.secondes_en_jhms(self.save_2['temps'])}", True, (0, 0, 0))
+        else:self.jouer_2 = self.date_font.render("Commencer", True, (0, 0, 0))
 
-        txt = "Continuer" if self.save_3["temps"] > 0 else "Commencer"
-        self.jouer_3 = self.date_font.render(txt, True, (0, 0, 0))
-        self.date_3 = self.date_font.render(self.save_3["date"], True, (0, 0, 0))
-        self.progression_3 = self.date_font.render(f"Progression : {self.save_3['progression']} %", True, (0, 0, 0))
-        self.temp_3 = self.date_font.render(f"Temps : {self.secondes_en_jhms(self.save_3['temps'])}", True, (0, 0, 0))
+        if self.save_3["temps"] > 0:
+            self.jouer_3 = self.date_font.render("Continuer", True, (0, 0, 0))
+            self.date_3 = self.date_font.render(self.save_3["date"], True, (0, 0, 0))
+            self.progression_3 = self.date_font.render(f"Progression : {self.save_3['progression']} %", True, (0, 0, 0))
+            self.temp_3 = self.date_font.render(f"Temps : {self.secondes_en_jhms(self.save_3['temps'])}", True, (0, 0, 0))
+        else: self.jouer_3 = self.date_font.render("Commencer", True, (0, 0, 0))
 
         self.mouse_objetif = 1
     @staticmethod
@@ -71,13 +73,25 @@ class MainMenu:
         pygame.display.update((115, 375, 500, 32))
 
     def draw_save(self):
+        self.screen.blit(self.jouer_1, (90, 185))
         if self.save_1["temps"] > 0:
-            self.screen.blit(self.jouer_1, (90, 185))
             self.screen.blit(self.progression_1, (55, 207))
             self.screen.blit(self.temp_1, (55, 230))
-            self.screen.blit(self.save_arrow, self.arrow_dico[self.mouse_objetif])
             self.screen.blit(self.date_1, (88, 433))
-            pygame.display.flip()
+
+        self.screen.blit(self.jouer_2, (359, 185))
+        if self.save_2["temps"] > 0:
+            self.screen.blit(self.progression_2, (324, 207))
+            self.screen.blit(self.temp_2, (324, 230))
+            self.screen.blit(self.date_2, (359, 433))
+
+        self.screen.blit(self.jouer_3, (629, 185))
+        if self.save_3["temps"] > 0:
+            self.screen.blit(self.progression_3, (594, 207))
+            self.screen.blit(self.temp_3, (594, 230))
+            self.screen.blit(self.date_3, (620, 433))
+
+        pygame.display.flip()
 
     def update(self):
         if not self.logo_afficher and self.logo_gamma > 0:
@@ -136,3 +150,4 @@ class MainMenu:
         while self.afficher:
             self.gerer_event()
             self.update()
+        return self.mouse_objetif

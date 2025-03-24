@@ -4,17 +4,22 @@
 import json
 
 class sauvegarde:
-    def __init__(self):
-        with open("settings.json", "r+") as f:
+    def __init__(self, nb):
+        self.nb = nb
+        with open(f"save_{nb}.json", "r+") as f:
             self.save = json.load(f)
+            f.close()
 
     def changer_json(self, key, item = None):
         if item != None:
             self.save[key] = item
-            with open("settings.json", "w") as f:
+            with open(f"save_{self.nb}.json", "w") as f:
                 json.dump(self.save, f, indent=2)
+                f.close()
         return self.save[key]
 
-    def reload_json(self):
-        with open("settings.json", "r+") as f:
+
+    def reload_json(self, nb):
+        self.nb = nb
+        with open(f"save_{nb}.json", "r+") as f:
             self.save = json.load(f)

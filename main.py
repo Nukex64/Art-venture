@@ -24,15 +24,12 @@ class Jeu:
         """
 
         pygame.mixer.music.load("sounds\projectnsi.mp3")
-        pygame.mixer.music.set_volume(0.05)
-        self.saveload = sauvegarde()
-        pygame.mixer.music.set_volume(self.saveload.changer_json("Volume",None))
-        if self.saveload.changer_json("Musiques",None):
-            pygame.mixer.music.play(loops=-1)
+        pygame.mixer.music.set_volume(0)
         self.run = True
         self.screen = pygame.display.set_mode(RES,pygame.NOFRAME|pygame.SCALED)
         self.clock = pygame.time.Clock()
-        self.draw_fps = self.saveload.changer_json("Fps")
+        self.draw_fps = 60
+        self.saveload = None # charger au lancement
         ico = pygame.image.load("img/logoepee2.png").convert_alpha()
         pygame.display.set_icon(ico)
 
@@ -49,9 +46,17 @@ class Jeu:
         self.dico_game = {"Ville": ville,"Parcours": parcour_1, "Laby":laby,"Road": road, "Mask":mask, "Undertale":undertale,
                            "tresor":tresor, "piano":piano, "Museum":museum}
         self.time_entry = 0
-        self.carte = self.dico_game[self.saveload.save["world"]]  # lancer en premier la ville
+        self.carte = None # charger au lancement
         self.menu = Menu()
         self.main_menu = MainMenu()
+
+    def charger_save(self, nb):
+        self.saveload = sauvegarde(nb)
+        pygame.mixer.music.set_volume(self.saveload.changer_json("Volume", None))
+        if self.saveload.changer_json("Musiques",None):
+            pygame.mixer.music.play(loops=-1)
+        self.draw_fps = self.saveload.changer_json("Fps")
+        self.carte = self.dico_game[self.saveload.save["world"]]  # lancer en premier la ville
 
     def _get_suface(self):
         """
@@ -131,8 +136,9 @@ class Jeu:
         Button quitter : quitte le jeu stop la boucle
         (60/s)
         """
-        self.main_menu.open()
+        save = self.main_menu.open()
         self.time_entry = datetime.now()
+        self.charger_save(save)
         while self.run: #boucle du jeu
             self._gerer_event() # quitter / changer carte / crash
             self._update() #met a jour tous le jeu

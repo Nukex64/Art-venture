@@ -1,5 +1,11 @@
 {
   "date": "",
-  "progression" : "",
-  "temps" : 0
+  "progression" : "0",
+  "temps" : 0,
+
+  "world": "",
+  "Musiques": 0,
+  "Volume": 0,
+  "Mute": 0,
+  "Fps": 1
 }

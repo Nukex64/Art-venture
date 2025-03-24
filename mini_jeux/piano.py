@@ -10,7 +10,6 @@ from savefonction import sauvegarde
 class Piano:
     def __init__(self):
         self.hg = 200
-        self.saveload = sauvegarde()
         self.dico = tiles
         self.multiplicateur = 1
         self.point = 0
