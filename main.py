@@ -56,7 +56,8 @@ class Jeu:
         if self.saveload.changer_json("Musiques",None):
             pygame.mixer.music.play(loops=-1)
         self.draw_fps = self.saveload.changer_json("Fps")
-        self.carte = self.dico_game[self.saveload.save["world"]]  # lancer en premier la ville
+        print(self.saveload.changer_json("world"))
+        self.carte = self.dico_game[self.saveload.changer_json("world")]  # lancer en premier la ville
 
     def _get_suface(self):
         """

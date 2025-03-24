@@ -19,7 +19,7 @@ class sauvegarde:
         return self.save[key]
 
 
-    def reload_json(self, nb):
-        self.nb = nb
-        with open(f"save_{nb}.json", "r+") as f:
+    def reload_json(self, nb=0):
+        if nb : self.nb = nb
+        with open(f"save_{self.nb}.json", "r+") as f:
             self.save = json.load(f)

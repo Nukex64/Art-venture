@@ -25,10 +25,10 @@ class MainMenu:
         self.save_arrow = pygame.image.load("img/ui/main_menu_arrow.png")
         self.save_arrow.set_colorkey((0, 0, 0))
         self.logo_afficher = True
-        self.logo_gamma = 1
+        self.logo_gamma = 255
 
         self.save_afficher = False
-        self.save_gamma = 254
+        self.save_gamma = 0
 
         with open("save_1.json", "r") as f:
             self.save_1 = json.load(f)
