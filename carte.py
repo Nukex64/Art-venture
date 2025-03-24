@@ -54,7 +54,7 @@ class Carte:
         self.nombre = 0
         self.bullettimer = 0
         self.timer = 0
-        self.canbullet = True
+        self.canbullet = False
 
         self.mur = []  # liste de mur (leur hitbox)
         calque_mur = self.tmx_data.get_layer_by_name('mur') #calque des murs
