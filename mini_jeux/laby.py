@@ -1,3 +1,6 @@
+#Projet : Art'Venture
+#Auteurs : Anthony Ibanez-Esteban, Raphaël Prost, Aëlys-Coleen Surma Valtaer, Louis Gagne, Mathéo Faure
+
 from random import randint
 
 import pygame
@@ -18,6 +21,7 @@ class Laby(Carte):
         self.tp_2 = self.objet_par_nom("tp_2")
         self.tp_3 = self.objet_par_nom("tp_3")
         self.radius = 110
+        self.groupe.center((self.tmx_data.width,self.tmx_data.height))
         self.timer = 0
         self.orageframe = self.timer
         self.shadingstorm = 120
@@ -25,12 +29,15 @@ class Laby(Carte):
         self.roundcolor = (0, 0, 0, 0)
         self.enemytexture = Enemy("img/fire.png",30,30)
         self.groupe.add(self.enemytexture)
-        self.zoom = settings.ZOOM
+        self.map_layer.zoom = min(800/(16*self.tmx_data.width),600/(16*self.tmx_data.height))
+        print(min(800/self.tmx_data.width,600/self.tmx_data.height))
         self.canbullet = False
+        self.docenter = False
+
     def __str__(self):
         return "Laby"
     def eventenemy(self):
-        self.radius = settings.FPS*5 #tps * sec
+        self.radius = settings.FPS*2 #tps * sec
     def add_draw(self, screen):
         mask = pygame.Surface((800, 600), pygame.SRCALPHA)
         coord = self.fixe_coord(self.player.rect.center)
@@ -42,7 +49,7 @@ class Laby(Carte):
             pygame.draw.circle(mask, self.roundcolor, (coord[0], coord[1]),self.radius)
         screen.blit(mask, (0, 0))
     def add_verif(self):
-        if self.radius !=110:
+        if self.radius !=50:
             self.radius -= 1
         if self.orageframe <= self.timer:
             self.backcolor = (0,0,0,255)
@@ -57,16 +64,3 @@ class Laby(Carte):
             self.roundcolor = (255, 255, 0, self.shadingstorm)
             self.orageframe = self.timer + 15
 
-    def quitter(self):
-        """
-        Si le joueur touche la statue et appuis sur entrer il rentre dans le parcour
-        """
-        if self.collision(self.tp_1):
-            return "Road"
-        if self.collision(self.tp_2):
-            return "Parcours"
-
-        if self.collision(self.tp_3):
-            return "Ville"
-
-        return None

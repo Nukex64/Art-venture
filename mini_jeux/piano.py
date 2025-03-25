@@ -1,3 +1,5 @@
+#Projet : Art'Venture
+#Auteurs : Anthony Ibanez-Esteban, Raphaël Prost, Aëlys-Coleen Surma Valtaer, Louis Gagne, Mathéo Faure
 
 import pygame
 
@@ -8,7 +10,6 @@ from savefonction import sauvegarde
 class Piano:
     def __init__(self):
         self.hg = 200
-        self.saveload = sauvegarde()
         self.dico = tiles
         self.multiplicateur = 1
         self.point = 0
@@ -44,11 +45,9 @@ class Piano:
 
 
     def apparaitre(self):
-        print(self.frame)
         if self.frame / 60 in self.dico:
             for elt in self.dico[self.frame/60]:
                 self.liste[elt].append(0)
-            print(self.liste)
         pass
 
 

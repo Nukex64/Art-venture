@@ -1,3 +1,6 @@
+#Projet : Art'Venture
+#Auteurs : Anthony Ibanez-Esteban, Raphaël Prost, Aëlys-Coleen Surma Valtaer, Louis Gagne, Mathéo Faure
+
 import math
 
 import pygame
@@ -40,8 +43,14 @@ class Ville(Carte):
         self.ray()
 
     def add_verif(self):
-        if self.touche("t"):
-            print(pygame.mouse.get_pos())
+        if self.touche("RETURN") and not self.objetif:
+            if self.collision(self.tp_1):
+                self.objetif =  "Road"
+            if self.collision(self.tp_2):
+                self.objetif = "Parcours"
+
+            if self.collision(self.tp_3):
+                self.objetif = "Laby"
 
         if self.touche("KP_6"):
             self.fire.regarder(90)
@@ -55,6 +64,7 @@ class Ville(Carte):
             self.car.invers_direction()
 
         if self.collision(self.car.rect):
+            self.death_animation()
             self.tp(250, 250)
 
 
@@ -65,21 +75,6 @@ class Ville(Carte):
 
         self.timer += 1
 
-
-
-    def quitter(self):
-        """
-        Si le joueur touche la statue et appuis sur entrer il rentre dans le parcour
-        """
-        if self.collision(self.tp_1):
-            return "Road"
-        if self.collision(self.tp_2):
-            return "Parcours"
-
-        if self.collision(self.tp_3):
-            return "Laby"
-
-        return None
 
     def ray(self):
         x2, y2 = pygame.mouse.get_pos()

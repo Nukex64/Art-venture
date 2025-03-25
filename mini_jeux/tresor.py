@@ -1,3 +1,6 @@
+#Projet : Art'Venture
+#Auteurs : Anthony Ibanez-Esteban, Raphaël Prost, Aëlys-Coleen Surma Valtaer, Louis Gagne, Mathéo Faure
+
 import math
 
 import pygame
@@ -28,7 +31,7 @@ class Tresor(Carte):
         self.frame += 1
         self.radar.set_middle(self.player.middle)
         if self.touche("RETURN"):
-            self.tuto.open("je mange mon caca tout les matins","img/fire.png")
+            self.tuto.open("Sed quid est quod in hac causa maxime homines admirentur et reprehendant meum consilium, cum ego idem antea multa decreverim, que magis ad hominis dignitatem quam ad rei publicae necessitatem pertinerent? Supplicationem quindecim dierum decrevi sententia mea. Rei publicae satis erat tot dierum quot C. Mario ; dis immortalibus non erat exigua eadem gratulatio quae ex maximis bellis. Ergo ille cumulus dierum hominis est dignitati tributus.","img/fire.png")
 
 
     def ray(self,screen,coord, ray=True):

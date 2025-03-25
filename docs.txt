@@ -1,0 +1,77 @@
+Tout les codes principaux (utilisé par la majorité du projets) sont dans le dossier principal.
+"main.py" est le dossier à lancer qui fait le lien entre tout le reste des dossiers.
+Le dossier mini jeu est là pour mettre tout les mini jeux codé selon une classe, à chaque mini jeu, l'ajouter
+dans main
+les son / img / map et tout les dossiers indépendant sont dans les fichier de nom correspondant
+
+pour creer un jeu, il faut faire hérité une classe de "carte" qui avec un "superinit("lienverslacarte")" va creer tout seul une carte
+avec les éléments d'un fichier tmx crée avec l'éditeur tiled.
+il est donc assez simple de creer un jeu, les fonction
+add_draw
+add_verif
+sont des fonctions qui, chaques frames du jeux sont appelés, draw a la spécificité d'être appelé avec screen ce qui permet d'afficher les éléments à l'écran via (screen)
+
+Voici l'arborécence du projet (il n'est pas forcément d'actualité)
+
+
+├── ProjetNSI/
+│   ├── carte.py
+│   ├── dialogue.py
+│   ├── enemy.py
+│   ├── main.py
+│   ├── menu.py
+│   ├── player.py
+│   ├── README.md
+│   ├── README.TXT
+│   ├── requirements.txt
+│   ├── save.json
+│   ├── savefonction.py
+│   ├── settings.py
+│   ├── tuto.py
+│   ├── img/
+│   │   ├── car.png
+│   │   ├── car_sheet.png
+│   │   ├── fire.png
+│   │   ├── menu.png
+│   │   ├── player_sheet.png
+│   │   ├── police.otf
+│   │   ├── spike.png
+│   │   ├── test.png
+│   │   ├── txt.png
+│   │   ├── ui/
+│   │   │   ├── BbackC.png
+│   │   │   ├── BexitC.png
+│   │   │   ├── BsettingsC.png
+│   │   │   ├── menu.png
+│   │   │   ├── menu_back.png
+│   │   │   ├── setting.png
+│   ├── map/
+│   │   ├── jump.tmx
+│   │   ├── laby.tmx
+│   │   ├── map.tmx
+│   │   ├── maptresortest.tmx
+│   │   ├── road.tmx
+│   │   ├── tileset_img/
+│   │   │   ├── tilemap-backgrounds_packed.png
+│   │   │   ├── tilemap_jump.png
+│   │   │   ├── tileset_1.png
+│   │   ├── tileset_tsx/
+│   │   │   ├── tilemap-backgrounds_packed.tsx
+│   │   │   ├── tilemap.tsx
+│   │   │   ├── tilemap_jump.tsx
+│   ├── mini_jeux/
+│   │   ├── collect.py
+│   │   ├── def.txt
+│   │   ├── laby.py
+│   │   ├── mask.py
+│   │   ├── painting.py
+│   │   ├── parcours.py
+│   │   ├── piano.py
+│   │   ├── piano_tiles_gurenge.py
+│   │   ├── road.py
+│   │   ├── tresor.py
+│   │   ├── undertale_2.py
+│   │   ├── ville.py
+│   ├── sounds/
+│   │   ├── bip.mp3
+│   │   ├── projectnsi.mp3

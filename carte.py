@@ -1,3 +1,6 @@
+#Projet : Art'Venture
+#Auteurs : Anthony Ibanez-Esteban, Raphaël Prost, Aëlys-Coleen Surma Valtaer, Louis Gagne, Mathéo Faure
+
 from math import atan2
 
 import pygame
@@ -8,6 +11,7 @@ from dialogue import Dialogue
 from enemy import Enemy
 from player import Player
 from settings import *
+from animation import Animation
 
 
 class Carte:
@@ -29,23 +33,28 @@ class Carte:
         Args:
             map_file (str): Chemin vers le fichier `.tmx` de la carte.
         """
+        self.objetif = None
         self.tmx_data = pytmx.util_pygame.load_pygame(map_file)  # recupere les info de map.tmx
         map_data = pyscroll.TiledMapData(self.tmx_data)  # recupere les info des couches
-        self.map_layer = pyscroll.orthographic.BufferedRenderer(map_data, RES)  # genere les couches d'images
+        self.map_layer = pyscroll.orthographic.BufferedRenderer(map_data, RES)  # genere les couches d'image
         self.map_layer.zoom = ZOOM  # ZOOM de la carte
         player_pos = self.tmx_data.get_object_by_name('spawn') # coord du joueur sur l'objet spawn
         self.player = Player(player_pos.x, player_pos.y - 10)  # creer le joueur
 
+        self.animation = Animation()
+
+        self.pclick = False
+
         self.groupe = pyscroll.PyscrollGroup(map_layer=self.map_layer,
-                                             default_layer=2)  # groupe de toutes les images pour pygame (default_layer = couche du joueur)
-        self.groupe.add(self.player)  # rajoute le joueur au groupe d'images
+                                             default_layer=2)  # groupe de toutes les image pour pygame (default_layer = couche du joueur)
+        self.groupe.add(self.player)  # rajoute le joueur au groupe d'image
 
         self.supp = []
         self.projectiles = {}
         self.nombre = 0
         self.bullettimer = 0
         self.timer = 0
-        self.canbullet = True
+        self.canbullet = False
 
         self.mur = []  # liste de mur (leur hitbox)
         calque_mur = self.tmx_data.get_layer_by_name('mur') #calque des murs
@@ -66,7 +75,8 @@ class Carte:
         else : return False
 
     def keypressed(self,event):
-        pass
+        if event.key == pygame.K_RETURN or event.key == pygame.K_e:
+            self.verif_dialogue()
 
     def verif_dialogue(self):
         if self.liste_dialogue:
@@ -96,9 +106,9 @@ class Carte:
         if keys[pygame.K_d] or keys[pygame.K_RIGHT]:
             self.player.droite()
             self.player.regarder('droite')
+        if keys[pygame.K_p]:
+            self.appelanimation()
 
-        if keys[pygame.K_RETURN] or keys[pygame.K_e]:
-            self.verif_dialogue()
 
     def add_verif(self):
         """
@@ -139,6 +149,7 @@ class Carte:
         self.timer += 1
         self.add_verif()  # rajoute les verifs propres a chaque minijeux
 
+
     def draw(self, screen):
         """
         NE PAS APPELEZ !
@@ -153,15 +164,10 @@ class Carte:
 
     def quitter(self):
         """
-        Donne le nom de la carte suivante à charger ou pas.
-
-        Redéfinir pour les conditions (s'il touche la porte, s'il a gagné...)
-
-        Returns:
-            str : Nom de la prochaine carte à charger
-            None : None si le joueur reste
+        Ne sert plus a rien
+        utiliser self.objetif = nom de la prochaine carte
         """
-        return None
+        pass
 
     def __str__(self):
         return "PAS DE NOM"
@@ -314,4 +320,16 @@ class Carte:
         for sup in self.supp:
             self.projectiles.pop(sup, None)  # pop() évite l'erreur si la clé a déjà été supprimée
 
+    def appelanimation(self):
+        coord = self.player.coord
+        self.docenter = False
+        self.player.coord = [-16,16]
+        self.player.update()
+        self.groupe.draw(pygame.display.get_surface())
+        pygame.display.flip()
+        self.animation.open(self.fixe_coord(coord))
+        self.docenter = True
+        self.player.coord = coord
 
+    def death_animation(self):
+        self.animation.game_over(self.fixe_coord(self.player.middle))

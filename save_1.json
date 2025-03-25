@@ -1,0 +1,21 @@
+{
+  "date": "24/03/2025",
+  "progression": "0",
+  "temps": 865.1780509999998,
+  "world": "tresor",
+  "Musiques": 0,
+  "Volume": 1,
+  "Mute": 0,
+  "Fps": 0,
+  "finis": {
+    "Ville": 0,
+    "Parcours": 0,
+    "Laby": 0,
+    "Road": 0,
+    "Mask": 0,
+    "Undertale": 0,
+    "tresor": 0,
+    "piano": 0,
+    "Museum": 0
+  }
+}
