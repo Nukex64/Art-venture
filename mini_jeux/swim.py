@@ -13,7 +13,7 @@ class Swim(Carte):
         self.coin = Enemy("img/coin.png", 372.8333, 368.5)
         self.groupe.add(self.coin)
         self.has_key = 0
-        self.player.speed = 0.6
+        self.player.speed = 3
         self.porte = Enemy("img/porte.png", 357.8333, 14.5)
         self.groupe.add(self.porte)
         self.spawn()
