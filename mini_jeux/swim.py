@@ -14,6 +14,8 @@ class Swim(Carte):
         self.groupe.add(self.coin)
         self.has_key = 0
         self.player.speed = 0.6
+        self.porte = Enemy("img/porte.png", 357.8333, 14.5)
+        self.groupe.add(self.porte)
         self.spawn()
 
     def add_verif(self):
@@ -29,7 +31,9 @@ class Swim(Carte):
         self.decompte -= 1
         if self.sprite_collision(self.coin):
             self.groupe.remove(self.coin)
-            self.has_key = 1
+        if self.sprite_collision(self.porte):
+            if self.coin not in self.groupe:
+                exit()
 
     def spawn(self):
         for x in range(len(self.spawn_bubbles)):
@@ -40,6 +44,9 @@ class Swim(Carte):
     def add_draw(self, screen):
         texte_render = self.font.render(str(round(self.decompte/60, 2)), True, (255, 255, 255))
         screen.blit(texte_render, (0, 0))
+        width = 100/self.temps * self.decompte
+        coord =self.fixe_coord(self.player.coord)
+        pygame.draw.rect(screen, (255-255*(self.decompte/self.temps), 255*(self.decompte/self.temps), 0), (coord[0]-width/2+15, coord[1]-20, width, 15))
 
 
 
