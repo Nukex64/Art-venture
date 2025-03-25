@@ -45,6 +45,7 @@ class Ville(Carte):
     def add_verif(self):
         if self.touche("RETURN") and not self.objetif:
             if self.collision(self.tp_1):
+                self.quiz.open()
                 self.objetif =  "Road"
             if self.collision(self.tp_2):
                 self.objetif = "Parcours"
@@ -66,7 +67,6 @@ class Ville(Carte):
         if self.collision(self.car.rect):
             self.death_animation()
             self.tp(250, 250)
-
 
 
         self.car.move("z")

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="56" height="22" tilewidth="16" tileheight="16" infinite="0" nextlayerid="8" nextobjectid="16">
+<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="56" height="22" tilewidth="16" tileheight="16" infinite="0" nextlayerid="8" nextobjectid="18">
  <tileset firstgid="1" source="../tileset_tsx/Musée.tsx"/>
  <layer id="1" name="Calque de Tuiles 1" width="56" height="22">
   <data encoding="csv">
@@ -92,8 +92,14 @@
   <object id="13" x="400.125" y="102.125" width="15.5" height="7.375"/>
   <object id="14" x="403.125" y="50.5" width="9.875" height="59"/>
  </objectgroup>
- <objectgroup id="3" name="autre" visible="0" locked="1">
+ <objectgroup id="3" name="autre">
   <object id="1" name="spawn" x="687.333" y="303.333">
+   <point/>
+  </object>
+  <object id="16" name="1" type="paint" x="103.636" y="27.6364">
+   <point/>
+  </object>
+  <object id="17" name="2" type="paint" x="191.636" y="44.3636">
    <point/>
   </object>
  </objectgroup>
