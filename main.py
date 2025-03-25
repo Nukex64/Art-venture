@@ -9,6 +9,7 @@ from mini_jeux.mask import Mask
 from mini_jeux.parcours import *
 from mini_jeux.piano import Piano
 from mini_jeux.road import Road
+from mini_jeux.quiz import Quiz
 from mini_jeux.tresor import Tresor
 from mini_jeux.undertale_2 import Undertale
 from mini_jeux.ville import Ville
@@ -39,12 +40,13 @@ class Jeu:
         road = Road()
         mask = Mask()
         piano = Piano()
+        quiz = Quiz()
         undertale = Undertale()
         tresor = Tresor()
         museum = Museum()
 
         self.dico_game = {"Ville": ville,"Parcours": parcour_1, "Laby":laby,"Road": road, "Mask":mask, "Undertale":undertale,
-                           "tresor":tresor, "piano":piano, "Museum":museum}
+                           "tresor":tresor, "piano":piano, "Museum":museum, "Quiz":quiz}
         self.time_entry = 0
         self.carte = None # charger au lancement
         self.menu = None
@@ -141,7 +143,7 @@ class Jeu:
         (60/s)
         """
         save = 1
-        save = self.main_menu.open() #mettre en commentaire pour coder sans
+        #save = self.main_menu.open() #mettre en commentaire pour coder sans
         self.time_entry = datetime.now()
         self.charger_save(save)
         while self.run: #boucle du jeu
