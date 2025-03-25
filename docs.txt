@@ -75,29 +75,3 @@ Voici l'arborécence du projet (il n'est pas forcément d'actualité)
 │   ├── sounds/
 │   │   ├── bip.mp3
 │   │   ├── projectnsi.mp3
-
-
-
-
-
-Dans le code du projet, on a plusieurs fichiers qui sont organisé par leurs noms.
-Quand on veut ajouter un mini jeu, il faut aller dans le dossier mini jeu et ajouter un .py commenceant par
-
-
-import pygame
-
-from carte import Carte
-from tuto import Tuto
-
-
-class Tresor(Carte):
-    def __init__(self):
-        super().__init__("map/maptresortest.tmx") # on donne la map
-
-
-(éxemple du mini jeu "trésor")
-
-
-importer les fonctions suivantes:
-
-self.tuto = Tuto()
