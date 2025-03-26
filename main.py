@@ -13,7 +13,7 @@ from mini_jeux.quiz import Quiz
 from mini_jeux.tresor import Tresor
 from mini_jeux.undertale_2 import Undertale
 from mini_jeux.ville import Ville
-from museum import Museum
+from museum import *
 from savefonction import sauvegarde
 from settings import *
 from datetime import datetime
@@ -42,10 +42,12 @@ class Jeu:
         piano = Piano()
         undertale = Undertale()
         tresor = Tresor()
-        museum = Museum()
+        museum_haut = Museum_haut()
+        museum_hall = Museum_hall()
+        museum_bas = Museum_bas()
 
         self.dico_game = {"Ville": ville,"Parcours": parcour_1, "Laby":laby,"Road": road, "Mask":mask, "Undertale":undertale,
-                           "tresor":tresor, "piano":piano, "Museum":museum}
+                           "tresor":tresor, "piano":piano, "Museum_haut":museum_haut, "Museum_hall":museum_hall, "Museum_bas":museum_bas}
         self.time_entry = 0
         self.carte = None # charger au lancement
         self.menu = None
@@ -95,7 +97,8 @@ class Jeu:
         objetif = self.carte.objetif
         self.carte.objetif = None
         if objetif in self.dico_game:
-            self.carte.appelanimation()
+            if objetif not in ["Museum_hall", "Museum_bas", "Museum_haut"]:
+                self.carte.appelanimation()
             self.carte = self.dico_game[objetif]
             print(f"Changement de carte : {str(self.carte)}")
             self.saveload.changer_json("world", str(self.carte))

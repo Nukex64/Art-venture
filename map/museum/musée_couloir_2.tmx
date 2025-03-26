@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="57" height="23" tilewidth="16" tileheight="16" infinite="0" nextlayerid="8" nextobjectid="16">
+<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="57" height="23" tilewidth="16" tileheight="16" infinite="0" nextlayerid="8" nextobjectid="18">
  <tileset firstgid="1" source="../tileset_tsx/Musée.tsx"/>
  <layer id="1" name="Calque de Tuiles 1" width="57" height="23">
   <data encoding="csv">
@@ -55,22 +55,22 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <objectgroup id="3" name="mur" visible="0">
+ <objectgroup id="3" name="mur">
   <object id="3" x="512.667" y="32" width="382.667" height="46.6667"/>
   <object id="4" x="880.667" y="32" width="14.6667" height="271"/>
-  <object id="5" x="704.333" y="287.667" width="190.667" height="15.3333"/>
-  <object id="6" x="704" y="287" width="15.6667" height="32.6667"/>
-  <object id="7" x="336.333" y="303.667" width="384" height="16.6667"/>
-  <object id="8" x="335.667" y="304.667" width="16" height="32"/>
-  <object id="9" x="160.333" y="320.333" width="192" height="16.3333"/>
-  <object id="10" x="160.667" y="320.333" width="14.6667" height="32.3333"/>
-  <object id="11" x="15.6667" y="335.667" width="159.667" height="15.6667"/>
+  <object id="5" x="720.833" y="287.667" width="174.167" height="15.3333"/>
+  <object id="6" x="719.5" y="287" width="15.6667" height="32.6667"/>
+  <object id="7" x="350.666" y="304.167" width="384.167" height="16.6667"/>
+  <object id="8" x="350.667" y="304.334" width="16" height="32"/>
+  <object id="9" x="0.333" y="320" width="367.333" height="16.3333"/>
   <object id="12" x="16" y="144.75" width="511.75" height="46.75"/>
   <object id="13" x="512.5" y="32.25" width="15.25" height="159.5"/>
+  <object id="17" x="0.333333" y="144.333" width="15.3333" height="191.333"/>
  </objectgroup>
- <objectgroup id="4" name="autre" visible="0">
-  <object id="15" name="spawn" x="686.667" y="90.6667">
+ <objectgroup id="4" name="autre">
+  <object id="15" name="spawn" x="702.667" y="102.667">
    <point/>
   </object>
+  <object id="16" name="porte" x="687.625" y="48.125" width="32.625" height="30.5"/>
  </objectgroup>
 </map>
