@@ -67,9 +67,8 @@ class MainMenu:
         self.mouse_objetif = 1
 
     def start_save(self, nb):
-        print(f"Save {nb} creer")
         save= {"date": datetime.now().strftime("%d/%m/%Y"),
-               "progression": "0","temps": 0,"world": "Ville",
+               "progression": "0","temps": 0,"world": "Museum",
                 "Musiques": 0, "Volume": 1, "Mute": 0, "Fps": 0, "finis":
                    { "Ville": 0, "Parcours": 0, "Laby": 0, "Road": 0, "Mask": 0, "Undertale": 0,
                      "tresor": 0, "piano": 0, "Museum": 0}}
@@ -78,7 +77,6 @@ class MainMenu:
             json.dump(save, f, indent=2)
 
     def reset_save(self, nb):
-        print(f"Save {nb} delete")
         with open(f"save_{nb}.json", "w") as f:
             json.dump({}, f, indent=2)
         self.afficher = False
@@ -160,9 +158,6 @@ class MainMenu:
 
             if (event.type == pygame.KEYDOWN or event.type == pygame.MOUSEBUTTONDOWN) and self.logo_afficher:
                 self.logo_afficher = False
-
-            if event.type == pygame.MOUSEWHEEL:
-                print(pygame.mouse.get_pos())
 
             if event.type == pygame.MOUSEBUTTONDOWN and self.save_afficher:
                 x, y = pygame.mouse.get_pos()

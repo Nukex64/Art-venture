@@ -63,7 +63,6 @@ class Jeu:
         if self.saveload.changer_json("Musiques",None):
             pygame.mixer.music.play(loops=-1)
         self.draw_fps = self.saveload.changer_json("Fps")
-        print(f"Charment sauvegarde {self.saveload.changer_json('world')}")
         self.carte = self.dico_game[self.saveload.changer_json("world")]  # lancer en premier la ville
 
     def _get_suface(self):
@@ -101,9 +100,7 @@ class Jeu:
         if objetif in self.dico_game:
             self.carte.appelanimation()
             self.carte = self.dico_game[objetif]
-            print(f"Changement de carte : {str(self.carte)}")
             self.saveload.changer_json("world", str(self.carte))
-        else: print(f"ERREUR : aucun {objetif}")
 
     def _gerer_event(self):
         """
@@ -118,11 +115,8 @@ class Jeu:
                 self.run = False
 
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_F1:
-                    print(pygame.mouse.get_pos())
                 if event.key == pygame.K_KP0:
                     self.carte = self.dico_game["Ville"]
-                    print(f"Changement de carte : ville (dev)")
                 if event.key == pygame.K_ESCAPE:
                     self.menu.open()
                     self.saveload.reload_json()
@@ -135,7 +129,6 @@ class Jeu:
             self._changer_carte()
 
     def running(self):
-        print("-" * 10 + " EVENEMENT " + "-" * 10)
         """
         Démarre la boucle principale du jeu.
         La méthode fait tourner le jeu en boucle jusqu'à ce que l'utilisateur décide de quitter.
@@ -146,13 +139,12 @@ class Jeu:
         (60/s)
         """
         save = 1
-        #save = self.main_menu.open() #mettre en commentaire pour coder sans
+        save = self.main_menu.open() #mettre en commentaire pour coder sans
         self.time_entry = datetime.now()
         self.charger_save(save)
         while self.run: #boucle du jeu
             self._gerer_event() # quitter / changer carte / crash
             self._update() #met a jour tous le jeu
-        print("-" * 13 + " END " + "-" * 13)
 
 if __name__ == '__main__':
     pygame.init()   # lance pygame

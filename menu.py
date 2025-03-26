@@ -129,16 +129,13 @@ class Menu:
 
 
     def reprendre(self):
-        print("Reprendre")
         self.afficher = False # ferme le menu
 
     def quitter(self):
-        print("Quitter")
         self.afficher = False # ferme le menu
         self.end = True # ferme le jeu
 
     def open(self):
-        print("-- MENU OPEN")
 
         self.afficher = True
         self.fist_draw()
@@ -151,14 +148,11 @@ class Menu:
         self.saveload.changer_json("Fps", self.fps)
         self.saveload.changer_json("Volume", round(self.volume,4))
         self.music = self.saveload.changer_json("Mute", self.music)
-        print("fait")
-        print("-- MENU END")
 
     def fps_OnOff(self):
         self.fps = (0 if self.fps else 1)
 
     def fullscreen(self):
-        print("    fullscreen")
         self.fs = (False if self.fs else True)
         pygame.display.toggle_fullscreen()
         pygame.display.flip()
@@ -167,12 +161,10 @@ class Menu:
         if self.saveload.changer_json('Musiques',None) == 1:
             self.music = 0
             pygame.mixer_music.pause()
-            print("    musique off")
             self.saveload.changer_json('Musiques',0)
         elif self.saveload.changer_json('Musiques',None) == 0:
             self.music = 1
             pygame.mixer.music.play(loops=-1)
-            print("    musique on")
             self.saveload.changer_json('Musiques', 1)
 
 

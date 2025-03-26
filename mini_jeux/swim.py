@@ -26,7 +26,7 @@ class Swim(Carte):
                 self.decompte = self.temps
                 self.groupe.remove(bub)
                 self.bubbles.remove(bub)
-                print(self.decompte)
+        self.decompte -= 1
         if self.sprite_collision(self.coin):
             self.groupe.remove(self.coin)
         if self.sprite_collision(self.porte):
