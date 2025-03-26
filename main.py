@@ -1,5 +1,6 @@
-#Projet : Art'Venture
-#Auteurs : Anthony Ibanez-Esteban, Raphaël Prost, Aëlys-Coleen Surma Valtaer, Louis Gagne, Mathéo Faure
+# Projet : Art'Venture
+# Auteurs : Anthony Ibanez-Esteban, Raphaël Prost, Aëlys-Coleen Surma Valtaer, Louis Gagne, Mathéo Faure
+
 import json
 import pygame
 from MainMenu import MainMenu
@@ -18,22 +19,25 @@ from savefonction import sauvegarde
 from settings import *
 from datetime import datetime
 
+
 class Jeu:
     def __init__(self):
         """
-        Initialise le jeu, configure la fenêtre de jeu, et définit les cartes et mini-jeux disponibles.
+        Initialise le jeu en configurant la fenêtre, la musique, les mini-jeux et les cartes disponibles.
+        Charge également les paramètres initiaux comme la fréquence d'affichage et l'icône de la fenêtre.
         """
         self.save_nb = None
         pygame.mixer.music.load("sounds\projectnsi.mp3")
-        pygame.mixer.music.set_volume(0)
+        pygame.mixer.music.set_volume(0)  # Mettre la musique à 0 au démarrage
         self.run = True
-        self.screen = pygame.display.set_mode(RES,pygame.NOFRAME|pygame.SCALED)
+        self.screen = pygame.display.set_mode(RES, pygame.NOFRAME | pygame.SCALED)  # Création de la fenêtre du jeu
         self.clock = pygame.time.Clock()
-        self.draw_fps = 60
-        self.saveload = None # charger au lancement
+        self.draw_fps = 60  # Fréquence d'affichage par défaut
+        self.saveload = None  # Variable pour charger la sauvegarde
         ico = pygame.image.load("img/logoepee2.png").convert_alpha()
-        pygame.display.set_icon(ico)
+        pygame.display.set_icon(ico)  # Définit l'icône du jeu
 
+        # Initialisation des mini-jeux et cartes
         ville = Ville()
         parcour_1 = Game_Jump()
         laby = Laby()
@@ -47,18 +51,25 @@ class Jeu:
         museum_bas = None
         swim = Swim()
 
-        self.dico_game = {"Ville": ville,"Parcours": parcour_1, "Laby":laby,"Road": road, "Mask":mask, "Undertale":undertale,
-                          "tresor":tresor, "piano":piano, "Museum_haut":museum_haut, "Museum_hall":museum_hall,
-                          "Museum_bas":museum_bas, "swim":swim}
-        self.time_entry = 0
-        self.carte = None # charger au lancement
+        # Dictionnaire des cartes et mini-jeux
+        self.dico_game = {"Ville": ville, "Parcours": parcour_1, "Laby": laby, "Road": road, "Mask": mask,
+                          "Undertale": undertale,
+                          "tresor": tresor, "piano": piano, "Museum_haut": museum_haut, "Museum_hall": museum_hall,
+                          "Museum_bas": museum_bas, "swim": swim}
+        self.time_entry = 0  # Stocke le temps de début de session
+        self.carte = None  # Carte actuelle du jeu (sera chargée plus tard)
         self.menu = None
-        self.main_menu = MainMenu()
+        self.main_menu = MainMenu()  # Menu principal du jeu
 
     def charger_save(self, nb):
+        """
+        Charge une sauvegarde spécifique et initialise les paramètres du jeu (cartes, musique, volume, FPS).
 
+        :param nb: Numéro de la sauvegarde à charger.
+        """
         self.save_nb = nb
 
+        # Chargement des musées en fonction de la sauvegarde
         museum_haut = Museum_haut(self.save_nb)
         museum_hall = Museum_hall(self.save_nb)
         museum_bas = Museum_bas(self.save_nb)
@@ -66,54 +77,56 @@ class Jeu:
         self.dico_game["Museum_bas"] = museum_bas
         self.dico_game["Museum_haut"] = museum_haut
 
-        self.saveload = sauvegarde(nb)
-        self.menu = Menu(nb)
-        pygame.mixer.music.set_volume(self.saveload.changer_json("Volume", None))
-        if self.saveload.changer_json("Musiques",None):
-            pygame.mixer.music.play(loops=-1)
-        self.draw_fps = self.saveload.changer_json("Fps")
-        self.carte = self.dico_game[self.saveload.changer_json("world")]  # lancer en premier la ville
+        self.saveload = sauvegarde(nb)  # Chargement de la sauvegarde
+        self.menu = Menu(nb)  # Initialisation du menu de jeu
+        pygame.mixer.music.set_volume(self.saveload.changer_json("Volume", None))  # Applique le volume enregistré
+        if self.saveload.changer_json("Musiques", None):
+            pygame.mixer.music.play(loops=-1)  # Joue la musique en boucle
+        self.draw_fps = self.saveload.changer_json("Fps")  # Récupération des FPS sauvegardés
+        self.carte = self.dico_game[self.saveload.changer_json("world")]  # Chargement de la carte actuelle
 
     def _get_suface(self):
         """
-        Crée et renvoie la surface à dessiner sur l'écran.
-        La surface contient la carte actuelle du jeu, qui est dessinée sur l'écran.
-        (60/s)
+        Crée et renvoie la surface à dessiner sur l'écran. Cette surface contient la carte actuelle du jeu.
+
+        :return: Surface avec la carte actuelle dessinée dessus.
         """
         surface = pygame.Surface(RES)
-        self.carte.draw(surface)
+        self.carte.draw(surface)  # Dessine la carte sur la surface
         return surface
 
     def _update(self):
         """
-        Met à jour l'état de la carte et affiche les changements à l'écran
-        Cette méthode met à jour le jeu en appelant les méthodes d'_update et de dessin de la carte.
-        (60/s)
+        Met à jour l'affichage et l'état du jeu. Cette méthode est appelée à chaque frame du jeu.
+        Limite l'affichage à 60 FPS et met à jour les objets du jeu.
         """
-        self.clock.tick(60)  # fps 60/s
-        self.carte.update()  # met a jour le jeu/carte actuelle
-        self.screen.blit(self._get_suface(),(0, 0))  # affiche sur l'ecran
-        if self.draw_fps : pygame.display.set_caption(f"Art'venture {self.clock.get_fps():.1f}")
-        else: pygame.display.set_caption("Art'venture")
-        pygame.display.flip()  # met a jour tous les pixels de l'ecran
-
+        self.clock.tick(60)  # Limite l'affichage à 60 FPS
+        self.carte.update()  # Met à jour les objets du jeu
+        self.screen.blit(self._get_suface(), (0, 0))  # Affiche la carte sur l'écran
+        if self.draw_fps:
+            pygame.display.set_caption(f"Art'venture {self.clock.get_fps():.1f}")
+        else:
+            pygame.display.set_caption("Art'venture")
+        pygame.display.flip()  # Rafraîchit l'écran
 
     def _changer_carte(self):
         """
-        Change la carte en fonction de la carte actuelle,
-        La méthode met à jour la carte avec une nouvelle valeur tirée du dictionnaire des jeux
-        cf Carte.quitter()
+        Change la carte actuelle en fonction des transitions du jeu.
+        Si un objectif est atteint sur la carte actuelle, cette méthode charge la nouvelle carte.
         """
-        objetif = self.carte.objetif
+        objetif = self.carte.objetif  # Récupération de la nouvelle carte
         self.carte.objetif = None
         if objetif in self.dico_game:
             if objetif not in ["Museum_hall", "Museum_bas", "Museum_haut"]:
                 self.carte.appelanimation()
             self.carte = self.dico_game[objetif]
             self.saveload.reload_json()
-            self.saveload.changer_json("world", str(self.carte))
+            self.saveload.changer_json("world", str(self.carte))  # Sauvegarde la nouvelle carte
 
     def quitter(self):
+        """
+        Quitte proprement le jeu en sauvegardant le temps de jeu écoulé.
+        """
         temps_ecoule = datetime.now() - self.time_entry
         last_time = self.saveload.changer_json("temps")
         self.saveload.changer_json("temps", last_time + temps_ecoule.total_seconds())
@@ -121,11 +134,11 @@ class Jeu:
 
     def _gerer_event(self):
         """
-        Gère les événements du jeu (clavier, fermeture de la fenêtre, etc.).
-        (60/s)
+        Gère les événements du jeu tels que les entrées clavier et souris, ainsi que la fermeture de la fenêtre.
+        Appelle également les méthodes liées aux interactions du joueur avec la carte et les menus.
         """
         for event in pygame.event.get():
-            if event.type == pygame.QUIT:  # quitter
+            if event.type == pygame.QUIT:
                 self.quitter()
 
             if event.type == pygame.KEYDOWN:
@@ -147,23 +160,19 @@ class Jeu:
     def running(self):
         """
         Démarre la boucle principale du jeu.
-        La méthode fait tourner le jeu en boucle jusqu'à ce que l'utilisateur décide de quitter.
-        Elle gère les événements, met à jour le jeu et affiche le contenu de l'écran à chaque fram
-
-        Button entrer : demande au jeu où le joueur doit aller ensuite (None ne change pas)
-        Button quitter : quitte le jeu stop la boucle
-        (60/s)
+        Charge une sauvegarde, gère les événements du jeu, et met à jour l'affichage à chaque frame.
         """
         save = 1
-        #save = self.main_menu.open() #mettre en commentaire pour coder sans
+        # save = self.main_menu.open() #mettre en commentaire pour coder sans
         self.time_entry = datetime.now()
         self.charger_save(save)
-        while self.run: #boucle du jeu
-            self._gerer_event() # quitter / changer carte / crash
-            self._update() #met a jour tous le jeu
+        while self.run:
+            self._gerer_event()
+            self._update()
+
 
 if __name__ == '__main__':
-    pygame.init()   # lance pygame
+    pygame.init()
     jeu = Jeu()
     jeu.running()
-    pygame.quit()   # stop pygame
+    pygame.quit()
