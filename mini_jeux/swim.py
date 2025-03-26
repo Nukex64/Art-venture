@@ -27,13 +27,12 @@ class Swim(Carte):
                 self.groupe.remove(bub)
                 self.bubbles.remove(bub)
                 print(self.decompte)
-        print(self.player.coord)
-        self.decompte -= 1
         if self.sprite_collision(self.coin):
             self.groupe.remove(self.coin)
         if self.sprite_collision(self.porte):
             if self.coin not in self.groupe:
                 exit()
+        self.decompte -= 1
 
     def spawn(self):
         for x in range(len(self.spawn_bubbles)):
