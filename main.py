@@ -48,13 +48,12 @@ class Jeu:
         road = Road()
         mask = Mask()
         piano = Piano()
-        quiz = Quiz()
         undertale = Undertale()
         tresor = Tresor()
         museum = Museum()
 
         self.dico_game = {"Ville": ville,"Parcours": parcour_1, "Laby":laby,"Road": road, "Mask":mask, "Undertale":undertale,
-                           "tresor":tresor, "piano":piano, "Museum":museum, "Quiz":quiz}
+                           "tresor":tresor, "piano":piano, "Museum":museum}
         self.time_entry = 0
         self.carte = None # charger au lancement
         self.menu = None
