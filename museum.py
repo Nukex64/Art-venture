@@ -14,8 +14,8 @@ class Museum_haut(Carte):
         for obj in self.tmx_data.objects:
             if obj.type == "paint":
                 img = pygame.image.load(f"img/tableau/{obj.name}.webp")
-                x = img.get_width() / img.get_width()
-                img = pygame.transform.smoothscale(img, (60, 60 * x))
+                x = img.get_height() / img.get_width()
+                img = pygame.transform.smoothscale(img, (60, int(60 * x)))
                 self.dico_tableau[obj.name] = ((obj.x, obj.y), img)
                 self.dico_rect[(obj.x, obj.y, img.get_width(), img.get_height())] = obj.name
         self.porte = self.objet_par_nom("porte")
@@ -35,11 +35,13 @@ class Museum_haut(Carte):
                 print(quiz)
                 if quiz > 0: self.save.liste_changer_json("tableau_quiz", int(x[1]), quiz)
 
+        if self.player.rect.colliderect(self.porte):
+            self.affe(screen)
+
     def keypressed(self,event):
         super().keypressed(event)
-        if event.key == pygame.K_RETURN:
+        if event.key == pygame.K_e:
             if self.player.rect.colliderect(self.porte):
-                self.tuto_e()
                 self.objetif = "Museum_hall"
 
     def __str__(self):
@@ -53,6 +55,10 @@ class Museum_hall(Carte):
         self.porte_haut = self.objet_par_nom("porte_haut")
         self.porte_bas = self.objet_par_nom("porte_bas")
         self.quiz = Quiz()
+
+    #def draw(self, screen):
+    #    if self.player.rect.colliderect(self.porte_haut) or self.player.rect.colliderect(self.porte_bas) :
+    #        self.affe(screen)
 
     def keypressed(self,event):
         super().keypressed(event)
@@ -75,8 +81,8 @@ class Museum_bas(Carte):
         for obj in self.tmx_data.objects:
             if obj.type == "paint":
                 img = pygame.image.load(f"img/tableau/{obj.name}.webp")
-                x = img.get_width() / img.get_width()
-                img = pygame.transform.smoothscale(img, (60, 60 * x))
+                x = img.get_height() / img.get_width()
+                img = pygame.transform.smoothscale(img, (60, int(60 * x)))
                 self.dico_tableau[obj.name] = ((obj.x, obj.y), img)
                 self.dico_rect[(obj.x, obj.y, img.get_width(), img.get_height())] = obj.name
         self.porte = self.objet_par_nom("porte")
@@ -87,10 +93,14 @@ class Museum_bas(Carte):
             coord, img = info
             screen.blit(img, self.fixe_coord(coord))
 
-        if self.touche("e"):
-            x = self.player.rect.collidedict(self.dico_rect)[1]
-            if x:
-                quiz = self.quiz.open(x)
+
+        x = self.player.rect.collidedict(self.dico_rect)
+        if x:
+            self.affe(screen)
+            if self.touche("e"):
+                quiz = self.quiz.open(x[1])
+                print(quiz)
+                if quiz > 0: self.save.liste_changer_json("tableau_quiz", int(x[1]), quiz)
 
 
     def keypressed(self,event):
