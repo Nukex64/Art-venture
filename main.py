@@ -42,9 +42,9 @@ class Jeu:
         piano = Piano()
         undertale = Undertale()
         tresor = Tresor()
-        museum_haut = Museum_haut()
-        museum_hall = Museum_hall()
-        museum_bas = Museum_bas()
+        museum_haut = None
+        museum_hall = None
+        museum_bas = None
         swim = Swim()
 
         self.dico_game = {"Ville": ville,"Parcours": parcour_1, "Laby":laby,"Road": road, "Mask":mask, "Undertale":undertale,
@@ -56,7 +56,16 @@ class Jeu:
         self.main_menu = MainMenu()
 
     def charger_save(self, nb):
+
         self.save_nb = nb
+
+        museum_haut = Museum_haut(self.save_nb)
+        museum_hall = Museum_hall(self.save_nb)
+        museum_bas = Museum_bas(self.save_nb)
+        self.dico_game["Museum_hall"] = museum_hall
+        self.dico_game["Museum_bas"] = museum_bas
+        self.dico_game["Museum_haut"] = museum_haut
+
         self.saveload = sauvegarde(nb)
         self.menu = Menu(nb)
         pygame.mixer.music.set_volume(self.saveload.changer_json("Volume", None))
@@ -101,6 +110,7 @@ class Jeu:
             if objetif not in ["Museum_hall", "Museum_bas", "Museum_haut"]:
                 self.carte.appelanimation()
             self.carte = self.dico_game[objetif]
+            self.saveload.reload_json()
             self.saveload.changer_json("world", str(self.carte))
 
     def quitter(self):

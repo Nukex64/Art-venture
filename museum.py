@@ -29,8 +29,9 @@ class Museum_haut(Carte):
             x = self.player.rect.collidedict(self.dico_rect)[1]
             if x:
                 quiz = self.quiz.open(x)
-                if quiz : self.save.liste_changer_json("tableau_quiz", 1, quiz)
-                
+                print(quiz)
+                if quiz > 0: self.save.liste_changer_json("tableau_quiz", int(x), quiz)
+
     def keypressed(self,event):
         super().keypressed(event)
         if event.key == pygame.K_RETURN:

@@ -12,7 +12,6 @@ from enemy import Enemy
 from player import Player
 from settings import *
 from animation import Animation
-from mini_jeux.quiz import Quiz
 
 class Carte:
     """
@@ -42,7 +41,6 @@ class Carte:
         self.player = Player(player_pos.x, player_pos.y - 10)  # creer le joueur
 
         self.animation = Animation()
-        self.quiz = Quiz()
 
         self.pclick = False
 
