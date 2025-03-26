@@ -69,8 +69,8 @@ class Game_Jump(Carte):
     def add_draw(self, screen):
         y = self.fixe_coord(self.player.feet.midbottom)[1]
         color = (0, 0, 0) if self.can_dash else (255, 0, 0)
-        pygame.draw.line(screen, color,(0, y) ,(800, y))
-        self.draw_grid(screen, tile_size=18)
+        #pygame.draw.line(screen, color,(0, y) ,(800, y))
+        #self.draw_grid(screen, tile_size=18)
 
 
         for info in self.dash_animation:
