@@ -80,6 +80,9 @@ class Quiz:
         (60/s)
         """
         click = False
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:  # quitter
+                pygame.quit()
 
     def change(self, nb):
         if nb : self.nb = nb
