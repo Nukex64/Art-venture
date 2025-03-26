@@ -47,7 +47,6 @@ class Jeu:
         museum_bas = Museum_bas()
         swim = Swim()
 
-
         self.dico_game = {"Ville": ville,"Parcours": parcour_1, "Laby":laby,"Road": road, "Mask":mask, "Undertale":undertale,
                           "tresor":tresor, "piano":piano, "Museum_haut":museum_haut, "Museum_hall":museum_hall,
                           "Museum_bas":museum_bas, "swim":swim}
@@ -104,6 +103,12 @@ class Jeu:
             self.carte = self.dico_game[objetif]
             self.saveload.changer_json("world", str(self.carte))
 
+    def quitter(self):
+        temps_ecoule = datetime.now() - self.time_entry
+        last_time = self.saveload.changer_json("temps")
+        self.saveload.changer_json("temps", last_time + temps_ecoule.total_seconds())
+        self.run = False
+
     def _gerer_event(self):
         """
         Gère les événements du jeu (clavier, fermeture de la fenêtre, etc.).
@@ -111,10 +116,7 @@ class Jeu:
         """
         for event in pygame.event.get():
             if event.type == pygame.QUIT:  # quitter
-                temps_ecoule = datetime.now() - self.time_entry
-                last_time = self.saveload.changer_json("temps")
-                self.saveload.changer_json("temps", last_time + temps_ecoule.total_seconds())
-                self.run = False
+                self.quitter()
 
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_F1:
