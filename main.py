@@ -49,8 +49,8 @@ class Jeu:
 
 
         self.dico_game = {"Ville": ville,"Parcours": parcour_1, "Laby":laby,"Road": road, "Mask":mask, "Undertale":undertale,
-                           "tresor":tresor, "piano":piano, "Museum_haut":museum_haut, "Museum_hall":museum_hall, "Museum_bas":museum_bas}
-                           "tresor":tresor, "piano":piano, "Museum":museum, "swim":swim}
+                          "tresor":tresor, "piano":piano, "Museum_haut":museum_haut, "Museum_hall":museum_hall,
+                          "Museum_bas":museum_bas, "swim":swim}
         self.time_entry = 0
         self.carte = None # charger au lancement
         self.menu = None
