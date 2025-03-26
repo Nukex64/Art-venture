@@ -2,9 +2,7 @@
 #Auteurs : Anthony Ibanez-Esteban, Raphaël Prost, Aëlys-Coleen Surma Valtaer, Louis Gagne, Mathéo Faure
 
 from random import randint
-
 import pygame
-
 import settings
 from carte import Carte
 from enemy import Enemy
@@ -12,11 +10,10 @@ from enemy import Enemy
 
 class Laby(Carte):
     """
-    Ce n'est pas un mini jeux juste un test de truc random
-    (on peut peut etre en fair un plus tard)
+    Cette classe gère l'affichage et l'interaction dans un environnement de type "labyrinthe"
     """
     def __init__(self):
-        super().__init__("map/map.tmx")
+        super().__init__(self.get_url("map/map.tmx"))
         self.tp_1 = self.objet_par_nom('tp_1')
         self.tp_2 = self.objet_par_nom("tp_2")
         self.tp_3 = self.objet_par_nom("tp_3")
@@ -27,7 +24,7 @@ class Laby(Carte):
         self.shadingstorm = 120
         self.backcolor = (0, 0, 0)
         self.roundcolor = (0, 0, 0, 0)
-        self.enemytexture = Enemy("img/fire.png",30,30)
+        self.enemytexture = Enemy(self.get_url("img/fire.png"),30,30)
         self.groupe.add(self.enemytexture)
         self.map_layer.zoom = min(800/(16*self.tmx_data.width),600/(16*self.tmx_data.height))
         self.canbullet = False

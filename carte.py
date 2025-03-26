@@ -2,7 +2,7 @@
 #Auteurs : Anthony Ibanez-Esteban, Raphaël Prost, Aëlys-Coleen Surma Valtaer, Louis Gagne, Mathéo Faure
 
 from math import atan2
-
+import os
 import pygame
 import pyscroll
 import pytmx
@@ -52,7 +52,7 @@ class Carte:
         self.projectiles = {}
         self.nombre = 0
         self.elist = self.objet_par_calque('autre')
-        self.eimg = pygame.image.load('img/ui/E.png')
+        self.eimg = pygame.image.load(self.get_url(self.get_url('img/ui/E.png')))
         self.bullettimer = 0
         self.timer = 0
         self.canbullet = False
@@ -66,6 +66,11 @@ class Carte:
         self.docenter = True
 
         self.liste_dialogue = self.get_dialogues()
+
+    @staticmethod
+    def get_url(url):
+        url_list = url.split("/")
+        return os.path.join(*url_list)
 
     def get_dialogues(self):
         temp = {}
@@ -288,11 +293,22 @@ class Carte:
         return self.map_layer.translate_point(coord)
 
     def sprite_collision(self, sprite):
+        """
+        Vérifie la collision entre le joueur et un autre sprite.
 
+        :param sprite: L'objet sprite avec lequel vérifier la collision.
+        :return: True si les sprites se chevauchent, sinon False.
+        """
         offset = sprite.rect.x - self.player.feet.x, sprite.rect.y - self.player.feet.y
         return self.player.mask.overlap(sprite.mask, offset)
 
     def multi_sprite_collision(self, liste):
+        """
+        Vérifie les collisions entre le joueur et plusieurs sprites.
+
+        :param liste: Liste des objets sprites à vérifier pour les collisions.
+        :return: True si une collision est détectée avec l'un des sprites, sinon False.
+        """
         for sprite in liste:
             offset = sprite.rect.x - self.player.rect.x, sprite.rect.y - self.player.rect.y
             if self.player.mask.overlap(sprite.mask, offset):
@@ -300,12 +316,24 @@ class Carte:
         return False
 
     def angletir(self):#,obj):
+        """
+         Calcule l'angle entre le joueur et la position du curseur de la souris.
+
+         :return: L'angle en radians entre le joueur et la souris.
+        """
         x2, y2 = pygame.mouse.get_pos()#obj
         x1, y1 = self.fixe_coord(self.player.rect.center)
         return atan2((y2-y1),(x2-x1))
 
     def creer_projectiles(self):
-        self.projectiles["enemie"+str(self.nombre)] = Enemy("img/fire.png",self.player.rect.center[0],self.player.rect.center[1])
+        """
+        Crée un nouveau projectile tiré par le joueur.
+
+        Initialise les propriétés du projectile, comme sa position, sa vitesse et son angle de tir.
+        Ajoute ensuite le projectile à la liste des projectiles et augmente le compteur.
+        """
+        src = self.get_url("img/fire.png")
+        self.projectiles["enemie"+str(self.nombre)] = Enemy(src,self.player.rect.center[0],self.player.rect.center[1])
         self.projectiles["enemie"+str(self.nombre)].alpha = self.angletir()
         self.projectiles["enemie" + str(self.nombre)].speed = 1
         self.groupe.add(self.projectiles["enemie" + str(self.nombre)])
@@ -313,6 +341,11 @@ class Carte:
         self.bullettimer = self.timer + 60*5 #tps * sec
 
     def projectilesdeplacements(self):
+        """
+        Met à jour les déplacements des projectiles.
+
+        Déplace chaque projectile et supprime ceux qui sont sortis de l'écran.
+        """
         for key in list(self.projectiles.keys()):  # Copie des clés
             enemie = self.projectiles[key]
 
@@ -326,6 +359,11 @@ class Carte:
             self.projectiles.pop(sup, None)  # pop() évite l'erreur si la clé a déjà été supprimée
 
     def appelanimation(self):
+        """
+        Lance l'animation liée à un événement.
+
+        Sauvegarde les coordonnées du joueur, met à jour l'animation et la groupe d'objets, puis lance l'animation.
+        """
         coord = self.player.coord
         self.docenter = False
         self.player.coord = [-16,16]
@@ -337,4 +375,9 @@ class Carte:
         self.player.coord = coord
 
     def death_animation(self):
+        """
+        Lance l'animation de la fin du jeu.
+
+        Affiche une animation de fin de jeu centrée sur la position du joueur.
+        """
         self.animation.game_over(self.fixe_coord(self.player.middle))

@@ -54,7 +54,7 @@ class Jeu:
         # Dictionnaire des cartes et mini-jeux
         self.dico_game = {"Ville": ville, "Parcours": parcour_1, "Laby": laby, "Road": road, "Mask": mask,
                           "Undertale": undertale,
-                          "tresor": tresor, "piano": piano, "Museum_haut": museum_haut, "Museum_hall": museum_hall,
+                          "Tresor": tresor, "piano": piano, "Museum_haut": museum_haut, "Museum_hall": museum_hall,
                           "Museum_bas": museum_bas, "swim": swim}
         self.time_entry = 0  # Stocke le temps de début de session
         self.carte = None  # Carte actuelle du jeu (sera chargée plus tard)

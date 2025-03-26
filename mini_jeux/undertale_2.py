@@ -11,16 +11,16 @@ from enemy import Enemy
 
 class Undertale(Carte):
     def __init__(self):
-        super().__init__("map/map.tmx")
+        super().__init__(self.get_url("map/map.tmx"))
         self.enemies = []
-        self.tableau = Enemy("img/tableau.png", 0, 0)
+        self.tableau = Enemy(self.get_url("img/tableau.png"), 0, 0)
         self.groupe.add(self.tableau)
         self.difficulty = 4
         self.enemies_timer = self.difficulty
         self.player.speed = 1.5
         self.decompte = 3600
 
-        self.font = pygame.font.Font("img/police.otf", 30)
+        self.font = pygame.font.Font(self.get_url("img/police.otf"), 30)
 
 
 
@@ -58,7 +58,7 @@ class Undertale(Carte):
 
     def create(self):
         x, y = self.spawn()
-        enemy = Enemy("img/fire.png", x, y)
+        enemy = Enemy(self.get_url("img/fire.png"), x, y)
         enemy.speed = 3
         enemy.regarder(randint(0, 90))
         self.enemies.append(enemy)

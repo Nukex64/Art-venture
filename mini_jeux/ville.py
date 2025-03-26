@@ -22,15 +22,15 @@ class Ville(Carte):
         self.text_1 = self.font.render("Je suis un text fixe", True, (0, 0, 0))
         self.text_2 = self.font.render("Je suis un text d'UI", True, (0, 0, 0))
 
-        self.fire = Enemy("img/fire.png", 10, 10)
+        self.fire = Enemy(self.get_url("img/fire.png"), 10, 10)
         self.fire.speed = 1
         self.fire.direction = 0
         self.groupe.add(self.fire)
 
 
-        self.car = Enemy("img/car.png", 100, 184)
+        self.car = Enemy(self.get_url("img/car.png"), 100, 184)
         self.car.speed = 1
-        self.car_img = pygame.image.load("img/car.png")
+        self.car_img = pygame.image.load(self.get_url("img/car.png"))
         self.car.direction = 0
         self.groupe.add(self.car)
 

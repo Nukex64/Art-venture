@@ -1,5 +1,6 @@
 # Projet : Art'Venture
 # Auteurs : Anthony Ibanez-Esteban, Raphaël Prost, Aëlys-Coleen Surma Valtaer, Louis Gagne, Mathéo Faure
+import os
 
 import pygame
 import math
@@ -9,7 +10,10 @@ import settings
 class Animation:
     def __init__(self):
         """
-        Initialise les paramètres du jeu et configure la fenêtre, l'arrière-plan, les images et les propriétés de l'animation.
+        Initialise les paramètres de l'animation.
+
+        Configure la fenêtre de jeu, charge les images nécessaires et initialise les variables utilisées
+        pour l'animation, y compris la position, la vitesse et les états d'affichage.
         """
         self.circle = 0
         self.afficher = True
@@ -25,34 +29,36 @@ class Animation:
         self.frame = 0
         self.size = (32, 32)
         self.sizefactor = -0.01
-        self.menu_background = pygame.image.load("img/ui/menu_back.png").convert_alpha()  # Arrière-plan du menu
+        self.menu_background = pygame.image.load(self.get_url("img/ui/menu_back.png")).convert_alpha()  # Arrière-plan du menu
         self.end = False  # Ordre de fermeture du jeu
         self.button_survoller = False
         self.in_setting = False
 
     def _cut_img(self, x, y):
         """
-        Découpe une portion de l'image du joueur à la position (x, y) dans une image de 16x16 pixels.
+        Découpe une portion de l'image du joueur.
 
-        :param x: Coordonnée x de la découpe dans l'image.
-        :param y: Coordonnée y de la découpe dans l'image.
-        :return: Surface contenant l'image découpée.
+        :param x: Coordonnée x du coin supérieur gauche de la découpe.
+        :param y: Coordonnée y du coin supérieur gauche de la découpe.
+        :return: Surface contenant l'image découpée de 16x16 pixels.
         """
         image = pygame.Surface([16, 16], pygame.SRCALPHA)
-        image.blit(pygame.image.load('img/player_sheet.png').convert_alpha(), (0, 0), (x, y, 16, 16))
+        image.blit(pygame.image.load(self.get_url('img/player_sheet.png')).convert_alpha(), (0, 0), (x, y, 16, 16))
         return image
 
     def fist_draw(self):
         """
         Réinitialise l'animation en mettant la frame à zéro.
-        Cette méthode peut être utilisée pour redémarrer l'animation au début.
+        Réinitialise la frame à zéro pour redémarrer l'animation.
         """
         self.frame = 0
         pass
 
     def draw(self):
         """
-        Dessine l'arrière-plan du jeu, l'image du joueur et un cercle animé à la position actuelle.
+        Dessine les éléments de l'animation sur l'écran.
+        Affiche l'arrière-plan du jeu, l'image animée du joueur et un cercle évolutif
+        pour l'effet visuel.
         """
         self.screen.blit(self.game_background, (0, 0))  # Dessine l'arrière-plan
         self.screen.blit(self.image, (self.x, self.y))  # Dessine l'image du joueur
@@ -61,9 +67,10 @@ class Animation:
 
     def _gerer_event(self):
         """
-        Gère les événements du jeu tels que les entrées clavier, la fermeture de la fenêtre, et l'animation du joueur.
-
-        :return: None
+        Gère les événements du jeu et met à jour l'animation.
+        - Anime le joueur en modifiant son échelle et sa rotation.
+        - Déplace le joueur en fonction des paramètres d'animation.
+        - Gère les événements utilisateur comme la fermeture de la fenêtre.
         """
         self.draw()  # Dessine l'animation
         self.alpha += self.degre  # Incrémente l'angle pour l'animation
@@ -84,11 +91,10 @@ class Animation:
 
     def move(self, sens="z"):
         """
-        Déplace l'image du joueur selon un angle spécifié.
+         Déplace l'image du joueur en fonction de l'angle actuel.
 
-        :param sens: Direction du mouvement ("z" par défaut pour un mouvement en avant).
-        :return: None
-        """
+         :param sens: Direction du mouvement ("z" par défaut pour avancer).
+         """
         vx, vy = 0, 0
         if sens == "z":
             vx += self.speed * math.cos(self.alpha)  # Calcul de la vitesse en X
@@ -109,7 +115,9 @@ class Animation:
 
     def reprendre(self):
         """
-        Arrête d'afficher l'animation et ferme le menu.
+        Interrompt l'affichage de l'animation et ferme le menu.
+
+        Met fin à l'animation en modifiant l'état d'affichage.
         """
         self.afficher = False  # Ferme le menu
 
@@ -163,3 +171,8 @@ class Animation:
         self.screen.blit(self.game_background, (0, 0))  # Dessine l'arrière-plan
         pygame.draw.circle(self.screen, (255, 0, 0), coord, self.circle)  # Dessine un cercle rouge
         pygame.display.flip()  # Rafraîchit l'écran
+
+    @staticmethod
+    def get_url(url):
+        url_list = url.split("/")
+        return os.path.join(*url_list)

@@ -13,9 +13,14 @@ class Car(Enemy):
         self.speed = 2
 
 class Mask(Carte):
+    """
+    un véhicule (voiture) interagit avec le joueur, et si une collision se produit,
+    le jeu se termine. Le jeu utilise un système de cartes et de gestion d'ennemis pixel par pixel
+    pour des collision parfaite
+    """
     def __init__(self):
         super().__init__("map/road.tmx")
-        self.image = pygame.image.load("img/test.png")
+        self.image = pygame.image.load(self.get_url("img/test.png"))
 
         self.player.speed = 3
 

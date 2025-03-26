@@ -1,16 +1,31 @@
 #Projet : Art'Venture
 #Auteurs : Anthony Ibanez-Esteban, Raphaël Prost, Aëlys-Coleen Surma Valtaer, Louis Gagne, Mathéo Faure
+import os
 
 import pygame
 from  random import randint, shuffle
 import json
 from settings import*
-from savefonction import sauvegarde
+
 class Quiz:
+    """
+    Classe représentant un quiz interactif dans le jeu.
+    Les joueurs doivent répondre à des questions basées sur des données dans un fichier JSON.
+    """
+
+    @staticmethod
+    def get_url(url):
+        url_list = url.split("/")
+        return os.path.join(*url_list)
+
     def __init__(self):
+        """
+        Initialise un nouvel objet de quiz, charge les données depuis le fichier JSON,
+        génère une question et prépare les réponses possibles.
+        """
         self.victory = 0
         self.afficher = False
-        with open(f"tableau.json", "r+") as f:
+        with open(self.get_url(f"tableau.json"), "r+") as f:
             self.data = json.load(f)
 
         self.screen = pygame.display.set_mode(RES,pygame.SCALED)
@@ -32,7 +47,7 @@ class Quiz:
 
         self.reponses = self.bonne_reponse + self.mauvaise_r
 
-        self.img = pygame.image.load(f"img/tableau/{self.nb}.webp")
+        self.img = pygame.image.load(self.get_url(f"img/tableau/{self.nb}.webp"))
         self.font = pygame.font.Font(None, 14)
         self.font_2 = pygame.font.Font(None, 28)
         self.copyr = self.font.render(self.data[str(self.nb)][0], False, (0, 0, 0))
@@ -53,6 +68,11 @@ class Quiz:
         self.rect_afficher = [(0, 0, 0, 0), (0, 0, 0, 0)]
 
     def draw(self):
+        """
+        Affiche l'interface du quiz à l'écran.
+        - Affiche l'image, la question, et les réponses sous forme de texte.
+        - Dessine les cases de réponse et met en évidence les réponses sélectionnées.
+        """
         self.screen.blit(self.game_background, (0, 0))
         pygame.draw.rect(self.screen, (50, 50, 50), (100, 415, 300+max(self.r_4.get_width(), self.r_2.get_width()),85+19))
 
@@ -76,15 +96,23 @@ class Quiz:
 
     def _gerer_event(self):
         """
-        Gère les événements du jeu (clavier, fermeture de la fenêtre, etc.).
-        (60/s)
+        Gère les événements du jeu, comme la fermeture de la fenêtre et les entrées utilisateur.
+        Cette méthode est appelée à chaque frame (60 fois par seconde).
         """
+        pass
         click = False
         for event in pygame.event.get():
             if event.type == pygame.QUIT:  # quitter
                 self.afficher = False
 
     def change(self, nb):
+        """
+        Change la question du quiz. Cette méthode génère une nouvelle question et de nouvelles réponses
+        à partir du fichier JSON. Si `nb` est passé en argument, une question spécifique est sélectionnée.
+
+        Args:
+        - nb (int): Le numéro de la question à afficher. Si None, une question aléatoire est choisie.
+        """
         self.victory = 0
         if nb : self.nb = nb
         else: self.nb = randint(1, 10)
@@ -99,7 +127,7 @@ class Quiz:
             if txt not in self.mauvaise_r : self.mauvaise_r.append(txt)
         self.reponses = self.bonne_reponse + self.mauvaise_r
 
-        self.img = pygame.image.load(f"img/tableau/{self.nb}.webp")
+        self.img = pygame.image.load(self.get_url("img/tableau/{self.nb}.webp"))
         self.font = pygame.font.Font(None, 14)
         self.font_2 = pygame.font.Font(None, 28)
         self.copyr = self.font.render(self.data[str(self.nb)][0], False, (0, 0, 0))
@@ -124,6 +152,14 @@ class Quiz:
         return "Quiz"
 
     def choice(self, nb):
+        """
+        Gère le choix de réponse du joueur. Compare la réponse sélectionnée avec la bonne réponse.
+        - Si la réponse est correcte, le joueur gagne.
+        - Si la réponse est incorrecte, l'option correcte est mise en évidence.
+
+        Args:
+        - nb (int): L'indice de la réponse choisie par le joueur.
+        """
         if self.timer <= 0:
             self.timer = 450
             if nb == self.good:
@@ -142,6 +178,16 @@ class Quiz:
             if self.rect_4.collidepoint(x, y): self.choice(3)
 
     def open(self, nb=None):
+        """
+        Ouvre et affiche le quiz à l'écran. Cette méthode génère une nouvelle question, attend la sélection du joueur,
+        et affiche les résultats en fonction du choix du joueur.
+
+        Args:
+        - nb (int, optional): Le numéro de la question à afficher. Si None, une question aléatoire est choisie.
+
+        Returns:
+        - int: Retourne 1 si la réponse est correcte, 0 sinon.
+        """
         self.change(nb)
         self.afficher = True
         self.game_background = pygame.display.get_surface().subsurface(pygame.Rect(0, 0, 800, 600)).copy() #copy du menu vid

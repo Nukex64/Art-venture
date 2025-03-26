@@ -1,14 +1,11 @@
-from platform import python_implementation
-
 from enemy import Enemy
-import pygame
 from carte import Carte
 from random import randint
 class Collect(Carte):
     def __init__(self):
-        super().__init__("map/map.tmx")
+        super().__init__(self.get_url("map/map.tmx"))
         self.enemies = []
-        self.billet = Enemy("img/billet.png", 0, 0)
+        self.billet = Enemy(self.get_url("img/billet.png"), 0, 0)
         self.groupe.add(self.billet)
         self.difficulty = 4
         self.player.speed = 1.5
@@ -17,7 +14,7 @@ class Collect(Carte):
         self.compte = 0
 
     def spawn(self):
-        enemy = Enemy("img/billet.png", randint(5, 395), 0)
+        enemy = Enemy(self.get_url("img/billet.png"), randint(5, 395), 0)
         enemy.image.set_colorkey([0, 255, 0])
         enemy.speed = 1
         self.groupe.add(enemy)
