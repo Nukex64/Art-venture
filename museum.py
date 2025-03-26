@@ -25,12 +25,15 @@ class Museum_haut(Carte):
             coord, img = info
             screen.blit(img, self.fixe_coord(coord))
 
-        if self.touche("e"):
-            x = self.player.rect.collidedict(self.dico_rect)[1]
-            if x:
-                quiz = self.quiz.open(x)
+
+
+        x = self.player.rect.collidedict(self.dico_rect)
+        if x:
+            self.affe(screen)
+            if self.touche("e"):
+                quiz = self.quiz.open(x[1])
                 print(quiz)
-                if quiz > 0: self.save.liste_changer_json("tableau_quiz", int(x), quiz)
+                if quiz > 0: self.save.liste_changer_json("tableau_quiz", int(x[1]), quiz)
 
     def keypressed(self,event):
         super().keypressed(event)

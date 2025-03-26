@@ -51,6 +51,8 @@ class Carte:
         self.supp = []
         self.projectiles = {}
         self.nombre = 0
+        self.elist = self.objet_par_calque('autre')
+        self.eimg = pygame.image.load('img/ui/E.png')
         self.bullettimer = 0
         self.timer = 0
         self.canbullet = False
@@ -161,6 +163,9 @@ class Carte:
         self.groupe.draw(screen) # la carte et le joueur
         self.add_draw(screen) # les truc en plus
 
+    def affe(self,screen):
+        x,y = self.fixe_coord(self.player.coord)
+        screen.blit(self.eimg, (x + 10, y - 10))
     def quitter(self):
         """
         Ne sert plus a rien
@@ -240,7 +245,8 @@ class Carte:
         temp = []
         calque_mur = self.tmx_data.get_layer_by_name(name)  # calque des murs
         for obj in calque_mur:
-            temp.append(pygame.Rect(obj.x, obj.y, obj.width, obj.height))  # ajoute toute les hitbox des murs
+            if obj.name != "spawn":
+                temp.append(pygame.Rect(obj.x, obj.y, obj.width, obj.height))  # ajoute toute les hitbox des murs
         return temp
     def multi_collision(self, liste):
         """

@@ -7,5 +7,4 @@
 - [ ] getteur/setteur/var privé
 - [ ] Linux
 - [ ] piano
-- [ ] afficher touche en bas 
-   
+- [x] afficher touche en bas 
