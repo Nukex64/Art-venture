@@ -68,7 +68,6 @@ class Animation:
         self.degre += 0.0002
         self.size = (max(self.size[0]+self.sizefactor,0.01),max(self.size[1]+self.sizefactor,0.01))
         self.image = pygame.transform.scale(self.image_originelle, self.size)
-        print(self.image.get_rect())
         self.move()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:  # quitter
@@ -101,7 +100,6 @@ class Animation:
         self.afficher = False # ferme le menu
 
     def open(self,xy):
-        print("-- Anim Start")
         self.circle = 0
         self.speed = 1.5
         self.alpha = math.pi
@@ -118,7 +116,6 @@ class Animation:
         while self.afficher:
             self.frame += 1
             self._gerer_event()
-        print("-- Anim END")
 
     def game_over(self, coord):
         self.game_background = pygame.display.get_surface().subsurface(pygame.Rect(0, 0, 800,600)).copy() #copy du menu vide

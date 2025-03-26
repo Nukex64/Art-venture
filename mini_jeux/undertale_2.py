@@ -13,7 +13,7 @@ class Undertale(Carte):
     def __init__(self):
         super().__init__("map/map.tmx")
         self.enemies = []
-        self.tableau = Enemy("img/fire.png", 0, 0)
+        self.tableau = Enemy("img/tableau.png", 0, 0)
         self.groupe.add(self.tableau)
         self.difficulty = 4
         self.enemies_timer = self.difficulty
@@ -65,7 +65,7 @@ class Undertale(Carte):
         self.groupe.add(enemy)
 
     def add_draw(self, screen):
-        texte_render = self.font.render(str(round(self.decompte/60, 2)), True, (0, 0, 0))
+        texte_render = self.font.render(str(round(self.timer/60, 2)), True, (0, 0, 0))
         screen.blit(texte_render, (0, 0))
 
 

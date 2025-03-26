@@ -192,7 +192,6 @@ class Game_Jump(Carte):
     def game_over(self):
         self.death_animation()
         self.tp(130, 240)
-        print("oof")
 
     @staticmethod
     def calcule_direction(direction):

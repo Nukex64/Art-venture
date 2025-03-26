@@ -9,7 +9,7 @@ from mini_jeux.mask import Mask
 from mini_jeux.parcours import *
 from mini_jeux.piano import Piano
 from mini_jeux.road import Road
-from mini_jeux.quiz import Quiz
+from mini_jeux.swim import Swim
 from mini_jeux.tresor import Tresor
 from mini_jeux.undertale_2 import Undertale
 from mini_jeux.ville import Ville
@@ -45,9 +45,12 @@ class Jeu:
         museum_haut = Museum_haut()
         museum_hall = Museum_hall()
         museum_bas = Museum_bas()
+        swim = Swim()
+
 
         self.dico_game = {"Ville": ville,"Parcours": parcour_1, "Laby":laby,"Road": road, "Mask":mask, "Undertale":undertale,
                            "tresor":tresor, "piano":piano, "Museum_haut":museum_haut, "Museum_hall":museum_hall, "Museum_bas":museum_bas}
+                           "tresor":tresor, "piano":piano, "Museum":museum, "swim":swim}
         self.time_entry = 0
         self.carte = None # charger au lancement
         self.menu = None
@@ -61,7 +64,6 @@ class Jeu:
         if self.saveload.changer_json("Musiques",None):
             pygame.mixer.music.play(loops=-1)
         self.draw_fps = self.saveload.changer_json("Fps")
-        print(f"Charment sauvegarde {self.saveload.changer_json('world')}")
         self.carte = self.dico_game[self.saveload.changer_json("world")]  # lancer en premier la ville
 
     def _get_suface(self):
@@ -100,9 +102,7 @@ class Jeu:
             if objetif not in ["Museum_hall", "Museum_bas", "Museum_haut"]:
                 self.carte.appelanimation()
             self.carte = self.dico_game[objetif]
-            print(f"Changement de carte : {str(self.carte)}")
             self.saveload.changer_json("world", str(self.carte))
-        else: print(f"ERREUR : aucun {objetif}")
 
     def _gerer_event(self):
         """
@@ -121,7 +121,6 @@ class Jeu:
                     print(pygame.mouse.get_pos())
                 if event.key == pygame.K_KP0:
                     self.carte = self.dico_game["Ville"]
-                    print(f"Changement de carte : ville (dev)")
                 if event.key == pygame.K_ESCAPE:
                     self.menu.open()
                     self.saveload.reload_json()
@@ -134,7 +133,6 @@ class Jeu:
             self._changer_carte()
 
     def running(self):
-        print("-" * 10 + " EVENEMENT " + "-" * 10)
         """
         Démarre la boucle principale du jeu.
         La méthode fait tourner le jeu en boucle jusqu'à ce que l'utilisateur décide de quitter.
@@ -151,7 +149,6 @@ class Jeu:
         while self.run: #boucle du jeu
             self._gerer_event() # quitter / changer carte / crash
             self._update() #met a jour tous le jeu
-        print("-" * 13 + " END " + "-" * 13)
 
 if __name__ == '__main__':
     pygame.init()   # lance pygame
