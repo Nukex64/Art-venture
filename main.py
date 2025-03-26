@@ -1,6 +1,6 @@
 # Projet : Art'Venture
 # Auteurs : Anthony Ibanez-Esteban, Raphaël Prost, Aëlys-Coleen Surma Valtaer, Louis Gagne, Mathéo Faure
-
+import change_url
 import json
 import pygame
 from MainMenu import MainMenu
@@ -172,6 +172,7 @@ class Jeu:
 
 
 if __name__ == '__main__':
+    #change_url.transform_to() NE PAS FAIRE
     pygame.init()
     jeu = Jeu()
     jeu.running()
