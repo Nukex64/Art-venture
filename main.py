@@ -4,6 +4,8 @@ import json
 import pygame
 from MainMenu import MainMenu
 from menu import Menu
+from mini_jeux.ville import Ville
+from mini_jeux.parcours import *
 from mini_jeux.laby import Laby
 from mini_jeux.mask import Mask
 from mini_jeux.parcours import *
@@ -12,9 +14,15 @@ from mini_jeux.road import Road
 from mini_jeux.quiz import Quiz
 from mini_jeux.tresor import Tresor
 from mini_jeux.undertale_2 import Undertale
+from mini_jeux.piano import Piano
+from settings import *
+from menu import Menu
+from mini_jeux.road import Road
+from mini_jeux.mask import Mask
 from mini_jeux.ville import Ville
 from museum import Museum
 from savefonction import sauvegarde
+from mini_jeux.swim import Swim
 from settings import *
 from datetime import datetime
 
@@ -43,9 +51,11 @@ class Jeu:
         undertale = Undertale()
         tresor = Tresor()
         museum = Museum()
+        swim = Swim()
+
 
         self.dico_game = {"Ville": ville,"Parcours": parcour_1, "Laby":laby,"Road": road, "Mask":mask, "Undertale":undertale,
-                           "tresor":tresor, "piano":piano, "Museum":museum}
+                           "tresor":tresor, "piano":piano, "Museum":museum, "swim":swim}
         self.time_entry = 0
         self.carte = None # charger au lancement
         self.menu = None
