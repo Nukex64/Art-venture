@@ -1,30 +1,24 @@
 #Projet : Art'Venture
 #Auteurs : Anthony Ibanez-Esteban, Raphaël Prost, Aëlys-Coleen Surma Valtaer, Louis Gagne, Mathéo Faure
-import json
+from datetime import datetime
+
 import pygame
+
 from MainMenu import MainMenu
 from menu import Menu
-from mini_jeux.ville import Ville
-from mini_jeux.parcours import *
 from mini_jeux.laby import Laby
 from mini_jeux.mask import Mask
 from mini_jeux.parcours import *
 from mini_jeux.piano import Piano
 from mini_jeux.road import Road
-from mini_jeux.quiz import Quiz
+from mini_jeux.swim import Swim
 from mini_jeux.tresor import Tresor
 from mini_jeux.undertale_2 import Undertale
-from mini_jeux.piano import Piano
-from settings import *
-from menu import Menu
-from mini_jeux.road import Road
-from mini_jeux.mask import Mask
 from mini_jeux.ville import Ville
 from museum import Museum
 from savefonction import sauvegarde
-from mini_jeux.swim import Swim
 from settings import *
-from datetime import datetime
+
 
 class Jeu:
     def __init__(self):
