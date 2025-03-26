@@ -5,11 +5,11 @@ import pygame
 from  random import randint, shuffle
 import json
 from settings import*
-
+from savefonction import sauvegarde
 class Quiz:
     def __init__(self):
+        self.victory = 0
         self.afficher = False
-
         with open(f"tableau.json", "r+") as f:
             self.data = json.load(f)
 
@@ -85,6 +85,7 @@ class Quiz:
                 self.afficher = False
 
     def change(self, nb):
+        self.victory = 0
         if nb : self.nb = nb
         else: self.nb = randint(1, 10)
         self.q_nb = randint(1, 3)
@@ -127,8 +128,10 @@ class Quiz:
             self.timer = 450
             if nb == self.good:
                 self.rect_afficher = [self.rects[self.good], (0, 0, 0, 0)]
+                self.victory = 1
             else:
                 self.rect_afficher = [self.rects[self.good], self.rects[nb]]
+                self.victory = 0
 
     def update(self):
         if pygame.mouse.get_pressed()[0] :
@@ -146,3 +149,4 @@ class Quiz:
             self._gerer_event()
             self.update()
             self.draw()
+        return self.victory

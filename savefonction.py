@@ -18,6 +18,13 @@ class sauvegarde:
                 f.close()
         return self.save[key]
 
+    def liste_changer_json(self, name, key, x):
+        self.save[name][key] = x
+        with open(f"save_{self.nb}.json", "w") as f:
+            json.dump(self.save, f, indent=2)
+            f.close()
+        return self.save[key]
+
 
     def reload_json(self, nb=0):
         if nb : self.nb = nb

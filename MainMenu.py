@@ -70,8 +70,8 @@ class MainMenu:
         save= {"date": datetime.now().strftime("%d/%m/%Y"),
                "progression": "0","temps": 0,"world": "Museum",
                 "Musiques": 0, "Volume": 1, "Mute": 0, "Fps": 0, "finis":
-                   { "Ville": 0, "Parcours": 0, "Laby": 0, "Road": 0, "Mask": 0, "Undertale": 0,
-                     "tresor": 0, "piano": 0, "Museum": 0}}
+                { "Ville": 0, "Parcours": 0, "Laby": 0, "Road": 0, "Mask": 0, "Undertale": 0,
+                "tresor": 0, "piano": 0, "Museum": 0},"tableau_quiz": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]}
 
         with open(f"save_{nb}.json", "w") as f:
             json.dump(save, f, indent=2)

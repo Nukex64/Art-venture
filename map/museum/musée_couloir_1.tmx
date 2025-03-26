@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="56" height="22" tilewidth="16" tileheight="16" infinite="0" nextlayerid="9" nextobjectid="20">
+<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="56" height="22" tilewidth="16" tileheight="16" infinite="0" nextlayerid="9" nextobjectid="22">
  <tileset firstgid="1" source="../tileset_tsx/Musée.tsx"/>
  <layer id="1" name="Calque de Tuiles 1" width="56" height="22">
   <data encoding="csv">
@@ -130,5 +130,11 @@
    <point/>
   </object>
   <object id="19" name="porte" x="672" y="319.625" width="32.25" height="32.375"/>
+  <object id="20" name="3" type="paint" x="483" y="60">
+   <point/>
+  </object>
+  <object id="21" name="4" type="paint" x="737" y="71">
+   <point/>
+  </object>
  </objectgroup>
 </map>
