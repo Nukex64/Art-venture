@@ -3,8 +3,9 @@
 - [X] fontaine
 - [ ] dialogue
 - [ ] integrer jeux dans le musée
-- [ ] Commenté
+- [X] Commenté
 - [ ] getteur/setteur/var privé
 - [ ] Linux
 - [ ] piano
+- [ ] mettre les tuto !
 - [x] afficher touche en bas 
