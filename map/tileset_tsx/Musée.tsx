@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tileset version="1.10" tiledversion="1.11.0" name="Musée" tilewidth="64" tileheight="64" tilecount="50" columns="0">
+<tileset version="1.10" tiledversion="1.11.0" name="Musée" tilewidth="64" tileheight="64" tilecount="59" columns="0">
  <grid orientation="orthogonal" width="1" height="1"/>
  <tile id="1">
   <image source="../tileset_img/my_tile/mur_gris_2.png" width="16" height="16"/>
@@ -154,5 +154,40 @@
  </tile>
  <tile id="56">
   <image source="../tileset_img/my_tile/coin.png" width="16" height="16"/>
+ </tile>
+ <tile id="57">
+  <image source="../tileset_img/my_tile/fontaine_best_8.png" width="16" height="16"/>
+  <animation>
+   <frame tileid="59" duration="1000"/>
+   <frame tileid="57" duration="1000"/>
+  </animation>
+ </tile>
+ <tile id="58">
+  <image source="../tileset_img/my_tile/fontaine_best_7.png" width="16" height="16"/>
+ </tile>
+ <tile id="59">
+  <image source="../tileset_img/my_tile/fontaine_best_6.png" width="16" height="16"/>
+ </tile>
+ <tile id="60">
+  <image source="../tileset_img/my_tile/fontaine_best_5.png" width="16" height="16"/>
+ </tile>
+ <tile id="61">
+  <image source="../tileset_img/my_tile/fontaine_best_4.png" width="16" height="16"/>
+ </tile>
+ <tile id="62">
+  <image source="../tileset_img/my_tile/fontaine_best_3.png" width="16" height="16"/>
+ </tile>
+ <tile id="63">
+  <image source="../tileset_img/my_tile/fontaine_best_1.png" width="16" height="16"/>
+ </tile>
+ <tile id="64">
+  <image source="../tileset_img/my_tile/fontaine_best_2.png" width="48" height="32"/>
+ </tile>
+ <tile id="65">
+  <image source="../tileset_img/my_tile/fontaine_best.png" width="16" height="16"/>
+  <animation>
+   <frame tileid="61" duration="1000"/>
+   <frame tileid="65" duration="1000"/>
+  </animation>
  </tile>
 </tileset>
