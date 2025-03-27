@@ -88,7 +88,9 @@ class Jeu:
         if self.saveload.changer_json("Musiques", None):
             pygame.mixer.music.play(loops=-1)  # Joue la musique en boucle
         self.draw_fps = self.saveload.changer_json("Fps")  # Récupération des FPS sauvegardés
-        self.carte = self.dico_game[self.saveload.changer_json("world")]  # Chargement de la carte actuelle
+        if self.saveload.changer_json("world") in self.dico_game:
+            self.carte = self.dico_game[self.saveload.changer_json("world")]  # Chargement de la carte actuelle
+        else : self.carte = self.dico_game["Museum_hall"]
 
     def _get_suface(self):
         """
@@ -150,7 +152,7 @@ class Jeu:
                 if event.key == pygame.K_F1:
                     print(pygame.mouse.get_pos())
                 if event.key == pygame.K_KP0:
-                    self.carte = self.dico_game["Ville"]
+                    self.carte = self.dico_game["Museum_hall"]
                 if event.key == pygame.K_ESCAPE:
                     self.menu.open()
                     self.saveload.reload_json()

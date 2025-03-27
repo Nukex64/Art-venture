@@ -128,10 +128,8 @@ class Road(Carte):
                 car.kill()
 
             if self.player.coord[1] < 50:
-                self.objetif = "Ville"
+                self.objetif = "Museum_hall"
 
-            if self.collision(self.tp_1):
-                self.objetif = "Ville"
 
     def spawn_car(self):
         """

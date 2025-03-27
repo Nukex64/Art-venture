@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="25" height="25" tilewidth="16" tileheight="16" infinite="0" nextlayerid="7" nextobjectid="40">
+<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="25" height="25" tilewidth="16" tileheight="16" infinite="0" nextlayerid="7" nextobjectid="41">
  <tileset firstgid="1" source="tileset_tsx/tileset_ville.tsx"/>
  <tileset firstgid="1037" source="tileset_tsx/autre.tsx"/>
  <layer id="1" name="Calque de Tuiles 1" width="25" height="25">
@@ -56,5 +56,6 @@
   <object id="1" name="spawn" x="24.8333" y="30.5">
    <point/>
   </object>
+  <object id="40" name="exit" x="317.499" y="8.30382" width="56.6614" height="34.6807"/>
  </objectgroup>
 </map>

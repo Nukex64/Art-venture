@@ -155,7 +155,7 @@ class Game_Jump(Carte):
 
 
         if self.touche("RETURN") and self.multi_collision(self.sortie):
-            self.objetif = "Ville"
+            self.objetif = "Museum_bas"
 
     def __str__(self):
         return "Parcours"

@@ -1,7 +1,6 @@
 import xml.etree.ElementTree as ET
 from pathlib import Path
 import os
-NON PAS UTILISER
 # Liste des fichiers à modifier
 liste_file = [
     "map/tileset_tsx/Musée.tsx", "map/tileset_tsx/autre.tsx", "map/tileset_tsx/tilemap.tsx",
@@ -51,4 +50,3 @@ def transform_to():
 
 # Exécuter la fonction
 #transform_to()
-NE LE FAIS PAS

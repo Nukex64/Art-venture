@@ -50,12 +50,15 @@ class Undertale(Carte):
             if enemy.is_off_screen():
                 self.enemies.remove(enemy)
             if self.sprite_collision(enemy):
-                exit()
+                self.animation.game_over(self.fixe_coord(self.player.coord))
+                self.tp(100, 100)
+                self.timer = 0
         x, y = self.player.coord
         self.tableau.x, self.tableau.y = x-4, y - 10
         self.decompte -= 1
         if self.decompte <= 0: exit()
-
+        if self.timer == 600:
+            self.objetif = "Museum_hall"
     def create(self):
         x, y = self.spawn()
         enemy = Enemy(self.get_url("img/fire.png"), x, y)

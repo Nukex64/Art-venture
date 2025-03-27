@@ -7,6 +7,7 @@ import pygame
 import pyscroll
 import pytmx
 
+from victoire import Victoire
 from dialogue import Dialogue
 from enemy import Enemy
 from player import Player
@@ -41,6 +42,7 @@ class Carte:
         self.player = Player(player_pos.x, player_pos.y - 10)  # creer le joueur
 
         self.animation = Animation()
+        self.victoire = Victoire()
 
         self.pclick = False
 
@@ -114,6 +116,8 @@ class Carte:
             self.player.regarder('droite')
         if keys[pygame.K_p]:
             self.appelanimation()
+        if keys[pygame.K_t]:
+            self.appeleffet(self.fixe_coord(self.player.coord))
 
 
     def add_verif(self):
@@ -374,6 +378,9 @@ class Carte:
         self.docenter = True
         self.player.coord = coord
 
+    def appeleffet(self,xy,img="img/fire.png"):
+        #self.victoire.open(xy,img)
+        pass
     def death_animation(self):
         """
         Lance l'animation de la fin du jeu.

@@ -12,6 +12,7 @@ class Piano:
         self.objetif = None
         self.hg = 200
         self.dico = tiles
+        self.max = max(self.dico.keys())
         self.multiplicateur = 1
         self.point = 0
         self.font = pygame.font.Font("img/police.otf", 30)
@@ -63,7 +64,8 @@ class Piano:
         self.frame+=1
         self.apparaitre()
         self.deplacement()
-
+        if self.frame/60 >= self.max:
+            self.objetif = "Museum_haut"
 
     def keypressed(self,event):
         if event.key == pygame.K_d:

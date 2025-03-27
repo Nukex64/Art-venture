@@ -2,7 +2,7 @@ import pygame
 from carte import Carte
 from savefonction import sauvegarde
 from mini_jeux.quiz import Quiz
-
+# SI VOUS ETES BLOQUER TOUCHE 0 DU PAD
 class Museum_haut(Carte):
     """
     Classe représentant la carte du "Musée - Haut". Cette carte contient des tableaux que le joueur peut observer,
@@ -23,7 +23,9 @@ class Museum_haut(Carte):
         self.dico_tableau = {}
         self.dico_rect = {}
         self.quiz = Quiz()
-
+        self.game_5 = self.objet_par_nom("game_5")
+        self.game_6 = self.objet_par_nom("game_6")
+        self.game_7 = self.objet_par_nom("game_7")
         for obj in self.tmx_data.objects:
             if obj.type == "paint":
                 img = pygame.image.load(self.get_url(f"img/tableau/{obj.name}.webp"))
@@ -65,6 +67,13 @@ class Museum_haut(Carte):
             if self.player.rect.colliderect(self.porte):
                 self.objetif = "Museum_hall"
 
+            if self.player.rect.colliderect(self.game_5):
+                self.objetif = "Tresor"
+            if self.player.rect.colliderect(self.game_6):
+                self.objetif = "swim"
+            if self.player.rect.colliderect(self.game_7):
+                self.objetif = "piano"
+
     def __str__(self):
         return "Museum_haut"
 
@@ -75,6 +84,8 @@ class Museum_hall(Carte):
         self.save = sauvegarde(nb_save)
         self.porte_haut = self.objet_par_nom("porte_haut")
         self.porte_bas = self.objet_par_nom("porte_bas")
+        self.game_3 = self.objet_par_nom("game_3")
+        self.game_4 = self.objet_par_nom("game_4")
         self.quiz = Quiz()
 
     def add_draw(self, screen):
@@ -89,6 +100,11 @@ class Museum_hall(Carte):
             if self.player.rect.colliderect(self.porte_bas):
                 self.objetif = "Museum_bas"
 
+            if self.player.rect.colliderect(self.game_3):
+                self.objetif = "Road"
+            if self.player.rect.colliderect(self.game_4):
+                self.objetif = "Undertale"
+
     def __str__(self):
         return "Museum_hall"
 
@@ -99,6 +115,9 @@ class Museum_bas(Carte):
         self.save = sauvegarde(nb_save)
         self.dico_tableau = {}
         self.dico_rect = {}
+        self.parcoure = self.objet_par_nom("game_1")
+        self.laby = self.objet_par_nom("game_2")
+
         for obj in self.tmx_data.objects:
             if obj.type == "paint":
                 img = pygame.image.load(self.get_url(f"img/tableau/{obj.name}.webp"))
@@ -131,6 +150,13 @@ class Museum_bas(Carte):
         if event.key == pygame.K_e:
             if self.player.rect.colliderect(self.porte):
                 self.objetif = "Museum_hall"
+
+            if self.player.rect.colliderect(self.parcoure):
+                self.objetif = "Parcours"
+
+            if self.player.rect.colliderect(self.laby):
+                self.objetif = "Laby"
+
 
     def __str__(self):
         return "Museum_bas"
