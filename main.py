@@ -18,7 +18,7 @@ from museum import *
 from savefonction import sauvegarde
 from settings import *
 from datetime import datetime
-
+import os
 
 class Jeu:
     def __init__(self):
@@ -27,14 +27,14 @@ class Jeu:
         Charge également les paramètres initiaux comme la fréquence d'affichage et l'icône de la fenêtre.
         """
         self.save_nb = None
-        pygame.mixer.music.load("sounds\projectnsi.mp3")
+        pygame.mixer.music.load(self.get_url("sounds/projectnsi.mp3"))
         pygame.mixer.music.set_volume(0)  # Mettre la musique à 0 au démarrage
         self.run = True
         self.screen = pygame.display.set_mode(RES, pygame.NOFRAME | pygame.SCALED)  # Création de la fenêtre du jeu
         self.clock = pygame.time.Clock()
         self.draw_fps = 60  # Fréquence d'affichage par défaut
         self.saveload = None  # Variable pour charger la sauvegarde
-        ico = pygame.image.load("img/logoepee2.png").convert_alpha()
+        ico = pygame.image.load(self.get_url("img/logoepee2.png")).convert_alpha()
         pygame.display.set_icon(ico)  # Définit l'icône du jeu
 
         # Initialisation des mini-jeux et cartes
@@ -60,6 +60,11 @@ class Jeu:
         self.carte = None  # Carte actuelle du jeu (sera chargée plus tard)
         self.menu = None
         self.main_menu = MainMenu()  # Menu principal du jeu
+
+    @staticmethod
+    def get_url(url):
+        url_list = url.split("/")
+        return os.path.join(*url_list)
 
     def charger_save(self, nb):
         """
