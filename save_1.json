@@ -1,8 +1,8 @@
 {
-  "date": "24/03/2025",
-  "progression": "0",
-  "temps": 2606.1995870000005,
-  "world": "Museum_hall",
+  "date": "26/03/2025",
+  "progression": 0,
+  "temps": 3004.9517100000007,
+  "world": "<mini_jeux.piano.Piano object at 0x000002778AF5C440>",
   "Musiques": 0,
   "Volume": 1,
   "Mute": 0,

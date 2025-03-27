@@ -2,6 +2,7 @@ import math
 import pygame
 from carte import Carte
 from tuto import Tuto
+from victoire import Victoire
 
 
 class Tresor(Carte):
@@ -37,7 +38,8 @@ class Tresor(Carte):
         if self.tresors:
             self.getraytresor(screen)  # Affiche la ligne du radar vers le trésor
             self.trouver_tresor()  # Vérifie si un trésor est trouvé
-
+        if len(self.tresors) == 0:
+            self.objetif = "Museum_haut"
     def add_verif(self):
         """
         Vérifie les actions du joueur à chaque frame.
